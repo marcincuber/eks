@@ -1,0 +1,116 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: newrelic
+  namespace: default
+automountServiceAccountToken: true
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: newrelic
+rules:
+- apiGroups:
+  - ""
+  resources:
+    - nodes
+    - nodes/metrics
+    - nodes/stats
+    - nodes/proxy
+    - pods
+    - services
+  verbs:
+    - get
+    - list
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: newrelic
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: newrelic
+subjects:
+- kind: ServiceAccount
+  name: newrelic
+  namespace: default
+---
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: newrelic-infra
+  namespace: default
+  labels:
+    app: newrelic-infra
+spec:
+  selector:
+    matchLabels:
+      name: newrelic-infra
+  updateStrategy:
+      type: RollingUpdate # Only supported in Kubernetes version 1.6 or later.
+  template:
+    metadata:
+      labels:
+        name: newrelic-infra
+      annotations:
+        # Needed for Kubernetes versions prior to 1.6.0, where tolerations were set via annotations.
+        scheduler.alpha.kubernetes.io/tolerations: |
+          [{"operator": "Exists", "effect": "NoSchedule"},{"operator": "Exists", "effect": "NoExecute"}]
+    spec:
+      serviceAccountName: newrelic
+      hostNetwork: true # This option is a requirement for the Infrastructure Agent to report the proper hostname in New Relic.
+      dnsPolicy: ClusterFirstWithHostNet
+      containers:
+        - name: newrelic-infra
+          image: newrelic/infrastructure-k8s:1.8.0
+          resources:
+            limits:
+              memory: 150M
+            requests:
+              cpu: 100m
+              memory: 30M
+          volumeMounts:
+            - mountPath: /host
+              name: host-volume
+              readOnly: true
+            - mountPath: /var/run/docker.sock
+              name: host-docker-socket
+          env:
+            - name: "CLUSTER_NAME"
+              value: "ceng-eks-test"
+            - name: "NRIA_LICENSE_KEY"
+              value: "INPUT_YOUR_KEY"
+            - name: "NRIA_VERBOSE"
+              value: "0"
+           # - name: "CADVISOR_PORT" # Enable direct connection to cAdvisor by specifying the port. Needed for Kubernetes versions prior to 1.7.6.
+           #   value: "4194"
+           # - name: "KUBE_STATE_METRICS_URL" # If this value is specified then discovery process for kube-state-metrics endpoint won't be triggered.
+           #   value: "http://172.17.0.3:8080" # This is example value. Only HTTP request is accepted.
+            - name: "NRIA_DISPLAY_NAME"
+              valueFrom:
+                fieldRef:
+                  apiVersion: "v1"
+                  fieldPath: "spec.nodeName"
+            - name: "NRK8S_NODE_NAME"
+              valueFrom:
+                fieldRef:
+                  apiVersion: "v1"
+                  fieldPath: "spec.nodeName"
+            - name: "NRIA_CUSTOM_ATTRIBUTES"
+              value: '{"clusterName":"$(CLUSTER_NAME)"}'
+            - name: "NRIA_PASSTHROUGH_ENVIRONMENT"
+              value: "KUBERNETES_SERVICE_HOST,KUBERNETES_SERVICE_PORT,CLUSTER_NAME,CADVISOR_PORT,NRK8S_NODE_NAME,KUBE_STATE_METRICS_URL"
+      volumes:
+        - name: host-volume
+          hostPath:
+            path: /
+        - name: host-docker-socket
+          hostPath:
+            path: /var/run/docker.sock
+      tolerations:
+        - operator: "Exists"
+          effect: "NoSchedule"
+        - operator: "Exists"
+          effect: "NoExecute"
