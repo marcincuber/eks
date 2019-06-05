@@ -2,7 +2,7 @@
 
 Implementation of EKS using terraform and cloudformation. Fully functional templates to deploy your VPC and kubernetes clusters together with all the essential tags. Also, worker nodes are part of ASG with consists of spot and on-demand instances.
 
-## Terraform 
+## Terraform 
 
 All the templates can be found in [terraform](./terraform/). Ensure to reconfigure your backend as needed together with environment variables.
 
@@ -50,7 +50,8 @@ https://docs.aws.amazon.com/eks/latest/userguide/update-stack.html
 
 ### CNI Upgrades
 
-#### Verify version
+#### Verify version
+
 ```bash
 kubectl describe daemonset aws-node -n kube-system | grep Image | cut -d "/" -f 2
 ```
