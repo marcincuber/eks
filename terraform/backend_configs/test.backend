@@ -1,0 +1,2 @@
+workspaces { name = "eks-test" }
+organization = "org_name"

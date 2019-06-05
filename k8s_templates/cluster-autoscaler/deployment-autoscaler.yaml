@@ -1,0 +1,79 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cluster-autoscaler
+  namespace: kube-system
+  labels:
+    app: cluster-autoscaler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cluster-autoscaler
+  template:
+    metadata:
+      labels:
+        app: cluster-autoscaler
+    spec:
+      serviceAccountName: cluster-autoscaler
+      priorityClassName: high-priority
+      containers:
+        - image: gcr.io/google-containers/cluster-autoscaler:v1.14.2
+          name: cluster-autoscaler
+          resources:
+            limits:
+              cpu: 100m
+              memory: 300Mi
+            requests:
+              cpu: 100m
+              memory: 300Mi
+          command:
+            - ./cluster-autoscaler
+            - --v=4
+            - --stderrthreshold=info
+            - --cloud-provider=aws
+            - --skip-nodes-with-local-storage=false
+            - --skip-nodes-with-system-pods=true
+            - --expander=least-waste
+            - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/ceng-eks-test
+          env:
+            - name: AWS_REGION
+              value: eu-west-1
+          volumeMounts:
+            - name: ssl-certs
+              mountPath: /etc/ssl/certs/ca-certificates.crt
+              readOnly: true
+          imagePullPolicy: "Always"
+      volumes:
+        - name: ssl-certs
+          hostPath:
+            path: "/etc/ssl/certs/ca-bundle.crt"
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: beta.kubernetes.io/instance-type
+                operator: In
+                values:
+                - m5.large
+                - m5.2xlarge
+                - m5.4xlarge
+                - m5.12xlarge
+                - m5.24xlarge
+                - m5d.large
+                - m5d.2xlarge
+                - m5d.4xlarge
+                - m5d.12xlarge
+                - m5d.24xlarge
+                - m5a.large
+                - m5a.2xlarge
+                - m5a.4xlarge
+                - m5a.12xlarge
+                - m5a.24xlarge
+                - m5ad.large
+                - m5ad.2xlarge
+                - m5ad.4xlarge
+                - m5ad.12xlarge
+                - m5ad.24xlarge

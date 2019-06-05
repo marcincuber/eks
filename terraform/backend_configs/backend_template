@@ -1,6 +1,0 @@
-region         = "@REGION@"
-bucket         = "@STATE_BUCKET_NAME@"
-key            = "backup_state/terraform.tfstate"
-dynamodb_table = "@STATE_LOCK_DDB@"
-encrypt        = true
-kms_key_id     = "@KMS_KEY_ARN@"

@@ -10,12 +10,12 @@ clean:
 .PHONY: tf-plan-test
 tf-plan-test:
 	# Downloads the terraform providers and plan the configuration
-	terraform init -backend-config=backend_configs/test_backend && terraform plan -var-file=env_vars/test.tfvars
+	terraform init -backend-config=backend_configs/test.backend && terraform plan -var-file=env_vars/test.tfvars
 
 .PHONY: tf-apply-test
 tf-apply-test:
 	# Downloads the terraform providers and applies the configuration
-	terraform init -backend-config=backend_configs/test_backend && terraform apply -var-file=env_vars/test.tfvars
+	terraform init -backend-config=backend_configs/test.backend && terraform apply -var-file=env_vars/test.tfvars
 
 # .PHONY: tf-plan-prod
 # tf-plan-prod:

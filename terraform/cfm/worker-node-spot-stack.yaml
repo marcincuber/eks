@@ -1,6 +1,7 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Amazon EKS Node Group'
+Description: 'Amazon EKS - Spot Node Group'
+
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
@@ -9,8 +10,7 @@ Metadata:
         Parameters:
           - ClusterName
           - ClusterControlPlaneSecurityGroup
-          - NodeInstanceRole
-          - UseExistingNodeSecurityGroups
+          - NodeInstanceProfileArn
           - ExistingNodeSecurityGroups
           - NodeImageId
           - VpcId
@@ -18,12 +18,12 @@ Metadata:
           - NodeGroupName
           - Subnets
           - BootstrapArgumentsForOnDemand
-          - BootstrapArgumentsForSpotFleet
+          - BootstrapArgumentsForSpot
       - Label:
           default: "Auto Scaling Configuration"
         Parameters:
           - NodeAutoScalingGroupMinSize
-          - NodeAutoScalingGroupDesiredSize
+          - NodeAutoScalingGroupDesiredCapacity
           - NodeAutoScalingGroupMaxSize
           - NodeInstanceType
           - ASGAutoAssignPublicIp
@@ -41,9 +41,9 @@ Parameters:
     Description: Select 3 subnets where workers can be created.
     Type: List<AWS::EC2::Subnet::Id>
 
-  NodeInstanceRole:
+  NodeInstanceProfileArn:
     Type: String
-    Description: Use the existing Role for your nodegroup
+    Description: Node Instance profile Arn vaule
 
   KeyName:
     Description: The EC2 Key Pair to allow SSH access to the instances
@@ -59,40 +59,35 @@ Parameters:
     Default: m5.large
     AllowedValues:
       - m5.large
-      - m5.xlarge
       - m5.2xlarge
       - m5.4xlarge
       - m5.12xlarge
       - m5.24xlarge
-      - c5.large
-      - c5.xlarge
-      - c5.2xlarge
-      - c5.4xlarge
-      - c5.9xlarge
-      - c5.18xlarge
-      - r5.large
-      - r5.xlarge
-      - r5.2xlarge
-      - r5.4xlarge
-      - r5.12xlarge
-      - r5.24xlarge
-      - r5d.large
-      - r5d.xlarge
-      - r5d.2xlarge
-      - r5d.4xlarge
-      - r5d.12xlarge
-      - r5d.24xlarge
+      - m5d.large
+      - m5d.2xlarge
+      - m5d.4xlarge
+      - m5d.12xlarge
+      - m5d.24xlarge
+      - m5a.large
+      - m5a.2xlarge
+      - m5a.4xlarge
+      - m5a.12xlarge
+      - m5a.24xlarge
+      - m5ad.large
+      - m5ad.2xlarge
+      - m5ad.4xlarge
+      - m5ad.12xlarge
+      - m5ad.24xlarge
     ConstraintDescription: Must be a valid EC2 instance type
 
   NodeAutoScalingGroupMinSize:
     Type: Number
     Description: Minimum size of Node Group ASG.
-    Default: 1
 
-  NodeAutoScalingGroupDesiredSize:
+
+  NodeAutoScalingGroupDesiredCapacity:
     Type: Number
     Description: Desired size of Node Group ASG.
-    Default: 2
 
   NodeAutoScalingGroupMaxSize:
     Type: Number
@@ -115,7 +110,6 @@ Parameters:
   OnDemandPercentageAboveBaseCapacity:
     Type: Number
     Description: "on-demand percentage above base capacity(0-100)"
-    Default: 0
 
   SpotInstancePools:
     Type: Number
@@ -125,15 +119,7 @@ Parameters:
   InstanceTypesOverride:
     Type: String
     Description: "multiple spot instances to override(seperated by comma)"
-    Default: "m5.large,r5.large,c5.large"
 
-  UseExistingNodeSecurityGroups:
-    Type: String
-    Description: Please select 'yes' to attach existing SGs to nodegroup
-    Default: "yes"
-    AllowedValues:
-      - "yes"
-      - "no"
   ExistingNodeSecurityGroups:
     Type: String
     Description: Use the existing Security Group for your nodegroup
@@ -148,7 +134,7 @@ Parameters:
     Default: "--kubelet-extra-args --node-labels=lifecycle=OnDemand"
     Type: String
 
-  BootstrapArgumentsForSpotFleet:
+  BootstrapArgumentsForSpot:
     Description: Arguments to pass to the bootstrap script. See files/bootstrap.sh in https://github.com/awslabs/amazon-eks-ami
     Default: "--kubelet-extra-args '--node-labels=lifecycle=Ec2Spot --register-with-taints=spotInstance=true:PreferNoSchedule'
 "
@@ -161,23 +147,16 @@ Parameters:
   NodeGroupName:
     Description: Unique identifier for the Node Group.
     Type: String
-    Default: "spotworkers"
 
 Conditions:
   IsASGAutoAssignPublicIp: !Equals [ !Ref ASGAutoAssignPublicIp , "yes" ]
-  AttachExistingNodeSG: !Equals [ !Ref UseExistingNodeSecurityGroups, "yes" ]
-  CreateNewNodeSG: !Equals [ !Ref UseExistingNodeSecurityGroups, "no" ]
 
 Resources:
 
   NodeGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
-      DesiredCapacity: !Ref NodeAutoScalingGroupDesiredSize
-      #LaunchConfigurationName: !Ref NodeLaunchConfig
-      # LaunchTemplate:
-      #   LaunchTemplateId: !Ref MyLaunchTemplate
-      #   Version: !GetAtt MyLaunchTemplate.LatestVersionNumber
+      DesiredCapacity: !Ref NodeAutoScalingGroupDesiredCapacity
       MixedInstancesPolicy:
         InstancesDistribution:
           OnDemandAllocationStrategy: prioritized
@@ -188,13 +167,14 @@ Resources:
           # SpotMaxPrice: String
         LaunchTemplate:
           LaunchTemplateSpecification:
-            LaunchTemplateId: !Ref MyLaunchTemplate
+            LaunchTemplateId: !Ref SpotLaunchTemplate
             # LaunchTemplateName: String
-            Version: !GetAtt MyLaunchTemplate.LatestVersionNumber
+            Version: !GetAtt SpotLaunchTemplate.LatestVersionNumber
           Overrides:
             - InstanceType: !Select [0, !Split [ ",", !Ref InstanceTypesOverride ] ]
             - InstanceType: !Select [1, !Split [ ",", !Ref InstanceTypesOverride ] ]
             - InstanceType: !Select [2, !Split [ ",", !Ref InstanceTypesOverride ] ]
+            - InstanceType: !Select [3, !Split [ ",", !Ref InstanceTypesOverride ] ]
 
       MinSize: !Ref NodeAutoScalingGroupMinSize
       MaxSize: !Ref NodeAutoScalingGroupMaxSize
@@ -202,7 +182,7 @@ Resources:
         !Ref Subnets
       Tags:
       - Key: Name
-        Value: !Sub "${ClusterName}-${NodeGroupName}-ASG-Node"
+        Value: !Sub "${ClusterName}-worker-node"
         PropagateAtLaunch: 'true'
       - Key: !Sub 'kubernetes.io/cluster/${ClusterName}'
         Value: 'owned'
@@ -215,7 +195,7 @@ Resources:
         PropagateAtLaunch: true
     UpdatePolicy:
       AutoScalingRollingUpdate:
-        MinInstancesInService: !Ref NodeAutoScalingGroupDesiredSize
+        MinInstancesInService: !Ref NodeAutoScalingGroupDesiredCapacity
         MaxBatchSize: '1'
         PauseTime: 'PT5M'
 
@@ -223,27 +203,25 @@ Resources:
     Type: AWS::AutoScaling::LifecycleHook
     Properties:
       AutoScalingGroupName: !Ref NodeGroup
-      HeartbeatTimeout: 60
+      HeartbeatTimeout: 180
       DefaultResult: CONTINUE
-      LifecycleHookName: !Sub "${NodeGroupName}-LCH"
+      LifecycleHookName: !Sub "${NodeGroupName}-lifecycle-hook"
       LifecycleTransition: autoscaling:EC2_INSTANCE_TERMINATING
 
 #
 # Launch Template
 #
-  MyLaunchTemplate:
+  SpotLaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
     Properties:
-      LaunchTemplateName: !Sub "eksLaunchTemplate-${AWS::StackName}"
+      LaunchTemplateName: !Sub "launch-template-${AWS::StackName}"
       LaunchTemplateData:
-        # SecurityGroupIds:
-        # - !Ref NodeSecurityGroup
+        InstanceType: !Select [0, !Split [ ",", !Ref InstanceTypesOverride ] ]
         TagSpecifications:
-          -
-            ResourceType: instance
+          - ResourceType: instance
             Tags:
               - Key: Name
-                Value: !Sub "${ClusterName}-${NodeGroupName}-ASG-Node"
+                Value: !Sub "${NodeGroupName}-ASG-Node"
               - Key: KubernetesCluster
                 Value: !Ref ClusterName
               - Key: !Sub 'kubernetes.io/cluster/${ClusterName}'
@@ -253,21 +231,21 @@ Resources:
             !Sub |
             #!/bin/bash
             set -o xtrace
-            iid=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+            instance_id=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
             export AWS_DEFAULT_REGION=${AWS::Region}
-            ilc=`aws ec2 describe-instances --instance-ids  $iid  --query 'Reservations[0].Instances[0].InstanceLifecycle' --output text`
+            ilc=$(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].InstanceLifecycle' --output text)
             if [ "$ilc" == "spot" ]; then
-              /etc/eks/bootstrap.sh ${ClusterName} ${BootstrapArgumentsForSpotFleet}
+              /etc/eks/bootstrap.sh ${ClusterName} ${BootstrapArgumentsForSpot}
             else
               /etc/eks/bootstrap.sh ${ClusterName} ${BootstrapArgumentsForOnDemand}
             fi
-            # /etc/eks/bootstrap.sh ${ClusterName} $BootstrapArgumentsForOnDemand
+            # /etc/eks/bootstrap.sh ${ClusterName} ${BootstrapArgumentsForOnDemand}
             /opt/aws/bin/cfn-signal --exit-code $? \
                      --stack  ${AWS::StackName} \
                      --resource NodeGroup  \
                      --region ${AWS::Region}
         IamInstanceProfile:
-          Arn: !GetAtt NodeInstanceProfile.Arn
+          Arn: !Ref NodeInstanceProfileArn
         KeyName: !Ref KeyName
         NetworkInterfaces:
           -
