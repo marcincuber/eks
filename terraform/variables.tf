@@ -19,19 +19,16 @@ variable "availability_zones" {
 }
 
 variable "vpc_cidr" {
-  default     = "" # empty for now, needs to be removed later on
   description = "Amazon Virtual Private Cloud Classless Inter-Domain Routing range."
 }
 
 variable "private_subnets_cidrs" {
   type        = list(string)
-  default     = [""] # empty for now, needs to be removed later on
   description = "Classless Inter-Domain Routing ranges for private subnets."
 }
 
 variable "public_subnets_cidrs" {
   type        = list(string)
-  default     = [""] # empty for now, needs to be removed later on
   description = "Classless Inter-Domain Routing ranges for public subnets."
 }
 
@@ -40,9 +37,7 @@ variable "tags" {
   description = "Default tags attached to all resources."
 }
 
-variable "eks_version" {
-  default = "1.12"
-}
+variable "eks_version" {}
 
 variable "ssh_key_name" {
   default = "ceng-prod"
@@ -57,6 +52,9 @@ variable "hosted_zone_id" {
   description = "Hosted zone id used by bastion host."
 }
 
+variable "worker_instance_type" {
+}
+
 variable "spot_worker_instance_type" {
 }
 
@@ -66,4 +64,28 @@ variable "vpc_single_nat_gateway" {
 
 variable "vpc_one_nat_gateway_per_az" {
   type = bool
+}
+
+variable "ondemand_number_of_nodes" {
+  type = number
+}
+
+variable "ondemand_percentage_above_base" {
+  type = number
+}
+
+variable "spot_instance_pools" {
+  type = number
+}
+
+variable "desired_number_worker_nodes" {
+  type = number
+}
+
+variable "min_number_worker_nodes" {
+  type = number
+}
+
+variable "max_number_worker_nodes" {
+  type = number
 }

@@ -1,3 +1,7 @@
+#####
+# Bastion Host configuration
+#####
+
 data "aws_ami" "amazon_linux" {
   most_recent = true
   owners      = ["amazon"]
@@ -49,12 +53,15 @@ resource "aws_launch_template" "bastion" {
 }
 
 resource "aws_autoscaling_group" "bastion" {
-  name_prefix         = "${var.cluster_name}-${var.environment}-bastion-asg"
+  name_prefix         = "${var.cluster_name}-${var.environment}-bastion-asg-"
   desired_capacity    = 1
   max_size            = 1
   min_size            = 1
   vpc_zone_identifier = flatten([module.vpc.public_subnets])
-  force_delete        = true
+
+  force_delete         = true
+  termination_policies = ["OldestInstance"]
+
 
   mixed_instances_policy {
     instances_distribution {
@@ -102,6 +109,11 @@ resource "aws_autoscaling_group" "bastion" {
       propagate_at_launch = true
     },
     {
+      key                 = "ServiceOwner"
+      value               = "cloudengineering@news.co.uk"
+      propagate_at_launch = true
+    },
+    {
       key                 = "Environment"
       value               = "${var.environment}"
       propagate_at_launch = true
@@ -118,6 +130,29 @@ resource "aws_autoscaling_group" "bastion" {
 
   depends_on = ["aws_launch_template.bastion"]
 }
+
+resource "aws_autoscaling_schedule" "asg_scale_down" {
+  scheduled_action_name  = "bastion_asg_scale_down"
+  autoscaling_group_name = aws_autoscaling_group.bastion.name
+  min_size               = 0
+  max_size               = 0
+  desired_capacity       = 0
+  recurrence             = "0 20 * * MON-FRI"
+
+  depends_on = ["aws_autoscaling_group.bastion"]
+}
+
+resource "aws_autoscaling_schedule" "asg_scale_up" {
+  scheduled_action_name  = "bastion_asg_scale_up"
+  autoscaling_group_name = aws_autoscaling_group.bastion.name
+  min_size               = 1
+  max_size               = 1
+  desired_capacity       = 1
+  recurrence             = "0 6 * * MON-FRI"
+
+  depends_on = ["aws_autoscaling_group.bastion"]
+}
+
 
 resource "aws_security_group" "bastion" {
   name   = "Allow ssh access"
@@ -206,4 +241,36 @@ resource "aws_route53_record" "bastion" {
   type    = "A"
   ttl     = "300"
   records = ["${aws_eip.bastion.public_ip}"]
+}
+
+#####
+# Outputs
+#####
+
+output "bastion_host_public_ip" {
+  value = aws_eip.bastion.public_ip
+}
+
+output "bastion_host_route53_record_name" {
+  value = aws_route53_record.bastion.*.name
+}
+
+output "bastion_host_route53_record_fqdn" {
+  value = aws_route53_record.bastion.*.fqdn
+}
+
+output "bastion_host_instance_profile_arn" {
+  value = aws_iam_instance_profile.bastion.arn
+}
+
+output "bastion_host_policy_arn" {
+  value = aws_iam_policy.bastion.arn
+}
+
+output "bastion_host_autoscaling_group_arn" {
+  value = aws_autoscaling_group.bastion.arn
+}
+
+output "bastion_host_launch_template_arn" {
+  value = aws_launch_template.bastion.arn
 }

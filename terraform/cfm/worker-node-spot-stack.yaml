@@ -197,13 +197,13 @@ Resources:
       AutoScalingRollingUpdate:
         MinInstancesInService: !Ref NodeAutoScalingGroupDesiredCapacity
         MaxBatchSize: '1'
-        PauseTime: 'PT5M'
+        PauseTime: 'PT2M'
 
   LCH:
     Type: AWS::AutoScaling::LifecycleHook
     Properties:
       AutoScalingGroupName: !Ref NodeGroup
-      HeartbeatTimeout: 180
+      HeartbeatTimeout: 60
       DefaultResult: CONTINUE
       LifecycleHookName: !Sub "${NodeGroupName}-lifecycle-hook"
       LifecycleTransition: autoscaling:EC2_INSTANCE_TERMINATING
