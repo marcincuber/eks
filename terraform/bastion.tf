@@ -109,11 +109,6 @@ resource "aws_autoscaling_group" "bastion" {
       propagate_at_launch = true
     },
     {
-      key                 = "ServiceOwner"
-      value               = "cloudengineering@news.co.uk"
-      propagate_at_launch = true
-    },
-    {
       key                 = "Environment"
       value               = "${var.environment}"
       propagate_at_launch = true
