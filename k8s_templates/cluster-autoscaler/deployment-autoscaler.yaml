@@ -35,7 +35,7 @@ spec:
             - --cloud-provider=aws
             - --skip-nodes-with-local-storage=false
             - --skip-nodes-with-system-pods=true
-            - --expander=least-waste
+            - --expander=random
             - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/ceng-eks-test
           env:
             - name: AWS_REGION
