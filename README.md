@@ -6,6 +6,14 @@ Implementation of EKS using terraform and cloudformation. Fully functional templ
 
 All the templates can be found in [terraform](./terraform/). Ensure to reconfigure your backend as needed together with environment variables.
 
+### Amazon EKS design, use of spot instances and cluster scaling
+
+More about my configuration can be found in the blog post I have written recently -> [EKS design](https://medium.com/@marcincuber/amazon-eks-design-use-of-spot-instances-and-cluster-scaling-da7f3a72d061)
+
+### Kube2iam
+
+More about kube2iam configuration can be found in the blog post I have written recently -> [EKS and kube2iam](https://medium.com/@marcincuber/amazon-eks-iam-roles-and-kube2iam-4ae5906318be)
+
 ### Sizing nodes i.e. max number of pods per instance
 
 You can check how many ethernet interfaces and max IP per interface from [AvailableIpPerENI docs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI)
@@ -27,10 +35,6 @@ All the templates for additional deployments/daemonsets can be found in [k8s_tem
 To apply templates simply run `kubectl apply -f .` from a desired folder.
 
 Important: in order to allow your worker nodes join the cluster, update [config_file](./aws-eks-resources/aws-auth-configmap.yaml) with the correct role arn.
-
-### Kube2iam
-
-More about kube2iam configuration can be found in the blog post I have written recently -> [EKS and kube2iam](https://medium.com/@marcincuber/amazon-eks-iam-roles-and-kube2iam-4ae5906318be)
 
 ### Rolling update article
 
