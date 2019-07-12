@@ -10,6 +10,10 @@ All the templates can be found in [terraform](./terraform/). Ensure to reconfigu
 
 More about my configuration can be found in the blog post I have written recently -> [EKS design](https://medium.com/@marcincuber/amazon-eks-design-use-of-spot-instances-and-cluster-scaling-da7f3a72d061)
 
+### IAM Roles for specific namespaces
+
+https://medium.com/@marcincuber/amazon-eks-rbac-and-iam-access-f124f1164de7
+
 ### Kube2iam
 
 More about kube2iam configuration can be found in the blog post I have written recently -> [EKS and kube2iam](https://medium.com/@marcincuber/amazon-eks-iam-roles-and-kube2iam-4ae5906318be)
@@ -39,10 +43,6 @@ Important: in order to allow your worker nodes join the cluster, update [config_
 ### Rolling update article
 
 https://medium.com/@endofcake/using-terraform-for-zero-downtime-updates-of-an-auto-scaling-group-in-aws-60faca582664
-
-### IAM Roles for specific namespaces
-
-https://medium.com/@alejandro.millan.frias/assigning-iam-users-or-groups-to-manage-a-kubernetes-namespace-with-eks-38d10b1c9d93
 
 ### EKS platforms information
 
