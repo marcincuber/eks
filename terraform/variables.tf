@@ -1,11 +1,3 @@
-variable "cluster_name" {
-  type = string
-}
-
-variable "environment" {
-  type = string
-}
-
 variable "region" {
   type        = string
   default     = "eu-west-1"
@@ -16,6 +8,18 @@ variable "availability_zones" {
   type        = list(string)
   default     = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
   description = "Availability zones for the default Ireland region."
+}
+
+variable "bastion_instance_types" {
+  type        = list(string)
+  description = "Bastion instance types used for spot instances."
+  default     = ["t3.nano", "t3.micro", "t3.small", "t3.medium", "t3.large", "t2.nano", "t2.micro", "t2.small", "t2.medium", "t2.large"]
+}
+
+variable "worker_instance_types" {
+  type        = string
+  description = "Worker instance types used for spot instances."
+  default     = "m5.4xlarge,m5d.4xlarge,m5a.4xlarge,m5ad.4xlarge,m4.4xlarge"
 }
 
 variable "vpc_cidr" {
@@ -35,6 +39,9 @@ variable "public_subnets_cidrs" {
 variable "tags" {
   type        = map(string)
   description = "Default tags attached to all resources."
+  default = {
+    ServiceType = "ceng-eks"
+  }
 }
 
 variable "eks_version" {}
@@ -45,7 +52,7 @@ variable "ssh_key_name" {
 
 variable "ami_id" {
   description = "AmazonLinux 2 AMI EKS optimised"
-  default     = "ami-08716b70cac884aaa"
+  default     = "ami-0199284372364b02a"
 }
 
 variable "hosted_zone_id" {
@@ -53,9 +60,11 @@ variable "hosted_zone_id" {
 }
 
 variable "worker_instance_type" {
+  default = ""
 }
 
 variable "spot_worker_instance_type" {
+  default = "m5.4xlarge"
 }
 
 variable "vpc_single_nat_gateway" {
@@ -88,4 +97,8 @@ variable "min_number_worker_nodes" {
 
 variable "max_number_worker_nodes" {
   type = number
+}
+
+variable "assume_role_arn" {
+  type = string
 }

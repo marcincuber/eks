@@ -1,7 +1,6 @@
 #####
 # Bastion Host configuration
 #####
-
 data "aws_ami" "amazon_linux" {
   most_recent = true
   owners      = ["amazon"]
@@ -29,7 +28,7 @@ resource "aws_eip" "bastion" {
 }
 
 resource "aws_launch_template" "bastion" {
-  name_prefix = "launch-template-${var.cluster_name}-${var.environment}-bastion-"
+  name_prefix = "launch-template-${var.tags["ServiceType"]}-${var.tags["Environment"]}-bastion-"
   image_id    = data.aws_ami.amazon_linux.id
   key_name    = var.ssh_key_name
 
@@ -53,7 +52,7 @@ resource "aws_launch_template" "bastion" {
 }
 
 resource "aws_autoscaling_group" "bastion" {
-  name_prefix         = "${var.cluster_name}-${var.environment}-bastion-asg-"
+  name_prefix         = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-bastion-asg-"
   desired_capacity    = 1
   max_size            = 1
   min_size            = 1
@@ -61,7 +60,6 @@ resource "aws_autoscaling_group" "bastion" {
 
   force_delete         = true
   termination_policies = ["OldestInstance"]
-
 
   mixed_instances_policy {
     instances_distribution {
@@ -75,45 +73,29 @@ resource "aws_autoscaling_group" "bastion" {
         version            = "$Latest"
       }
 
-      override {
-        instance_type = "t3.nano"
-      }
-
-      override {
-        instance_type = "t3.micro"
-      }
-
-      override {
-        instance_type = "t3.small"
-      }
-
-      override {
-        instance_type = "t3.medium"
-      }
-
-      override {
-        instance_type = "t3.large"
+      dynamic "override" {
+        for_each = var.bastion_instance_types
+        content {
+          instance_type = override.value
+        }
       }
     }
   }
 
-  tags = [
-    {
-      key                 = "Name"
-      value               = "${var.cluster_name}-${var.environment}-bastion"
+  tag {
+    key                 = "Name"
+    value               = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-bastion"
+    propagate_at_launch = true
+  }
+
+  dynamic "tag" {
+    for_each = var.tags
+    content {
+      key                 = tag.key
+      value               = tag.value
       propagate_at_launch = true
-    },
-    {
-      key                 = "ServiceName"
-      value               = "${var.cluster_name}-${var.environment}"
-      propagate_at_launch = true
-    },
-    {
-      key                 = "Environment"
-      value               = "${var.environment}"
-      propagate_at_launch = true
-    },
-  ]
+    }
+  }
 
   timeouts {
     delete = "15m"
@@ -157,7 +139,7 @@ resource "aws_security_group" "bastion" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/16"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -175,12 +157,12 @@ resource "aws_security_group" "bastion" {
 }
 
 resource "aws_iam_instance_profile" "bastion" {
-  name = "${var.cluster_name}-${var.environment}-bastion-instance-profile"
+  name = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-bastion-instance-profile"
   role = aws_iam_role.bastion.name
 }
 
 resource "aws_iam_role" "bastion" {
-  name = "${var.cluster_name}-${var.environment}-bastion-role"
+  name = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-bastion-role"
   path = "/"
 
   assume_role_policy = <<EOF
@@ -202,7 +184,7 @@ EOF
 }
 
 resource "aws_iam_policy" "bastion" {
-  name = "${var.cluster_name}-${var.environment}-bastion-policy"
+  name = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-bastion-policy"
 
   policy = <<EOF
 {

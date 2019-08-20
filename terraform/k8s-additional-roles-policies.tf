@@ -2,7 +2,7 @@
 # Assumed by external DNS service deployed inside K8s cluster
 
 resource "aws_iam_role" "external_dns" {
-  name = "${var.cluster_name}-${var.environment}-external-dns"
+  name = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-external-dns"
 
   assume_role_policy = <<EOF
 {
@@ -24,12 +24,12 @@ EOF
 }
 
 resource "aws_iam_policy" "external_dns_policy" {
-  name = "${var.cluster_name}-${var.environment}-external-dns-policy"
+  name   = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-external-dns-policy"
   policy = templatefile("policies/external_dns_policy.json", {})
 }
 
 resource "aws_iam_role_policy_attachment" "external_dns_policy_attach" {
-  role = aws_iam_role.external_dns.name
+  role       = aws_iam_role.external_dns.name
   policy_arn = aws_iam_policy.external_dns_policy.arn
 }
 
@@ -44,4 +44,3 @@ output "external_dns_role_arn" {
 output "external_dns_policy_arn" {
   value = aws_iam_policy.external_dns_policy.arn
 }
-

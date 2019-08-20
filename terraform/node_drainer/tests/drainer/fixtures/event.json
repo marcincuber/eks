@@ -1,0 +1,19 @@
+{
+  "version": "0",
+  "id": "f81844ff-0310-5dec-b611-79db462cb4e5",
+  "detail-type": "EC2 Instance-terminate Lifecycle Action",
+  "source": "aws.autoscaling",
+  "account": "060997615305",
+  "time": "2019-02-25T20:54:45Z",
+  "region": "eu-west-1",
+  "resources": [
+    "arn:aws:autoscaling:eu-west-1:060997615305:autoScalingGroup:4b85bc83-d023-4b05-9006-6d7ed039c272:autoScalingGroupName/k8s-worker-nodes1-dev-NodeGroup-1OFOSHBK0L83J"
+  ],
+  "detail": {
+    "LifecycleActionToken": "86d408c1-adff-4460-9fae-cf0fb852196e",
+    "AutoScalingGroupName": "k8s-worker-nodes-dev-NodeGroup-F49231EK31OA",
+    "LifecycleHookName": "k8s-drainer-LifecycleHook-DDXJNVV0KBG1",
+    "EC2InstanceId": "i-036e525e159f62a5d",
+    "LifecycleTransition": "autoscaling:EC2_INSTANCE_TERMINATING"
+  }
+}

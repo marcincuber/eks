@@ -1,21 +1,4 @@
 #####
-# Backend and provider config
-#####
-
-terraform {
-  required_version = "~> 0.12.3"
-
-  backend "remote" {
-    hostname = "app.terraform.io"
-  }
-}
-
-provider "aws" {
-  version = "~> 2.16.0"
-  region  = var.region
-}
-
-#####
 # VPC configuration for EKS
 #####
 
@@ -26,9 +9,9 @@ data "aws_security_group" "default" {
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "2.7.0"
+  version = "2.9.0"
 
-  name = "${var.cluster_name}-${var.environment}-vpc"
+  name = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-vpc"
 
   azs = var.availability_zones
 
@@ -56,7 +39,7 @@ module "vpc" {
   tags = merge(
     var.tags,
     {
-      "kubernetes.io/cluster/${var.cluster_name}-${var.environment}" = "shared"
+      "kubernetes.io/cluster/${var.tags["ServiceType"]}-${var.tags["Environment"]}" = "shared"
     },
   )
 
@@ -82,13 +65,13 @@ module "vpc" {
   VPC Flow logs
 */
 resource "aws_cloudwatch_log_group" "flow_logs" {
-  name = "${var.cluster_name}-${var.environment}-vpc-flow-logs-cw-group"
+  name = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-vpc-flow-logs-cw-group"
 
   tags = var.tags
 }
 
 resource "aws_iam_role" "flow_logs" {
-  name = "${var.cluster_name}-${var.environment}-vpc-flow-logs-role"
+  name = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-vpc-flow-logs-role"
 
   assume_role_policy = <<EOF
 {
@@ -111,20 +94,20 @@ EOF
 
 resource "aws_flow_log" "flow_logs" {
   log_destination_type = "cloud-watch-logs"
-  log_destination = aws_cloudwatch_log_group.flow_logs.arn
-  iam_role_arn = aws_iam_role.flow_logs.arn
-  vpc_id = module.vpc.vpc_id
-  traffic_type = "ALL"
+  log_destination      = aws_cloudwatch_log_group.flow_logs.arn
+  iam_role_arn         = aws_iam_role.flow_logs.arn
+  vpc_id               = module.vpc.vpc_id
+  traffic_type         = "ALL"
 }
 
 resource "aws_iam_policy" "flow_logs" {
-  name = "${var.cluster_name}-${var.environment}-flow-logs-policy"
+  name   = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-flow-logs-policy"
   policy = templatefile("policies/vpc_flow_logs_policy.json", {})
 }
 
 resource "aws_iam_role_policy_attachment" "flow_logs" {
   policy_arn = aws_iam_policy.flow_logs.arn
-  role = aws_iam_role.flow_logs.name
+  role       = aws_iam_role.flow_logs.name
 }
 
 #####
@@ -132,33 +115,33 @@ resource "aws_iam_role_policy_attachment" "flow_logs" {
 #####
 
 resource "aws_security_group" "cluster" {
-  name = "${var.cluster_name}-${var.environment}-control-plane-sg"
+  name        = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-control-plane-sg"
   description = "Control Plane SG- Cluster communication with worker nodes"
-  vpc_id = module.vpc.vpc_id
+  vpc_id      = module.vpc.vpc_id
 
   egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = merge(
     var.tags,
     {
-      "kubernetes.io/cluster/${var.cluster_name}-${var.environment}" = "owned"
+      "kubernetes.io/cluster/${var.tags["ServiceType"]}-${var.tags["Environment"]}" = "owned"
     },
   )
 }
 
 resource "aws_security_group_rule" "cluster-ingress-node-https" {
-  description = "Allow pods to communicate with the cluster API Server"
-  from_port = 443
-  protocol = "tcp"
-  security_group_id = aws_security_group.cluster.id
+  description              = "Allow pods to communicate with the cluster API Server"
+  from_port                = 443
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.cluster.id
   source_security_group_id = aws_security_group.node.id
-  to_port = 443
-  type = "ingress"
+  to_port                  = 443
+  type                     = "ingress"
 }
 
 #####
@@ -166,53 +149,53 @@ resource "aws_security_group_rule" "cluster-ingress-node-https" {
 #####
 
 resource "aws_security_group" "node" {
-  name = "${var.cluster_name}-${var.environment}-worker-node-sg"
+  name        = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-worker-node-sg"
   description = "Security group for all worker nodes in the cluster"
-  vpc_id = module.vpc.vpc_id
+  vpc_id      = module.vpc.vpc_id
 
   egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = merge(
     var.tags,
     {
-      "kubernetes.io/cluster/${var.cluster_name}-${var.environment}" = "owned"
+      "kubernetes.io/cluster/${var.tags["ServiceType"]}-${var.tags["Environment"]}" = "owned"
     },
   )
 }
 
 resource "aws_security_group_rule" "node-ingress-cluster-https" {
-  description = "Allow worker Kubelets and pods to receive communication from the cluster control plane on port 443"
-  from_port = 443
-  protocol = "tcp"
-  security_group_id = aws_security_group.node.id
+  description              = "Allow worker Kubelets and pods to receive communication from the cluster control plane on port 443"
+  from_port                = 443
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.node.id
   source_security_group_id = aws_security_group.cluster.id
-  to_port = 443
-  type = "ingress"
+  to_port                  = 443
+  type                     = "ingress"
 }
 
 resource "aws_security_group_rule" "node-ingress-self" {
-  description = "Allow node to communicate with each other"
-  from_port = 0
-  protocol = "-1"
-  security_group_id = aws_security_group.node.id
+  description              = "Allow node to communicate with each other"
+  from_port                = 0
+  protocol                 = "-1"
+  security_group_id        = aws_security_group.node.id
   source_security_group_id = aws_security_group.node.id
-  to_port = 65535
-  type = "ingress"
+  to_port                  = 65535
+  type                     = "ingress"
 }
 
 resource "aws_security_group_rule" "node-ingress-cluster" {
-  description = "Allow worker Kubelets and pods to receive communication from the cluster control plane"
-  from_port = 1025
-  protocol = "tcp"
-  security_group_id = aws_security_group.node.id
+  description              = "Allow worker Kubelets and pods to receive communication from the cluster control plane"
+  from_port                = 1025
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.node.id
   source_security_group_id = aws_security_group.cluster.id
-  to_port = 65535
-  type = "ingress"
+  to_port                  = 65535
+  type                     = "ingress"
 }
 
 #####
@@ -221,20 +204,20 @@ resource "aws_security_group_rule" "node-ingress-cluster" {
 
 resource "aws_eks_cluster" "cluster" {
   enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
-  name = "${var.cluster_name}-${var.environment}"
-  role_arn = aws_iam_role.cluster.arn
-  version = var.eks_version
+  name                      = "${var.tags["ServiceType"]}-${var.tags["Environment"]}"
+  role_arn                  = aws_iam_role.cluster.arn
+  version                   = var.eks_version
 
   vpc_config {
-    subnet_ids = flatten([module.vpc.public_subnets, module.vpc.private_subnets])
-    security_group_ids = [aws_security_group.cluster.id]
+    subnet_ids              = flatten([module.vpc.public_subnets, module.vpc.private_subnets])
+    security_group_ids      = [aws_security_group.cluster.id]
     endpoint_private_access = "true"
-    endpoint_public_access = "true"
+    endpoint_public_access  = "true"
   }
 }
 
 resource "aws_iam_role" "cluster" {
-  name = "${var.cluster_name}-${var.environment}-cluster-role"
+  name = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-cluster-role"
 
   assume_role_policy = <<POLICY
 {

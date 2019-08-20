@@ -3,14 +3,14 @@
 #####
 
 resource "aws_cloudformation_stack" "spot_worker" {
-  name         = "${var.cluster_name}-${var.environment}-spot-worker-nodes-stack"
+  name         = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-spot-worker-nodes-stack"
   capabilities = ["CAPABILITY_IAM"]
 
   parameters = {
     KeyName       = var.ssh_key_name
     NodeImageId   = var.ami_id
     ClusterName   = aws_eks_cluster.cluster.id
-    NodeGroupName = "${var.cluster_name}-${var.environment}-spot-node-group"
+    NodeGroupName = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-spot-node-group"
 
     ASGAutoAssignPublicIp = "no"
     NodeInstanceType      = var.spot_worker_instance_type
@@ -21,7 +21,7 @@ resource "aws_cloudformation_stack" "spot_worker" {
     ClusterControlPlaneSecurityGroup = aws_security_group.cluster.id
     ExistingNodeSecurityGroups       = "${aws_security_group.node.id},${module.vpc.default_security_group_id}"
 
-    InstanceTypesOverride               = "m5.4xlarge,m5d.4xlarge,m5a.4xlarge,m5ad.4xlarge"
+    InstanceTypesOverride               = var.worker_instance_types
     OnDemandBaseCapacity                = var.ondemand_number_of_nodes
     OnDemandPercentageAboveBaseCapacity = var.ondemand_percentage_above_base
     SpotInstancePools                   = var.spot_instance_pools
@@ -50,7 +50,7 @@ resource "aws_cloudformation_stack" "spot_worker" {
 #####
 
 resource "aws_iam_role" "worker_node" {
-  name = "${var.cluster_name}-${var.environment}-worker-node"
+  name = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-worker-node"
 
   assume_role_policy = <<POLICY
 {
@@ -71,7 +71,7 @@ POLICY
 }
 
 resource "aws_iam_instance_profile" "worker_node" {
-  name = "${var.cluster_name}-${var.environment}-instance-profile"
+  name = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-instance-profile"
   role = aws_iam_role.worker_node.name
 }
 
@@ -80,28 +80,28 @@ resource "random_id" "role_suffix" {
 }
 
 resource "aws_iam_policy" "worker_node_custom_policy" {
-  name = "${var.cluster_name}-${var.environment}-custom-policy-${random_id.role_suffix.hex}"
+  name   = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-custom-policy-${random_id.role_suffix.hex}"
   policy = templatefile("policies/worker_node_custom_policy.json", {})
 }
 
 resource "aws_iam_role_policy_attachment" "node-AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role = aws_iam_role.worker_node.name
+  role       = aws_iam_role.worker_node.name
 }
 
 resource "aws_iam_role_policy_attachment" "node-AmazonEKS_CNI_Policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role = aws_iam_role.worker_node.name
+  role       = aws_iam_role.worker_node.name
 }
 
 resource "aws_iam_role_policy_attachment" "node-AmazonEC2ContainerRegistryReadOnly" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role = aws_iam_role.worker_node.name
+  role       = aws_iam_role.worker_node.name
 }
 
 resource "aws_iam_role_policy_attachment" "node-custom-policy" {
   policy_arn = aws_iam_policy.worker_node_custom_policy.arn
-  role = aws_iam_role.worker_node.name
+  role       = aws_iam_role.worker_node.name
 }
 
 #####
@@ -119,31 +119,7 @@ output "worker_node_instance_profile_arn" {
 output "worker_node_custom_policy_arn" {
   value = aws_iam_policy.worker_node_custom_policy.arn
 }
-# resource "aws_cloudformation_stack" "worker" {
-#   name         = "${var.cluster_name}-${var.environment}-worker-nodes-stack"
-#   capabilities = ["CAPABILITY_NAMED_IAM", "CAPABILITY_IAM"]
 
-#   parameters = {
-#     KeyName       = "${var.ssh_key_name}"
-#     NodeImageId   = "${var.ami_id}"
-#     ClusterName   = "${aws_eks_cluster.cluster.id}"
-#     NodeGroupName = "${var.cluster_name}-${var.environment}-node-group"
-
-#     NodeInstanceType                 = "${var.worker_instance_type}"
-#     BootstrapArguments               = "--kubelet-extra-args --node-labels=lifecycle=OnDemand"
-#     ClusterControlPlaneSecurityGroup = "${aws_security_group.cluster.id}"
-#     Subnets                          = "${join(",", module.vpc.private_subnets)}"
-#     VpcId                            = "${module.vpc.vpc_id}"
-#     NodeInstanceProfileName          = "${aws_iam_instance_profile.worker_node.name}"
-#     NodeInstanceRoleName             = "${aws_iam_role.worker_node.name}"
-#     NodeSecurityGroupName            = "${aws_security_group.node.id}"
-
-#     NodeAutoScalingGroupDesiredCapacity = "1"
-#     NodeAutoScalingGroupMinSize         = "1"
-#     NodeAutoScalingGroupMaxSize         = "20"
-#   }
-
-#   template_body = "${file("cfm/worker-node-stack.yaml")}"
-
-#   tags = "${var.tags}"
-# }
+output "auto_scaling_group_name" {
+  value = "${var.tags["ServiceType"]}-${var.tags["Environment"]}-spot-node-group"
+}
