@@ -1,6 +1,6 @@
 # EKS
 
-Implementation of EKS using terraform and cloudformation. Fully functional templates to deploy your VPC and kubernetes clusters together with all the essential tags. Also, worker nodes are part of ASG with consists of spot and on-demand instances.
+Implementation of EKS using terraform and cloudformation. Fully functional templates to deploy your VPC and kubernetes clusters together with all the essential tags. Also, worker nodes are part of ASG which consists of spot and on-demand instances.
 
 ## Terraform 
 
