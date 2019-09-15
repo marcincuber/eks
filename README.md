@@ -8,7 +8,7 @@ All the templates can be found in [terraform](./terraform/). Ensure to reconfigu
 
 Once you configure your environment variables in `./terraform/vars`, you can run `make tf-plan-test` or `make tf-apply-test` from `terraform` directory. Resources that will be created after applying templates:
 
-1. VPC with public/private subnets and enabled flow logs
+1. VPC with public/private subnets, enabled flow logs and VPC endpoints ECR 
 1. EKS controlplane
 1. EKS worker nodes in private subnets (spot and ondemnd instances based on variables)
 1. Dynamic basion host
