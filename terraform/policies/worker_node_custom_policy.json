@@ -22,31 +22,6 @@
         "sts:AssumeRole"
       ],
       "Resource": "*"
-    },
-    {
-      "Sid": "AllowAccessToSecretsManager",
-      "Effect": "Allow",
-      "Action": [
-        "secretsmanager:DescribeSecret",
-        "secretsmanager:GetSecretValue",
-        "secretsmanager:ListSecrets",
-        "secretsmanager:ListSecretVersionIds"
-
-      ],
-      "Resource": "*"
-    },
-    {
-      "Sid": "AllowAccessToSystemsManager",
-      "Effect": "Allow",
-      "Action": [
-        "ssm:DescribeParameters",
-        "ssm:GetParameter",
-        "ssm:GetParameterHistory",
-        "ssm:GetParameters",
-        "ssm:GetParametersByPath"
-
-      ],
-      "Resource": "*"
     }
   ]
 }

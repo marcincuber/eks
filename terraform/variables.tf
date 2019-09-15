@@ -52,7 +52,6 @@ variable "ssh_key_name" {
 
 variable "ami_id" {
   description = "AmazonLinux 2 AMI EKS optimised"
-  default     = "ami-0199284372364b02a"
 }
 
 variable "hosted_zone_id" {
@@ -83,10 +82,6 @@ variable "ondemand_percentage_above_base" {
   type = number
 }
 
-variable "spot_instance_pools" {
-  type = number
-}
-
 variable "desired_number_worker_nodes" {
   type = number
 }
@@ -101,4 +96,9 @@ variable "max_number_worker_nodes" {
 
 variable "assume_role_arn" {
   type = string
+}
+
+variable "oidc_thumbprint_list" {
+  type    = list
+  default = []
 }

@@ -6,6 +6,8 @@ metadata:
     k8s-app: cluster-autoscaler
   name: cluster-autoscaler
   namespace: kube-system
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::01234567:role/ceng-eks-test-cluster-autoscaler # update with correct arn
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1

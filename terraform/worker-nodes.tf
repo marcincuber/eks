@@ -21,10 +21,10 @@ resource "aws_cloudformation_stack" "spot_worker" {
     ClusterControlPlaneSecurityGroup = aws_security_group.cluster.id
     ExistingNodeSecurityGroups       = "${aws_security_group.node.id},${module.vpc.default_security_group_id}"
 
+    SpotAllocStrategy                   = "capacity-optimized"
     InstanceTypesOverride               = var.worker_instance_types
     OnDemandBaseCapacity                = var.ondemand_number_of_nodes
     OnDemandPercentageAboveBaseCapacity = var.ondemand_percentage_above_base
-    SpotInstancePools                   = var.spot_instance_pools
 
     NodeAutoScalingGroupDesiredCapacity = var.desired_number_worker_nodes
     NodeAutoScalingGroupMinSize         = var.min_number_worker_nodes
@@ -86,11 +86,6 @@ resource "aws_iam_policy" "worker_node_custom_policy" {
 
 resource "aws_iam_role_policy_attachment" "node-AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role       = aws_iam_role.worker_node.name
-}
-
-resource "aws_iam_role_policy_attachment" "node-AmazonEKS_CNI_Policy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
   role       = aws_iam_role.worker_node.name
 }
 

@@ -1,5 +1,5 @@
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cluster-autoscaler
@@ -17,9 +17,8 @@ spec:
         app: cluster-autoscaler
     spec:
       serviceAccountName: cluster-autoscaler
-      priorityClassName: high-priority
       containers:
-        - image: gcr.io/google-containers/cluster-autoscaler:v1.14.2
+        - image: gcr.io/google-containers/cluster-autoscaler:v1.14.4
           name: cluster-autoscaler
           resources:
             limits:
@@ -77,3 +76,8 @@ spec:
                 - m5ad.4xlarge
                 - m5ad.12xlarge
                 - m5ad.24xlarge
+                - m4.large
+                - m4.2xlarge
+                - m4.4xlarge
+                - m4.12xlarge
+                - m4.24xlarge

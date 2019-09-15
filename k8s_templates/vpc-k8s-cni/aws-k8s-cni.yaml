@@ -35,6 +35,8 @@ kind: ServiceAccount
 metadata:
   name: aws-node
   namespace: kube-system
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::01234567:role/ceng-eks-test-aws-node # update with correct arn
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 # kubernetes versions before 1.8.0 should use rbac.authorization.k8s.io/v1beta1
@@ -76,7 +78,7 @@ spec:
       tolerations:
       - operator: Exists
       containers:
-      - image: 602401143452.dkr.ecr.us-west-2.amazonaws.com/amazon-k8s-cni:v1.4.1
+      - image: 602401143452.dkr.ecr.us-west-2.amazonaws.com/amazon-k8s-cni:v1.5.3
         imagePullPolicy: Always
         ports:
         - containerPort: 61678
