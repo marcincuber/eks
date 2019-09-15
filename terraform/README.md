@@ -21,21 +21,3 @@ make tf-plan-test
 ```
 make tf-apply-test
 ```
-
-## Creating new environment
-
-Full documentation can be found [here](https://nidigitalsolutions.jira.com/wiki/spaces/NUKT/pages/edit/1336770579?draftId=1337163825&draftShareId=e3764749-911c-4551-9d9e-d7cd8c9eb2fa&)
-
-## AWS Account structure
-
-#### aws-digital-dev-cloudengpltaforms (015774327972)
-
-Contains: EKS test environment
-
-#### aws-digital-dev-digiengplatform (720262317718)
-
-Contains: EKS dev environment 
-
-#### aws-digital-prod-digiengplatform (474887192380)
-
-Contains: EKS prod environment
