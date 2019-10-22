@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       annotations:
-        iam.amazonaws.com/role: arn:aws:iam::015774327972:role/ceng-eks-test-external-dns
+        iam.amazonaws.com/role: arn:aws:iam::0123456789:role/ceng-eks-test-external-dns
       labels:
         app: external-dns
     spec:
