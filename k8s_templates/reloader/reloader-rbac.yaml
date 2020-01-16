@@ -1,38 +1,13 @@
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: ServiceAccount
 metadata:
   labels:
     app: reloader
-    version: v0.0.30
   name: reloader
   namespace: default
-spec:
-  replicas: 1
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-  revisionHistoryLimit: 2
-  selector:
-    matchLabels:
-      app: reloader
-  template:
-    metadata:
-      labels:
-        app: reloader
-        version: v0.0.30
-    spec:
-      containers:
-      - name: reloader
-        image: "stakater/reloader:v0.0.30"
-        imagePullPolicy: IfNotPresent
-        env:
-          - name: KUBERNETES_NAMESPACE
-            value: "default"
-      serviceAccountName: reloader
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   labels:
@@ -75,7 +50,8 @@ kind: ClusterRoleBinding
 metadata:
   labels:
     app: reloader
-  name: reloader-cluster-role-binding
+  name: reloader-role-binding
+  namespace: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -85,11 +61,3 @@ subjects:
     name: reloader
     namespace: default
 ---
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  labels:
-    app: reloader
-  name: reloader
-  namespace: default
-

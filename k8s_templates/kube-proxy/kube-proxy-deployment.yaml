@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    eks.amazonaws.com/component: kube-proxy
+    k8s-app: kube-proxy
+  name: kube-proxy
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      k8s-app: kube-proxy
+  template:
+    metadata:
+      labels:
+        k8s-app: kube-proxy
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: beta.kubernetes.io/os
+                operator: In
+                values:
+                - linux
+              - key: beta.kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
+              - key: eks.amazonaws.com/compute-type
+                operator: NotIn
+                values:
+                - fargate
+      containers:
+      - command:
+        - kube-proxy
+        - --v=2
+        - --config=/var/lib/kube-proxy-config/config
+        image: 602401143452.dkr.ecr.eu-west-1.amazonaws.com/eks/kube-proxy:v1.14.6
+        imagePullPolicy: IfNotPresent
+        name: kube-proxy
+        resources:
+          requests:
+            cpu: 100m
+        securityContext:
+          privileged: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/log
+          name: varlog
+        - mountPath: /run/xtables.lock
+          name: xtables-lock
+        - mountPath: /lib/modules
+          name: lib-modules
+          readOnly: true
+        - mountPath: /var/lib/kube-proxy/
+          name: kubeconfig
+        - mountPath: /var/lib/kube-proxy-config/
+          name: config
+      dnsPolicy: ClusterFirst
+      hostNetwork: true
+      priorityClassName: system-node-critical
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: kube-proxy
+      serviceAccountName: kube-proxy
+      terminationGracePeriodSeconds: 30
+      tolerations:
+      - operator: Exists
+      volumes:
+      - hostPath:
+          path: /var/log
+          type: ""
+        name: varlog
+      - hostPath:
+          path: /run/xtables.lock
+          type: FileOrCreate
+        name: xtables-lock
+      - hostPath:
+          path: /lib/modules
+          type: ""
+        name: lib-modules
+      - configMap:
+          defaultMode: 420
+          name: kube-proxy
+        name: kubeconfig
+      - configMap:
+          defaultMode: 420
+          name: kube-proxy-config
+        name: config
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 10%
+    type: RollingUpdate

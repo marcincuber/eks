@@ -17,8 +17,9 @@ spec:
         app: cluster-autoscaler
     spec:
       serviceAccountName: cluster-autoscaler
+      priorityClassName: high-priority
       containers:
-        - image: gcr.io/google-containers/cluster-autoscaler:v1.14.4
+        - image: gcr.io/google-containers/cluster-autoscaler:v1.14.7
           name: cluster-autoscaler
           resources:
             limits:
@@ -33,9 +34,10 @@ spec:
             - --stderrthreshold=info
             - --cloud-provider=aws
             - --skip-nodes-with-local-storage=false
-            - --skip-nodes-with-system-pods=true
+            - --skip-nodes-with-system-pods=false
+            - --ignore-daemonsets-utilization=true
             - --expander=random
-            - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/ceng-eks-test
+            - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/eks-test-eu
           env:
             - name: AWS_REGION
               value: eu-west-1
@@ -57,27 +59,14 @@ spec:
                 operator: In
                 values:
                 - m5.large
-                - m5.2xlarge
-                - m5.4xlarge
-                - m5.12xlarge
-                - m5.24xlarge
+                - m5.xlarge
                 - m5d.large
-                - m5d.2xlarge
-                - m5d.4xlarge
-                - m5d.12xlarge
-                - m5d.24xlarge
+                - m5d.xlarge
                 - m5a.large
-                - m5a.2xlarge
-                - m5a.4xlarge
-                - m5a.12xlarge
-                - m5a.24xlarge
+                - m5a.xlarge
                 - m5ad.large
-                - m5ad.2xlarge
-                - m5ad.4xlarge
-                - m5ad.12xlarge
-                - m5ad.24xlarge
-                - m4.large
-                - m4.2xlarge
-                - m4.4xlarge
-                - m4.12xlarge
-                - m4.24xlarge
+                - m5ad.xlarge
+                - m5n.large
+                - m5n.xlarge
+                - m5dn.large
+                - m5dn.xlarge
