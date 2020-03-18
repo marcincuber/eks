@@ -19,7 +19,7 @@ spec:
       serviceAccountName: cluster-autoscaler
       priorityClassName: high-priority
       containers:
-        - image: gcr.io/google-containers/cluster-autoscaler:v1.14.7
+        - image: gcr.io/google-containers/cluster-autoscaler:v1.15.5
           name: cluster-autoscaler
           resources:
             limits:
@@ -33,11 +33,12 @@ spec:
             - --v=4
             - --stderrthreshold=info
             - --cloud-provider=aws
+            - --balance-similar-node-groups=true
             - --skip-nodes-with-local-storage=false
             - --skip-nodes-with-system-pods=false
             - --ignore-daemonsets-utilization=true
             - --expander=random
-            - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/eks-test-eu
+            - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/eks-test
           env:
             - name: AWS_REGION
               value: eu-west-1
