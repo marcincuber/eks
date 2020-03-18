@@ -58,8 +58,8 @@ spec:
         - name: NODE_TERMINATION_GRACE_PERIOD
           value: "120"
         - name: POD_TERMINATION_GRACE_PERIOD
-          value: "10"
-        image: amazon/aws-node-termination-handler:v1.1.0
+          value: "60"
+        image: amazon/aws-node-termination-handler:v1.2.0
         imagePullPolicy: IfNotPresent
         name: aws-node-termination-handler
         resources:
@@ -77,6 +77,7 @@ spec:
       schedulerName: default-scheduler
       serviceAccount: aws-node-termination-handler
       serviceAccountName: aws-node-termination-handler
+      hostNetwork: true
       terminationGracePeriodSeconds: 30
   updateStrategy:
     rollingUpdate:
