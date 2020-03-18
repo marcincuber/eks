@@ -1,0 +1,103 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Gracefully drain k8s nodes when instances are terminated
+
+Parameters:
+  AutoScalingGroupName:
+    Type: String
+  ClusterName:
+    Type: String
+  DefaultSG:
+    Type: String
+  Subnets:
+    Type: String
+  LambdaZipFileName:
+    Type: String
+
+Resources:
+  DrainerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: DrainerPolicies
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - autoscaling:CompleteLifecycleAction
+                  - ec2:DescribeInstances
+                  - eks:DescribeCluster
+                  - sts:GetCallerIdentity
+                Resource: '*'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+
+  NodeDrainerFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: "index.lambda_handler"
+      Role: !GetAtt DrainerRole.Arn
+      Environment:
+        Variables:
+          CLUSTER_NAME: !Ref ClusterName
+      Code:
+        ZipFile: !Ref LambdaZipFileName
+      Runtime: "python3.7"
+      Timeout: 300
+      VpcConfig:
+        SecurityGroupIds:
+          - !Ref DefaultSG
+        SubnetIds:
+          !Split [ ",", !Ref Subnets ]
+
+  EventRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: "EventRule"
+      EventPattern:
+        source:
+          - "aws.autoscaling"
+        detail-type:
+          - "EC2 Instance-terminate Lifecycle Action"
+        detail:
+          AutoScalingGroupName:
+            - !Ref AutoScalingGroupName
+      State: "ENABLED"
+      Targets:
+        -
+          Arn: !GetAtt NodeDrainerFunction.Arn
+          Id: "TargetDrainerLambda"
+
+  PermissionForEventsToInvokeLambda:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt NodeDrainerFunction.Arn
+      Action: lambda:InvokeFunction
+      Principal: events.amazonaws.com
+      SourceArn:
+        Fn::GetAtt:
+          - "EventRule"
+          - "Arn"
+
+  Permission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt NodeDrainerFunction.Arn
+      Principal: events.amazonaws.com
+
+Outputs:
+  LambdaDrainerRole:
+    Description: Draining function role ARN
+    Value: !GetAtt DrainerRole.Arn

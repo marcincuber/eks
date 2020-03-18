@@ -1,0 +1,16 @@
+Kind: config
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: 84586abd904ef
+    server: https://test-cluster.amazonaws.com
+  name: k8s
+contexts:
+- context:
+    cluster: k8s
+    user: aws
+  name: aws
+current-context: aws
+users:
+- name: aws
+  user: lambda

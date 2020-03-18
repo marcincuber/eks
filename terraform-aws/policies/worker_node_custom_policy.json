@@ -1,0 +1,72 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowActionsForSSMSession",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:UpdateInstanceInformation",
+        "ssm:ListAssociations",
+        "ssm:ListInstanceAssociations",
+        "ssmmessages:CreateControlChannel",
+        "ssmmessages:CreateDataChannel",
+        "ssmmessages:OpenControlChannel",
+        "ssmmessages:OpenDataChannel",
+        "ec2messages:GetMessages"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "AllowOtherActions",
+      "Effect": "Allow",
+      "Action": [
+        "autoscaling:DescribeAutoScalingGroups",
+        "autoscaling:DescribeAutoScalingInstances",
+        "autoscaling:DescribeLaunchConfigurations",
+        "autoscaling:DescribeTags",
+        "ec2:DescribeAccountAttributes",
+        "ec2:DescribeLaunchTemplateVersions"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "AllowSSM",
+      "Action": [
+        "ssm:DescribeParameters",
+        "ssm:GetParameter",
+        "ssm:GetParameters",
+        "ssm:GetParameterHistory",
+        "ssm:GetParametersByPath"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    },
+    {
+      "Sid": "AllowECRActions",
+      "Action": [
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:GetRepositoryPolicy",
+        "ecr:DescribeRepositories",
+        "ecr:ListImages",
+        "ecr:DescribeImages",
+        "ecr:BatchGetImage",
+        "ecr:InitiateLayerUpload",
+        "ecr:UploadLayerPart",
+        "ecr:CompleteLayerUpload",
+        "ecr:PutImage"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    },
+    {
+      "Sid": "AllowToAssumeRole",
+      "Effect": "Allow",
+      "Action": [
+        "sts:AssumeRole"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
