@@ -16,7 +16,7 @@ resource "aws_default_security_group" "default" {
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "2.21.0"
+  version = "2.33.0"
 
   name = "${local.name_prefix}-vpc"
 
@@ -36,12 +36,15 @@ module "vpc" {
   one_nat_gateway_per_az = var.vpc_one_nat_gateway_per_az
 
   private_subnet_tags = {
-    "kubernetes.io/role/internal-elb" = "1"
+    "kubernetes.io/role/internal-elb" = "1",
+    "mapPublicIpOnLaunch"             = "FALSE"
   }
 
   public_subnet_tags = {
-    "kubernetes.io/role/elb" = "1"
+    "kubernetes.io/role/elb" = "1",
+    "mapPublicIpOnLaunch"    = "TRUE"
   }
+
 
   tags = merge(
     var.tags,

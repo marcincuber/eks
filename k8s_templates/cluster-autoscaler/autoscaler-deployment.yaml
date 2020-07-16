@@ -17,9 +17,8 @@ spec:
         app: cluster-autoscaler
     spec:
       serviceAccountName: cluster-autoscaler
-      priorityClassName: high-priority
       containers:
-        - image: gcr.io/google-containers/cluster-autoscaler:v1.15.5
+        - image: eu.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler:v1.17.2
           name: cluster-autoscaler
           resources:
             limits:
@@ -56,7 +55,7 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: beta.kubernetes.io/instance-type
+              - key: node.kubernetes.io/instance-type
                 operator: In
                 values:
                 - m5.large

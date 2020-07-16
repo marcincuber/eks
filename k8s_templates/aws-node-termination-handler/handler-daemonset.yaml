@@ -21,11 +21,11 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: beta.kubernetes.io/os
+              - key: kubernetes.io/os
                 operator: In
                 values:
                 - linux
-              - key: beta.kubernetes.io/arch
+              - key: kubernetes.io/arch
                 operator: In
                 values:
                 - amd64
@@ -58,9 +58,14 @@ spec:
         - name: NODE_TERMINATION_GRACE_PERIOD
           value: "120"
         - name: POD_TERMINATION_GRACE_PERIOD
-          value: "60"
-        image: amazon/aws-node-termination-handler:v1.2.0
+          value: "120"
+        - name: JSON_LOGGING
+          value: "true"
+        image: amazon/aws-node-termination-handler:v1.6.1
         imagePullPolicy: IfNotPresent
+        volumeMounts:
+          - name: "uptime"
+            mountPath: "/proc/uptime"
         name: aws-node-termination-handler
         resources:
           limits:
@@ -71,14 +76,15 @@ spec:
             memory: 64Mi
         securityContext:
           privileged: true
-      dnsPolicy: ClusterFirst
+      volumes:
+        - name: "uptime"
+          hostPath:
+            path: "/proc/uptime"
       priorityClassName: system-node-critical
-      restartPolicy: Always
-      schedulerName: default-scheduler
+      dnsPolicy: ClusterFirstWithHostNet
       serviceAccount: aws-node-termination-handler
       serviceAccountName: aws-node-termination-handler
       hostNetwork: true
-      terminationGracePeriodSeconds: 30
   updateStrategy:
     rollingUpdate:
       maxUnavailable: 1
