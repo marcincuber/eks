@@ -1,4 +1,3 @@
----
 AWSTemplateFormatVersion: '2010-09-09'
 Description: 'Amazon EKS - Spot Node Group'
 
@@ -26,6 +25,8 @@ Metadata:
           - NodeAutoScalingGroupDesiredCapacity
           - NodeAutoScalingGroupMaxSize
           - NodeInstanceType
+          - NodeVolumeSize
+          - NodeVolumeType
           - ASGAutoAssignPublicIp
           - ASGMetricsEnabled
           - OnDemandBaseCapacity
@@ -72,6 +73,14 @@ Parameters:
       - m5dn.large
       - m5dn.xlarge
     ConstraintDescription: Must be a valid EC2 instance type
+
+  NodeVolumeSize:
+    Type: Number
+    Default: 50
+
+  NodeVolumeType:
+    Type: String
+    Default: "gp2"
 
   NodeAutoScalingGroupMinSize:
     Type: Number
@@ -250,7 +259,6 @@ Resources:
             #!/bin/bash
             set -o xtrace
             exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
-            instance_id=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
             if [[ "${RestrictMetadata}" == "no" ]];
             then
               yum install -y iptables-services
@@ -258,6 +266,7 @@ Resources:
               iptables-save | tee /etc/sysconfig/iptables
               systemctl enable --now iptables
             fi
+            instance_id=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
             export AWS_DEFAULT_REGION=${AWS::Region}
             ilc=$(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].InstanceLifecycle' --output text)
             if [ "$ilc" == "spot" ]; then
@@ -285,6 +294,13 @@ Resources:
               !Split [ ",", !Ref ExistingNodeSecurityGroups ]
         ImageId: !Ref NodeImageId
         InstanceType: !Ref NodeInstanceType
+        BlockDeviceMappings:
+        - DeviceName: "/dev/xvda"
+          Ebs:
+            DeleteOnTermination: true
+            Encrypted: true
+            VolumeType: !Ref NodeVolumeType
+            VolumeSize: !Ref NodeVolumeSize
 
 Outputs:
   WorkerAutoScalingGroupName:
