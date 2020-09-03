@@ -19,7 +19,7 @@ You will find latest setup of following components:
 1. Dynamic basion host
 1. Automatically configure aws-auth configmap for worker nodes to join the cluster
 1. OpenID Connect provider which can be used to assign IAM roles to service accounts in k8s
-1. NodeDrainer lambda which will drain worker nodes during rollingUpdate of the nodes
+1. NodeDrainer lambda which will drain worker nodes during rollingUpdate of the nodes (This is only applicable to spot worker nodes, managed node groups do not require this lambda)
 1. IAM Roles for service accounts such as aws-node, cluster-autoscaler, alb-ingress-controller, external-secrets (Role arns are used when you deploy kubernetes addons with Service Accounts that make use of OIDC provider)
 1. For spot termination handling use aws-node-termination-handler from [k8s_templates/aws-node-termination-handler](./k8s_templates/aws-node-termination-handler).
 
@@ -35,7 +35,7 @@ Once you configure your environment variables in `./terraform/vars`, you can run
 1. Dynamic basion host
 1. Automatically configure aws-auth configmap for worker nodes to join the cluster
 1. OpenID Connect provider which can be used to assign IAM roles to service accounts in k8s
-1. NodeDrainer lambda which will drain worker nodes during rollingUpdate of the nodes
+1. NodeDrainer lambda which will drain worker nodes during rollingUpdate of the nodes (This is only applicable to spot worker nodes)
 1. IAM Roles for service accounts such as aws-node, cluster-autoscaler, alb-ingress-controller, external-secrets (Role arns are used when you deploy kubernetes addons with Service Accounts that make use of OIDC provider)
 
 ## Docs and other additional resources
@@ -68,9 +68,10 @@ More about kube2iam configuration can be found in the blog post I have written r
 
 [Amazon EKS, setup external DNS with OIDC provider and kube2iam](https://medium.com/swlh/amazon-eks-setup-external-dns-with-oidc-provider-and-kube2iam-f2487c77b2a1)
 
-### EKS Mnaged Node Groups
+### EKS Managed Node Groups
 
 [Amazon EKS + managed node groups](https://itnext.io/amazon-eks-managed-node-groups-87943e3f3360)
+Terraform module written by me can be found in -> https://registry.terraform.io/modules/umotif-public/eks-node-group
 
 ### Gitlab runners on EKS
 
