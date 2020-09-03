@@ -71,6 +71,7 @@ More about kube2iam configuration can be found in the blog post I have written r
 ### EKS Managed Node Groups
 
 [Amazon EKS + managed node groups](https://itnext.io/amazon-eks-managed-node-groups-87943e3f3360)
+
 Terraform module written by me can be found in -> https://registry.terraform.io/modules/umotif-public/eks-node-group
 
 ### Gitlab runners on EKS
