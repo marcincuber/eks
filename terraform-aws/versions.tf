@@ -3,7 +3,7 @@
 #####
 
 terraform {
-  required_version = "~> 0.12.23"
+  required_version = ">= 0.13.1"
 
   backend "remote" {
     hostname = "app.terraform.io"
@@ -16,6 +16,6 @@ provider "aws" {
     session_name = "EKS_deployment_session_${var.tags["Environment"]}"
   }
 
-  version = "~> 2.53.0"
+  version = ">= 3.5"
   region  = var.region
 }
