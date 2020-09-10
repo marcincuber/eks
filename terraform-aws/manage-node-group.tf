@@ -1,8 +1,9 @@
 module "eks-node-group-a" {
   source  = "umotif-public/eks-node-group/aws"
-  version = "~> 1.0"
+  version = "~> 3.0"
 
-  enabled         = var.enable_managed_workers
+  count = var.enable_managed_workers ? 1 : 0
+  
   create_iam_role = false
 
   cluster_name  = var.create_cluster ? aws_eks_cluster.cluster[0].name : null
@@ -28,9 +29,10 @@ module "eks-node-group-a" {
 
 module "eks-node-group-b" {
   source  = "umotif-public/eks-node-group/aws"
-  version = "~> 1.0"
+  version = "~> 3.0"
 
-  enabled         = var.enable_managed_workers
+  count = var.enable_managed_workers ? 1 : 0
+  
   create_iam_role = false
 
   cluster_name  = var.create_cluster ? aws_eks_cluster.cluster[0].name : null
@@ -56,9 +58,10 @@ module "eks-node-group-b" {
 
 module "eks-node-group-c" {
   source  = "umotif-public/eks-node-group/aws"
-  version = "~> 1.0"
+  version = "~> 3.0"
 
-  enabled         = var.enable_managed_workers
+  count = var.enable_managed_workers ? 1 : 0
+  
   create_iam_role = false
 
   cluster_name  = var.create_cluster ? aws_eks_cluster.cluster[0].name : null
