@@ -40,6 +40,10 @@ Once you configure your environment variables in `./terraform/vars`, you can run
 
 ## Docs and other additional resources
 
+### Amazon EKS upgrade 1.17 to 1.18
+
+[Amazon EKS upgrade journey from 1.17 to 1.18](https://medium.com/@marcincuber/amazon-eks-upgrade-journey-from-1-17-to-1-18-e35e134ca898)
+
 ### Amazon EKS upgrade 1.16 to 1.17
 
 [Amazon EKS upgrade journey from 1.16 to 1.17](https://medium.com/@marcincuber/amazon-eks-upgrade-journey-from-1-16-to-1-17-cb9e88191165)
