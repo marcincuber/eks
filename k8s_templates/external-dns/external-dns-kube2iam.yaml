@@ -20,7 +20,7 @@ spec:
       serviceAccountName: external-dns
       containers:
       - name: external-dns
-        image: registry.opensource.zalan.do/teapot/external-dns:v0.5.17
+        image: eu.gcr.io/k8s-artifacts-prod/external-dns/external-dns:v0.7.4
         args:
         - --source=service
         - --source=ingress
@@ -31,12 +31,6 @@ spec:
         - --registry=txt
         - --txt-owner-id=ceng-eks-test
 ---
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: external-dns
-  namespace: kube-system
----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -46,6 +40,7 @@ rules:
     - ""
   resources:
     - services
+    - endpoints
     - pods
     - nodes
   verbs:
@@ -54,6 +49,7 @@ rules:
     - list
 - apiGroups:
     - extensions
+    - networking.k8s.io
   resources:
     - ingresses
   verbs:
