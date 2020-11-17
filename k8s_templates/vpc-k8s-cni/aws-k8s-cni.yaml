@@ -195,7 +195,7 @@
       "initContainers":
       - "env":
         - "name": "DISABLE_TCP_EARLY_DEMUX"
-          "value": "false"
+          "value": "true"
         "image": "602401143452.dkr.ecr.eu-west-1.amazonaws.com/amazon-k8s-cni-init:v1.7.5"
         "imagePullPolicy": "Always"
         "name": "aws-vpc-cni-init"
