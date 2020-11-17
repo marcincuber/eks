@@ -21,7 +21,7 @@ resource "aws_security_group_rule" "vpc_endpoint_eks_cluster_sg" {
 #####
 module "kms-eks" {
   source  = "umotif-public/kms/aws"
-  version = "1.0.0"
+  version = "1.0.2"
 
   alias_name = local.name_prefix
 }
@@ -90,6 +90,11 @@ resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSClusterPolicy" {
 
 resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSServicePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
+  role       = aws_iam_role.cluster.name
+}
+      
+resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSVPCResourceController" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
   role       = aws_iam_role.cluster.name
 }
 
