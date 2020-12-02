@@ -1,6 +1,6 @@
 module "eks-node-group-a" {
   source  = "umotif-public/eks-node-group/aws"
-  version = "~> 3.0"
+  version = "~> 3.1"
 
   count = var.enable_managed_workers ? 1 : 0
   
@@ -29,7 +29,7 @@ module "eks-node-group-a" {
 
 module "eks-node-group-b" {
   source  = "umotif-public/eks-node-group/aws"
-  version = "~> 3.0"
+  version = "~> 3.1"
 
   count = var.enable_managed_workers ? 1 : 0
   
@@ -58,7 +58,7 @@ module "eks-node-group-b" {
 
 module "eks-node-group-c" {
   source  = "umotif-public/eks-node-group/aws"
-  version = "~> 3.0"
+  version = "~> 3.1"
 
   count = var.enable_managed_workers ? 1 : 0
   
