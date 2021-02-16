@@ -8,6 +8,12 @@ data "aws_ssm_parameter" "eks_optimized_ami_id" {
   with_decryption = true
 }
 
+data "tls_certificate" "cluster" {
+  count = var.create_cluster ? 1 : 0
+
+  url = aws_eks_cluster.cluster[0].identity.0.oidc.0.issuer
+}
+
 # Fetch OIDC provider thumbprint for root CA
 data "external" "thumbprint" {
   program = ["./scripts/oidc-thumbprint.sh", data.aws_region.current.name]
