@@ -20,15 +20,21 @@ spec:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: kubernetes.io/os
-                operator: In
-                values:
-                - linux
-              - key: kubernetes.io/arch
-                operator: In
-                values:
-                - amd64
+              - matchExpressions:
+                - key: "kubernetes.io/os"
+                  operator: In
+                  values:
+                    - linux
+                - key: "kubernetes.io/arch"
+                  operator: In
+                  values:
+                    - amd64
+                    - arm64
+                    - arm
+                - key: "eks.amazonaws.com/compute-type"
+                  operator: NotIn
+                  values:
+                    - fargate
       containers:
       - env:
         - name: NODE_NAME
@@ -59,9 +65,11 @@ spec:
           value: "120"
         - name: POD_TERMINATION_GRACE_PERIOD
           value: "120"
+        - name: WEBHOOK_URL
+          value: ""
         - name: JSON_LOGGING
           value: "true"
-        image: amazon/aws-node-termination-handler:v1.6.1
+        image: public.ecr.aws/aws-ec2/aws-node-termination-handler:v1.12.0
         imagePullPolicy: IfNotPresent
         volumeMounts:
           - name: "uptime"
@@ -75,7 +83,11 @@ spec:
             cpu: 50m
             memory: 64Mi
         securityContext:
-          privileged: true
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
+          allowPrivilegeEscalation: false
       volumes:
         - name: "uptime"
           hostPath:
