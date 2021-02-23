@@ -14,11 +14,24 @@ data "tls_certificate" "cluster" {
   url = aws_eks_cluster.cluster[0].identity.0.oidc.0.issuer
 }
 
-# Fetch OIDC provider thumbprint for root CA
-data "external" "thumbprint" {
-  program = ["./scripts/oidc-thumbprint.sh", data.aws_region.current.name]
+data "aws_iam_policy_document" "managed_workers_role_assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = var.aws_partition == "china" ? ["ec2.amazonaws.com.cn"] : ["ec2.amazonaws.com"]
+    }
+  }
 }
 
-# data "aws_eks_cluster_auth" "cluster_auth" {
-#   name = aws_eks_cluster.cluster[0].id
-# }
+data "aws_iam_policy_document" "worker_node_role_assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = var.aws_partition == "china" ? ["ec2.amazonaws.com.cn"] : ["ec2.amazonaws.com"]
+    }
+  }
+}

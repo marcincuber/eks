@@ -84,19 +84,20 @@ POLICY
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSClusterPolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  policy_arn = var.aws_partition == "china" ? "arn:aws-cn:iam::aws:policy/AmazonEKSClusterPolicy" : "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.cluster.name
 }
 
 resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSServicePolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
+  policy_arn = var.aws_partition == "china" ? "arn:aws-cn:iam::aws:policy/AmazonEKSServicePolicy" : "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
   role       = aws_iam_role.cluster.name
 }
-      
+
 resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSVPCResourceController" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
+  policy_arn = var.aws_partition == "china" ? "arn:aws-cn:iam::aws:policy/AmazonEKSVPCResourceController" : "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
   role       = aws_iam_role.cluster.name
 }
+
 
 #####
 # Outputs

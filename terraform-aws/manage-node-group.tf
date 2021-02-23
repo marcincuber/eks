@@ -1,9 +1,8 @@
 module "eks-node-group-a" {
   source  = "umotif-public/eks-node-group/aws"
-  version = "~> 3.1"
+  version = "~> 3.1.0"
 
-  count = var.enable_managed_workers ? 1 : 0
-  
+  count           = var.enable_managed_workers ? 1 : 0
   create_iam_role = false
 
   cluster_name  = var.create_cluster ? aws_eks_cluster.cluster[0].name : null
@@ -12,16 +11,17 @@ module "eks-node-group-a" {
 
   desired_size = 1
   min_size     = 1
-  max_size     = 1
+  max_size     = 3
 
-  instance_types = ["t3.large"]
+  instance_types = ["m5.2xlarge", "m5d.2xlarge", "m5a.2xlarge"]
+
+  capacity_type = "SPOT"
 
   ec2_ssh_key               = var.ssh_key_name
   source_security_group_ids = [module.bastion.security_group_id]
 
   kubernetes_labels = {
-    lifecycle = "OnDemand"
-    az        = "eu-west-1a"
+    lifecycle = "Ec2Spot"
   }
 
   tags = var.tags
@@ -29,10 +29,9 @@ module "eks-node-group-a" {
 
 module "eks-node-group-b" {
   source  = "umotif-public/eks-node-group/aws"
-  version = "~> 3.1"
+  version = "~> 3.1.0"
 
-  count = var.enable_managed_workers ? 1 : 0
-  
+  count           = var.enable_managed_workers ? 1 : 0
   create_iam_role = false
 
   cluster_name  = var.create_cluster ? aws_eks_cluster.cluster[0].name : null
@@ -41,43 +40,17 @@ module "eks-node-group-b" {
 
   desired_size = 1
   min_size     = 1
-  max_size     = 1
+  max_size     = 3
 
-  instance_types = ["t2.large"]
+  instance_types = ["m5.2xlarge", "m5d.2xlarge", "m5a.2xlarge"]
 
-  ec2_ssh_key               = var.ssh_key_name
-  source_security_group_ids = [module.bastion.security_group_id]
-
-  kubernetes_labels = {
-    lifecycle = "OnDemand"
-    az        = "eu-west-1b"
-  }
-
-  tags = var.tags
-}
-
-module "eks-node-group-c" {
-  source  = "umotif-public/eks-node-group/aws"
-  version = "~> 3.1"
-
-  count = var.enable_managed_workers ? 1 : 0
-  
-  create_iam_role = false
-
-  cluster_name  = var.create_cluster ? aws_eks_cluster.cluster[0].name : null
-  node_role_arn = var.enable_managed_workers ? aws_iam_role.managed_workers[0].arn : 0
-  subnet_ids    = [module.vpc.private_subnets[2]]
-
-  desired_size = 1
-  min_size     = 1
-  max_size     = 1
+  capacity_type = "SPOT"
 
   ec2_ssh_key               = var.ssh_key_name
   source_security_group_ids = [module.bastion.security_group_id]
 
   kubernetes_labels = {
-    lifecycle = "OnDemand"
-    az        = "eu-west-1c"
+    lifecycle = "Ec2Spot"
   }
 
   tags = var.tags
@@ -88,36 +61,23 @@ resource "aws_iam_role" "managed_workers" {
 
   name = "${local.name_prefix}-managed-worker-node"
 
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Effect": "Allow"
-    }
-  ]
-}
-EOF
+  assume_role_policy = data.aws_iam_policy_document.managed_workers_role_assume_role_policy.json
 }
 
 resource "aws_iam_role_policy_attachment" "eks-AmazonEKSWorkerNodePolicy" {
   count      = var.enable_managed_workers && var.create_cluster ? 1 : 0
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+  policy_arn = var.aws_partition == "china" ? "arn:aws-cn:iam::aws:policy/AmazonEKSWorkerNodePolicy" : "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.managed_workers[0].name
 }
 
 resource "aws_iam_role_policy_attachment" "eks-AmazonEKS_CNI_Policy" {
   count      = var.enable_managed_workers && var.create_cluster ? 1 : 0
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  policy_arn = var.aws_partition == "china" ? "arn:aws-cn:iam::aws:policy/AmazonEKS_CNI_Policy" : "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
   role       = aws_iam_role.managed_workers[0].name
 }
 
 resource "aws_iam_role_policy_attachment" "eks-AmazonEC2ContainerRegistryReadOnly" {
   count      = var.enable_managed_workers && var.create_cluster ? 1 : 0
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  policy_arn = var.aws_partition == "china" ? "arn:aws-cn:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly" : "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.managed_workers[0].name
 }

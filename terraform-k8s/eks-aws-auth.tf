@@ -1,4 +1,6 @@
 resource "kubernetes_config_map" "aws_auth_configmap" {
+  count = var.aws_partition == "public" ? 1 : 0
+
   metadata {
     name      = "aws-auth"
     namespace = "kube-system"
@@ -18,6 +20,37 @@ resource "kubernetes_config_map" "aws_auth_configmap" {
 - rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/Okta_Developer
   username: Okta_Developer
 - rolearn: arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.cluster_name}-node-drainer-role
+  username: lambda-node-drainer
+YAML
+  }
+
+  lifecycle {
+    ignore_changes = [data, metadata[0].annotations, metadata[0].labels]
+  }
+}
+
+resource "kubernetes_config_map" "aws_auth_configmap_china" {
+  count = var.aws_partition == "china" ? 1 : 0
+
+  metadata {
+    name      = "aws-auth"
+    namespace = "kube-system"
+  }
+
+  data = {
+    mapRoles = <<YAML
+- rolearn: arn:aws-cn:iam::${data.aws_caller_identity.current.account_id}:role/${var.cluster_name}-worker-node
+  username: system:node:{{EC2PrivateDNSName}}
+  groups:
+    - system:bootstrappers
+    - system:nodes
+- rolearn: arn:aws-cn:iam::${data.aws_caller_identity.current.account_id}:role/Okta_SuperAdmin
+  username: Okta_SuperAdmin
+  groups:
+    - system:masters
+- rolearn: arn:aws-cn:iam::${data.aws_caller_identity.current.account_id}:role/Okta_Developer
+  username: Okta_Developer
+- rolearn: arn:aws-cn:iam::${data.aws_caller_identity.current.account_id}:role/${var.cluster_name}-node-drainer-role
   username: lambda-node-drainer
 YAML
   }

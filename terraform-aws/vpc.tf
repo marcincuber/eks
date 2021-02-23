@@ -16,7 +16,7 @@ resource "aws_default_security_group" "default" {
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "2.33.0"
+  version = "2.70.0"
 
   name = "${local.name_prefix}-vpc"
 
@@ -52,14 +52,49 @@ module "vpc" {
       "kubernetes.io/cluster/${local.name_prefix}" = "shared"
     },
   )
+}
 
-  # VPC Endpoint for ECR DKR
-  enable_ecr_dkr_endpoint              = true
-  ecr_dkr_endpoint_private_dns_enabled = true
-  ecr_dkr_endpoint_security_group_ids  = [aws_security_group.vpc_endpoint.id]
+#####
+# VPC endpoints
+#####
+data "aws_vpc_endpoint_service" "s3" {
+  service_type = "Interface"
+  filter {
+    name   = "service-name"
+    values = ["*s3*"]
+  }
+}
 
-  # VPC endpoint for S3
-  enable_s3_endpoint = true
+resource "aws_vpc_endpoint" "s3" {
+  vpc_id            = module.vpc.vpc_id
+  service_name      = data.aws_vpc_endpoint_service.s3.service_name
+  vpc_endpoint_type = "Interface"
+
+  security_group_ids  = [aws_security_group.vpc_endpoint.id]
+  subnet_ids          = module.vpc.private_subnets
+  private_dns_enabled = false
+
+  tags = var.tags
+}
+
+data "aws_vpc_endpoint_service" "ecr_dkr" {
+  service_type = "Interface"
+  filter {
+    name   = "service-name"
+    values = ["*ecr.dkr*"]
+  }
+}
+
+resource "aws_vpc_endpoint" "ecr_dkr" {
+  vpc_id            = module.vpc.vpc_id
+  service_name      = data.aws_vpc_endpoint_service.ecr_dkr.service_name
+  vpc_endpoint_type = "Interface"
+
+  security_group_ids  = [aws_security_group.vpc_endpoint.id]
+  subnet_ids          = module.vpc.private_subnets
+  private_dns_enabled = false
+
+  tags = var.tags
 }
 
 #####
@@ -112,9 +147,9 @@ resource "aws_security_group_rule" "vpc_endpoint_self_ingress" {
 
 module "vpc-flow-logs" {
   source  = "umotif-public/vpc-flow-logs/aws"
-  version = "~> 1.0.1"
+  version = "~> 1.1.2"
 
-  name_prefix = "${local.name_prefix}"
+  name_prefix = local.name_prefix
   vpc_id      = module.vpc.vpc_id
 
   traffic_type = "ALL"

@@ -128,11 +128,11 @@ resource "aws_iam_role_policy_attachment" "node_drainer_attach" {
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_basic_execution_attach" {
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+  policy_arn = var.aws_partition == "china" ? "arn:aws-cn:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole" : "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
   role       = aws_iam_role.node_drainer.name
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_vpc_access_execution_attach" {
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+  policy_arn = var.aws_partition == "china" ? "arn:aws-cn:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole" : "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
   role       = aws_iam_role.node_drainer.name
 }

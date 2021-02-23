@@ -153,20 +153,7 @@ resource "aws_cloudformation_stack" "spot_worker" {
 resource "aws_iam_role" "worker_node" {
   name = "${local.name_prefix}-worker-node"
 
-  assume_role_policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-POLICY
+  assume_role_policy = data.aws_iam_policy_document.worker_node_role_assume_role_policy.json
 
   tags = var.tags
 }
@@ -186,17 +173,17 @@ resource "aws_iam_policy" "worker_node_custom_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "node-AmazonEKSWorkerNodePolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+  policy_arn = var.aws_partition == "china" ? "arn:aws-cn:iam::aws:policy/AmazonEKSWorkerNodePolicy" : "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.worker_node.name
 }
 
 resource "aws_iam_role_policy_attachment" "node-AmazonEC2ContainerRegistryReadOnly" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  policy_arn = var.aws_partition == "china" ? "arn:aws-cn:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly" : "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.worker_node.name
 }
 
 resource "aws_iam_role_policy_attachment" "node-AmazonEKSCNIPolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  policy_arn = var.aws_partition == "china" ? "arn:aws-cn:iam::aws:policy/AmazonEKS_CNI_Policy" : "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
   role       = aws_iam_role.worker_node.name
 }
 

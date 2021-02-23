@@ -147,7 +147,7 @@ resource "aws_iam_role" "cloudwatch_agent" {
 resource "aws_iam_role_policy_attachment" "cloudwatch_agent_CloudWatchAgentServerPolicy" {
   count = var.create_cluster ? 1 : 0
 
-  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+  policy_arn = var.aws_partition == "china" ? "arn:aws-cn:iam::aws:policy/CloudWatchAgentServerPolicy" : "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
   role       = aws_iam_role.cloudwatch_agent[0].name
 }
 

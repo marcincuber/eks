@@ -1,12 +1,10 @@
 # EKS
 
-Implementation of EKS using terraform and cloudformation. Fully functional templates to deploy your VPC and kubernetes clusters together with all the essential tags. Also, worker nodes are part of ASG which consists of spot and on-demand instances.
+Implementation of EKS setup using `Terraform` and `Cloudformation`. Fully functional templates to deploy your `VPC` and `Kubernetes clusters` together with all the essential tags and addons. Also, worker nodes are part of AutoScallingGroup which consists of spot and on-demand instances.
 
-## Terraform Configuration
+Templates support deployment to different AWS partitions. I have tested it with `public` and `china` partitions. I am actively using this configuration to run EKS setup in Ireland(eu-west-1), North Virginia(us-east-1) and Beijing(cn-north-1).
 
-In this repo you will find three folders; `terraform`, `terraform-aws`, `terraform-k8s`. Note that `terraform` contains configuration which uses aws and kubernetes providers together this makes upgrades very complicated. For this reason, please use latest configurations which available in `terraform-aws`, `terraform-k8s`. 
-
-### terraform-aws and terraform-k8s
+### terraform-aws and terraform-k8s templates
 
 Latest configuration templates used by me can be found in [terraform-aws](./terraform-aws/) for aws provider and [terraform-k8s](./terraform-k8s/) for kubernetes provider. Once you configure your environment variables in `./terraform-aws/vars` `./terraform-k8s/vars`, you can use makefile commands to run your deployments. Resources that will be created after applying templates:
 
@@ -23,22 +21,19 @@ You will find latest setup of following components:
 1. IAM Roles for service accounts such as aws-node, cluster-autoscaler, alb-ingress-controller, external-secrets (Role arns are used when you deploy kubernetes addons with Service Accounts that make use of OIDC provider)
 1. For spot termination handling use aws-node-termination-handler from [k8s_templates/aws-node-termination-handler](./k8s_templates/aws-node-termination-handler).
 
-### terraform (old)
+## Kubernetes YAML templates
 
-Old configuration templates can be found in [terraform](./terraform/). Ensure to reconfigure your backend as needed together with environment variables.
+All the templates for additional deployments/daemonsets can be found in [k8s_templates](./k8s_templates/).
 
-Once you configure your environment variables in `./terraform/vars`, you can run `make tf-plan-test` or `make tf-apply-test` from `terraform` directory. Resources that will be created after applying templates:
-
-1. VPC with public/private subnets, enabled flow logs and VPC endpoints ECR 
-1. EKS controlplane
-1. EKS worker nodes in private subnets (spot and ondemnd instances based on variables)
-1. Dynamic basion host
-1. Automatically configure aws-auth configmap for worker nodes to join the cluster
-1. OpenID Connect provider which can be used to assign IAM roles to service accounts in k8s
-1. NodeDrainer lambda which will drain worker nodes during rollingUpdate of the nodes (This is only applicable to spot worker nodes). Node drainer lambda is maintained in https://github.com/marcincuber/tf-k8s-node-drainer
-1. IAM Roles for service accounts such as aws-node, cluster-autoscaler, alb-ingress-controller, external-secrets (Role arns are used when you deploy kubernetes addons with Service Accounts that make use of OIDC provider)
+To apply templates simply run `kubectl apply -f .` from a desired folder. Ensure to put in correct Role arn in service accounts configuration. Also, check that environment variables are correct.
 
 ## Docs and other additional resources
+
+Check out my stories on medium if you interested in finding out more on specific topics.
+
+### Amazon EKS upgrade 1.18 to 1.19
+
+[Amazon EKS upgrade journey from 1.18 to 1.19](https://itnext.io/amazon-eks-upgrade-journey-from-1-18-to-1-19-cca82de84333)
 
 ### Amazon EKS upgrade 1.17 to 1.18
 
@@ -51,6 +46,10 @@ Once you configure your environment variables in `./terraform/vars`, you can run
 ### Amazon EKS upgrade 1.15 to 1.16
 
 [Amazon EKS upgrade journey from 1.15 to 1.16](https://itnext.io/amazon-eks-upgrade-journey-from-1-15-to-1-16-4f48c7b6e512)
+
+### EKS + Kube-bench
+
+[Kube-bench implementation with EKS](https://itnext.io/aws-eks-and-kube-bench-a7ae840f0f1)
 
 ### Amazon EKS design, use of spot instances and cluster scaling
 
@@ -81,12 +80,6 @@ Terraform module written by me can be found in -> https://registry.terraform.io/
 ### Gitlab runners on EKS
 
 [Kubernetes GitLab Runners on Amazon EKS](https://medium.com/@marcincuber/kubernetes-gitlab-runners-on-amazon-eks-5ba7f0bff30e)
-
-## Kubernetes templates
-
-All the templates for additional deployments/daemonsets can be found in [k8s_templates](./k8s_templates/).
-
-To apply templates simply run `kubectl apply -f .` from a desired folder. Ensure to put in correct Role arn in service accounts configuration. Also, check that environment variables are correct.
 
 ### Useful resources
 

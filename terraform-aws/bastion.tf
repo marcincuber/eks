@@ -1,8 +1,10 @@
 module "bastion" {
   source  = "umotif-public/bastion/aws"
-  version = "1.0.3"
+  version = "~> 2.0.3"
 
   name_prefix = local.name_prefix
+
+  aws_partition = var.aws_partition
 
   vpc_id         = module.vpc.vpc_id
   public_subnets = flatten(module.vpc.public_subnets)

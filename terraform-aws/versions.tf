@@ -1,17 +1,17 @@
 #####
 # Backend and provider config
 #####
+
 terraform {
-  required_version = ">= 0.13.5"
+  required_version = ">= 0.14.5"
 
   backend "remote" {
     hostname = "app.terraform.io"
   }
-  
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 3.27"
+      version = ">= 3.28"
     }
     random = {
       source  = "hashicorp/random"
@@ -29,6 +29,6 @@ provider "aws" {
     role_arn     = var.aws_role_arn
     session_name = "EKS_deployment_session_${var.tags["Environment"]}"
   }
-  
+
   region = var.region
 }

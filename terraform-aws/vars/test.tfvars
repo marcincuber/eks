@@ -6,15 +6,16 @@ vpc_cidr              = "10.60.0.0/18"
 private_subnets_cidrs = ["10.60.0.0/20", "10.60.16.0/20", "10.60.32.0/20"]
 public_subnets_cidrs  = ["10.60.48.0/22", "10.60.52.0/22", "10.60.56.0/22"]
 
-eks_enabled_log_types = ["api", "audit"]
+eks_enabled_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 
 vpc_single_nat_gateway     = true
 vpc_one_nat_gateway_per_az = false
 
-ssh_key_name                   = "eks-test"
-spot_worker_instance_type      = "m5.large"
-worker_instance_types          = "m5.large,m5d.large,m5a.large,m5ad.large,m5n.large,m5dn.large"
-spot_worker_enable_asg_metrics = "no"
+ssh_key_name                         = "eks-test"
+spot_worker_instance_type            = "m5.large"
+worker_instance_types                = "m5.large,m5d.large,m5a.large,m5ad.large,m5n.large,m5dn.large"
+spot_worker_enable_asg_metrics       = "yes"
+spot_worker_restrict_metadata_access = "yes"
 
 eks_version                        = "1.19" # upgrade controlplane first then update eks_version_latest_ami to the same version
 eks_version_latest_ami             = "1.19"
