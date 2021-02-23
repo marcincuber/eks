@@ -135,7 +135,7 @@ resource "aws_cloudformation_stack" "spot_worker" {
     BootstrapArgumentsForSpot     = "--kubelet-extra-args '--node-labels=lifecycle=Ec2Spot --register-with-taints=spotInstance=true:PreferNoSchedule --system-reserved=\"cpu=250m,memory=0.2Gi,ephemeral-storage=1Gi\" --kube-reserved=\"cpu=250m,memory=1Gi,ephemeral-storage=1Gi\" --eviction-hard=\"memory.available<0.2Gi,nodefs.available<10%\" --event-qps=0 --read-only-port=0'"
   }
 
-  template_body = file("cfm/worker-node-spot-stack.yaml")
+  template_body = var.aws_partition == "china" ? file("cfm/worker-node-spot-stack-cn.yaml") : file("cfm/worker-node-spot-stack.yaml")
 
   tags = var.tags
 
