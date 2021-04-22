@@ -213,5 +213,6 @@ output "auto_scaling_group_name" {
 }
 
 output "eks_optimized_ami_id" {
-  value = data.aws_ssm_parameter.eks_optimized_ami_id.value
+  value     = data.aws_ssm_parameter.eks_optimized_ami_id.value
+  sensitive = true
 }

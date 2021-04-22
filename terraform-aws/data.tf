@@ -1,6 +1,7 @@
 data "aws_caller_identity" "current" {}
 
 data "aws_region" "current" {}
+data "aws_partition" "current" {}
 
 # Fetch latest ami_id for specified ${var.eks_version}
 data "aws_ssm_parameter" "eks_optimized_ami_id" {

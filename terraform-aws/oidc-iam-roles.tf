@@ -5,17 +5,17 @@
 
 # Used by alb_ingress_controller service account
 
-resource "aws_iam_role" "alb_ingress_controller" {
+resource "aws_iam_role" "load_balancer_controller" {
   count = var.create_cluster ? 1 : 0
 
-  name = "${local.name_prefix}-alb-ingress-controller"
+  name = "${local.name_prefix}-load-balancer-controller"
 
-  assume_role_policy = templatefile("policies/oidc_assume_role_policy.json", { OIDC_ARN = aws_iam_openid_connect_provider.cluster[0].arn, OIDC_URL = replace(aws_iam_openid_connect_provider.cluster[0].url, "https://", ""), NAMESPACE = "kube-system", SA_NAME = "alb-ingress-controller" })
+  assume_role_policy = templatefile("policies/oidc_assume_role_policy.json", { OIDC_ARN = aws_iam_openid_connect_provider.cluster[0].arn, OIDC_URL = replace(aws_iam_openid_connect_provider.cluster[0].url, "https://", ""), NAMESPACE = "kube-system", SA_NAME = "aws-load-balancer-controller" })
 
   tags = merge(
     var.tags,
     {
-      "ServiceAccountName"      = "alb-ingress-controller"
+      "ServiceAccountName"      = "aws-load-balancer-controller"
       "ServiceAccountNameSpace" = "kube-system"
     }
   )
@@ -23,13 +23,13 @@ resource "aws_iam_role" "alb_ingress_controller" {
   depends_on = [aws_iam_openid_connect_provider.cluster]
 }
 
-resource "aws_iam_role_policy" "alb_ingress_controller" {
+resource "aws_iam_role_policy" "load_balancer_controller" {
   count = var.create_cluster ? 1 : 0
 
   name = "CustomPolicy"
-  role = aws_iam_role.alb_ingress_controller[0].id
+  role = aws_iam_role.load_balancer_controller[0].id
 
-  policy = templatefile("policies/alb_ingress_controller_policy.json", {})
+  policy = data.aws_iam_policy_document.load_balancer_controller.json
 }
 
 # Used by cluster_autoscaler service account
@@ -58,7 +58,7 @@ resource "aws_iam_role_policy" "cluster_autoscaler" {
   name = "CustomPolicy"
   role = aws_iam_role.cluster_autoscaler[0].id
 
-  policy = templatefile("policies/cluster_autoscaler_policy.json", {})
+  policy = data.aws_iam_policy_document.cluster_autoscaler.json
 }
 
 # Used by external_secrets service account
@@ -87,11 +87,7 @@ resource "aws_iam_role_policy" "external_secrets" {
   name = "CustomPolicy"
   role = aws_iam_role.external_secrets[0].id
 
-  policy = templatefile("policies/external_secrets_policy.json", {})
-
-  depends_on = [
-    aws_iam_role.external_secrets
-  ]
+  policy = data.aws_iam_policy_document.external_secrets.json
 }
 
 
@@ -121,7 +117,7 @@ resource "aws_iam_role_policy" "external_dns" {
   name = "CustomPolicy"
   role = aws_iam_role.external_dns[0].id
 
-  policy = templatefile("policies/external_dns_policy.json", {})
+  policy = data.aws_iam_policy_document.external_dns.json
 }
 
 # Used by cloudwatch-agent service account
@@ -155,8 +151,8 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_agent_CloudWatchAgentServe
 # Outputs
 #####
 
-output "iam_role_arn_alb_ingress_controller" {
-  value = join("", aws_iam_role.alb_ingress_controller.*.arn)
+output "iam_role_arn_load_balancer_controller" {
+  value = join("", aws_iam_role.load_balancer_controller.*.arn)
 }
 
 output "iam_role_arn_cluster_autoscaler" {
