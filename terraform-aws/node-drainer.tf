@@ -120,6 +120,8 @@ resource "aws_iam_policy" "node_drainer" {
   ]
 }
 EOF
+  
+  tags = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "node_drainer_attach" {
