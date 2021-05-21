@@ -24,6 +24,8 @@ module "kms-eks" {
   version = "1.0.2"
 
   alias_name = local.name_prefix
+  
+  tags = var.tags
 }
 
 resource "aws_eks_cluster" "cluster" {
@@ -60,6 +62,8 @@ resource "aws_eks_cluster" "cluster" {
 resource "aws_cloudwatch_log_group" "cluster" {
   name              = "/aws/eks/${local.name_prefix}/cluster"
   retention_in_days = 7
+  
+  tags = var.tags
 }
 
 resource "aws_iam_role" "cluster" {
