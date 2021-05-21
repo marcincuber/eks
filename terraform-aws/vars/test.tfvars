@@ -17,9 +17,9 @@ worker_instance_types                = "m5.large,m5d.large,m5a.large,m5ad.large,
 spot_worker_enable_asg_metrics       = "yes"
 spot_worker_restrict_metadata_access = "yes"
 
-eks_version                        = "1.19" # upgrade controlplane first then update eks_version_latest_ami to the same version
-eks_version_latest_ami             = "1.19"
-managed_node_group_release_version = "1.19.6-20210208"
+eks_version                        = "1.20" # upgrade controlplane first then update eks_version_latest_ami to the same version
+eks_version_latest_ami             = "1.20"
+managed_node_group_release_version = "1.20.4-20210518"
 
 tags = {
   Terraform         = "true"
