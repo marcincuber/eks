@@ -161,6 +161,8 @@ resource "aws_iam_role" "worker_node" {
 resource "aws_iam_instance_profile" "worker_node" {
   name = "${local.name_prefix}-instance-profile"
   role = aws_iam_role.worker_node.name
+  
+  tags = var.tags
 }
 
 resource "random_id" "iam_policy_suffix" {
