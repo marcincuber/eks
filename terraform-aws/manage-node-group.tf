@@ -62,6 +62,8 @@ resource "aws_iam_role" "managed_workers" {
   name = "${local.name_prefix}-managed-worker-node"
 
   assume_role_policy = data.aws_iam_policy_document.managed_workers_role_assume_role_policy.json
+  
+  tags = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "eks-AmazonEKSWorkerNodePolicy" {
