@@ -154,3 +154,21 @@ variable "aws_partition" {
     error_message = "Argument \"aws_partition\" must be either \"public\" or \"china\"."
   }
 }
+
+variable "create_eks_addons" {
+  type        = bool
+  description = "Enable EKS managed addons creation."
+  default     = true
+}
+
+variable "eks_addon_version_kube_proxy" {
+  type        = string
+  description = "Kube proxy managed EKS addon version."
+  default     = "v1.20.4-eksbuild.2"
+}
+
+variable "eks_addon_version_core_dns" {
+  type        = string
+  description = "Core DNS managed EKS addon version."
+  default     = "v1.8.3-eksbuild.1"
+}
