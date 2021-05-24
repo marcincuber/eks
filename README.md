@@ -20,6 +20,7 @@ You will find latest setup of following components:
 1. NodeDrainer lambda which will drain worker nodes during rollingUpdate of the nodes (This is only applicable to spot worker nodes, managed node groups do not require this lambda). Node drainer lambda is maintained in https://github.com/marcincuber/tf-k8s-node-drainer
 1. IAM Roles for service accounts such as aws-node, cluster-autoscaler, alb-ingress-controller, external-secrets (Role arns are used when you deploy kubernetes addons with Service Accounts that make use of OIDC provider)
 1. For spot termination handling use aws-node-termination-handler from [k8s_templates/aws-node-termination-handler](./k8s_templates/aws-node-termination-handler).
+1. EKS cluster addons
 
 ## Kubernetes YAML templates
 
@@ -30,6 +31,10 @@ To apply templates simply run `kubectl apply -f .` from a desired folder. Ensure
 ## Docs and other additional resources
 
 Check out my stories on medium if you interested in finding out more on specific topics.
+
+### Amazon EKS upgrade 1.19 to 1.20
+
+[Amazon EKS upgrade journey from 1.19 to 1.20](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-19-to-1-20-78c9a7edddb5)
 
 ### Amazon EKS upgrade 1.18 to 1.19
 
