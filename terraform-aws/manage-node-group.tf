@@ -1,6 +1,6 @@
 module "eks-node-group-a" {
   source  = "umotif-public/eks-node-group/aws"
-  version = "~> 3.1.0"
+  version = "~> 4.0.0"
 
   count           = var.enable_managed_workers ? 1 : 0
   create_iam_role = false
@@ -20,7 +20,7 @@ module "eks-node-group-a" {
   ec2_ssh_key               = var.ssh_key_name
   source_security_group_ids = [module.bastion.security_group_id]
 
-  kubernetes_labels = {
+  labels = {
     lifecycle = "Ec2Spot"
   }
 
@@ -29,7 +29,7 @@ module "eks-node-group-a" {
 
 module "eks-node-group-b" {
   source  = "umotif-public/eks-node-group/aws"
-  version = "~> 3.1.0"
+  version = "~> 4.0.0"
 
   count           = var.enable_managed_workers ? 1 : 0
   create_iam_role = false
@@ -49,7 +49,7 @@ module "eks-node-group-b" {
   ec2_ssh_key               = var.ssh_key_name
   source_security_group_ids = [module.bastion.security_group_id]
 
-  kubernetes_labels = {
+  labels = {
     lifecycle = "Ec2Spot"
   }
 
