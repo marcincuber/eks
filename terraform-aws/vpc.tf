@@ -16,7 +16,7 @@ resource "aws_default_security_group" "default" {
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "2.78.0"
+  version = "3.1.0"
 
   name = "${local.name_prefix}-vpc"
 
@@ -44,7 +44,6 @@ module "vpc" {
     "kubernetes.io/role/elb" = "1",
     "mapPublicIpOnLaunch"    = "TRUE"
   }
-
 
   tags = merge(
     var.tags,
