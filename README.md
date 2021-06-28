@@ -52,6 +52,9 @@ Check out my stories on medium if you interested in finding out more on specific
 
 [Amazon EKS upgrade journey from 1.15 to 1.16](https://itnext.io/amazon-eks-upgrade-journey-from-1-15-to-1-16-4f48c7b6e512)
 
+### Amazon EKS Addons
+[Amazon EKS Addons](https://marcincuber.medium.com/amazon-eks-add-ons-implemented-with-terraform-66a49fad4174)
+
 ### EKS + Kube-bench
 
 [Kube-bench implementation with EKS](https://itnext.io/aws-eks-and-kube-bench-a7ae840f0f1)
