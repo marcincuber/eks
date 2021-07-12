@@ -26,7 +26,28 @@ You will find latest setup of following components:
 
 All the templates for additional deployments/daemonsets can be found in [k8s_templates](./k8s_templates/).
 
-To apply templates simply run `kubectl apply -f .` from a desired folder. Ensure to put in correct Role arn in service accounts configuration. Also, check that environment variables are correct.
+To apply templates simply run `kubectl apply -f .` from a desired folder. Ensure to put in correct Role arn in service accounts configuration. Also, check that environment variables are correct. 
+
+You will find templates for the following Kubernetes components:
+
+* ALB ingress controller
+* AWS Load Balancer controller
+* AWS node termination handler
+* Calico
+* Cert Manager
+* Cluster Autoscaler
+* CoreDns
+* Dashboard
+* External-DNS
+* External Secrets
+* Kube Proxy
+* Kube2iam
+* Metrics server
+* NewRelic
+* Reloader
+* Spot Interrupt Handler
+* VPC CNI Plugin
+* Secrets CSI Driver
 
 ## Docs and other additional resources
 
