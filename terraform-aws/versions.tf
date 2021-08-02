@@ -2,7 +2,7 @@
 # Backend and provider config
 #####
 terraform {
-  required_version = ">= 0.15"
+  required_version = ">= 1.0.0"
 
   backend "remote" {
     hostname = "app.terraform.io"
@@ -10,7 +10,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 3.43"
+      version = ">= 3.52"
     }
     random = {
       source  = "hashicorp/random"
