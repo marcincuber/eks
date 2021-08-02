@@ -9,6 +9,7 @@ Metadata:
           default: "EKS Configuration"
         Parameters:
           - ClusterName
+          - ContainerRuntime
           - ClusterControlPlaneSecurityGroup
           - NodeInstanceProfileArn
           - ExistingNodeSecurityGroups
@@ -134,6 +135,14 @@ Parameters:
   ClusterName:
     Description: The cluster name provided when the cluster was created.  If it is incorrect, nodes will not be able to join the cluster.
     Type: String
+  
+  ContainerRuntime:
+    Description: EKS worker nodes runtime. Defaults to dockerd and you can opt-in to containerd runtime.
+    Type: String
+    AllowedValues:
+      - "dockerd"
+      - "containerd"
+    Default: "containerd"
 
   BootstrapArgumentsForOnDemand:
     Description: Arguments to pass to the bootstrap script. See files/bootstrap.sh in https://github.com/awslabs/amazon-eks-ami
@@ -277,9 +286,9 @@ Resources:
             export AWS_DEFAULT_REGION=${AWS::Region}
             ilc=$(aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].InstanceLifecycle' --output text)
             if [ "$ilc" == "spot" ]; then
-              /etc/eks/bootstrap.sh ${ClusterName} ${BootstrapArgumentsForSpot}
+              /etc/eks/bootstrap.sh ${ClusterName} ${BootstrapArgumentsForSpot} --container-runtime ${ContainerRuntime}
             else
-              /etc/eks/bootstrap.sh ${ClusterName} ${BootstrapArgumentsForOnDemand}
+              /etc/eks/bootstrap.sh ${ClusterName} ${BootstrapArgumentsForOnDemand} --container-runtime ${ContainerRuntime}
             fi
             /opt/aws/bin/cfn-signal --exit-code $? \
                      --stack  ${AWS::StackName} \
