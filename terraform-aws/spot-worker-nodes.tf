@@ -130,6 +130,8 @@ resource "aws_cloudformation_stack" "spot_worker" {
     NodeAutoScalingGroupDesiredCapacity = var.desired_number_worker_nodes
     NodeAutoScalingGroupMinSize         = var.min_number_worker_nodes
     NodeAutoScalingGroupMaxSize         = var.max_number_worker_nodes
+      
+    ContainerRuntime = var.container_runtime
 
     BootstrapArgumentsForOnDemand = "--kubelet-extra-args '--node-labels=lifecycle=OnDemand --system-reserved=\"cpu=250m,memory=0.2Gi,ephemeral-storage=1Gi\" --kube-reserved=\"cpu=250m,memory=1Gi,ephemeral-storage=1Gi\" --eviction-hard=\"memory.available<0.2Gi,nodefs.available<10%\" --event-qps=0 --read-only-port=0'"
     BootstrapArgumentsForSpot     = "--kubelet-extra-args '--node-labels=lifecycle=Ec2Spot --register-with-taints=spotInstance=true:PreferNoSchedule --system-reserved=\"cpu=250m,memory=0.2Gi,ephemeral-storage=1Gi\" --kube-reserved=\"cpu=250m,memory=1Gi,ephemeral-storage=1Gi\" --eviction-hard=\"memory.available<0.2Gi,nodefs.available<10%\" --event-qps=0 --read-only-port=0'"
