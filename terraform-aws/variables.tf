@@ -164,11 +164,17 @@ variable "create_eks_addons" {
 variable "eks_addon_version_kube_proxy" {
   type        = string
   description = "Kube proxy managed EKS addon version."
-  default     = "v1.20.4-eksbuild.2"
+  default     = "v1.21.2-eksbuild.2"
 }
 
 variable "eks_addon_version_core_dns" {
   type        = string
   description = "Core DNS managed EKS addon version."
-  default     = "v1.8.3-eksbuild.1"
+  default     = "v1.8.4-eksbuild.1"
+}
+
+variable "container_runtime" {
+  type        = string
+  description = "Container runtime used by EKS worker nodes. Allowed values: `dockerd` and `containerd`."
+  default     = "containerd"
 }
