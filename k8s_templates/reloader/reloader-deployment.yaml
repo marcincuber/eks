@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - env:
-        image: stakater/reloader:v0.0.51
+        image: stakater/reloader:v0.0.104
         resources:
           limits:
             cpu: 50m
