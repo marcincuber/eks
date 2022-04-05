@@ -53,6 +53,10 @@ You will find templates for the following Kubernetes components:
 
 Check out my stories on medium if you interested in finding out more on specific topics.
 
+### Amazon EKS upgrade 1.21 to 1.22
+
+[Amazon EKS upgrade journey from 1.21 to 1.22](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-21-to-1-22-9546da932af6)
+
 ### Amazon EKS upgrade 1.20 to 1.21
 
 [Amazon EKS upgrade journey from 1.20 to 1.21](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-20-to-1-21-caf1475deaa4)
