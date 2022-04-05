@@ -20,8 +20,8 @@ resource "aws_security_group_rule" "vpc_endpoint_eks_cluster_sg" {
 # EKS Cluster
 #####
 module "kms-eks" {
-  source  = "umotif-public/kms/aws"
-  version = "1.0.2"
+  source = "native-cube/kms/aws"
+  version = "~> 1.0.0"
 
   alias_name = local.name_prefix
   
