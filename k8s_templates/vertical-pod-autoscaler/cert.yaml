@@ -3,6 +3,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: vpa-selfsigned-cert
+  namespace: kube-system
 spec:
   commonName: vpa-webhook.kube-system.svc
   dnsNames:
