@@ -46,6 +46,7 @@ You will find templates for the following Kubernetes components:
 * NewRelic
 * Reloader
 * Spot Interrupt Handler
+* Vertical Pod Autoscaler with cert-manager certificate
 * VPC CNI Plugin
 * Secrets CSI Driver
 
