@@ -50,9 +50,18 @@ You will find templates for the following Kubernetes components:
 * VPC CNI Plugin
 * Secrets CSI Driver
 
+### Kubernetes components deployed using Helm
+
+You can find even more K8s components at https://github.com/marcincuber/kubernetes-fluxv2
+I have built this repository to show how to develop a successful configuration for your cluster using GitOps FluxV2 and Helm.
+
 ## Docs and other additional resources
 
 Check out my stories on medium if you interested in finding out more on specific topics.
+
+### Amazon EKS upgrade 1.22 to 1.23
+
+[Amazon EKS upgrade journey from 1.22 to 1.23](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-22-to-1-23-3b9eaa8c57de)
 
 ### Amazon EKS upgrade 1.21 to 1.22
 
