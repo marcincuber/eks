@@ -16,7 +16,7 @@ resource "aws_default_security_group" "default" {
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "3.14.0"
+  version = "3.14.2"
 
   name = "${local.name_prefix}-vpc"
 
