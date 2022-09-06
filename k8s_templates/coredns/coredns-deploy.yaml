@@ -8,6 +8,7 @@ metadata:
   name: coredns
   namespace: kube-system
 spec:
+  replicas: 2
   selector:
     matchLabels:
       eks.amazonaws.com/component: coredns
@@ -19,8 +20,7 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      annotations:
-        eks.amazonaws.com/compute-type: ec2
+      creationTimestamp: null
       labels:
         eks.amazonaws.com/component: coredns
         k8s-app: kube-dns
@@ -38,6 +38,7 @@ spec:
                 operator: In
                 values:
                 - amd64
+                - arm64
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - podAffinityTerm:
@@ -53,7 +54,7 @@ spec:
       - args:
         - -conf
         - /etc/coredns/Corefile
-        image: 602401143452.dkr.ecr.eu-west-1.amazonaws.com/eks/coredns:v1.8.4-eksbuild.1
+        image: 602401143452.dkr.ecr.eu-west-2.amazonaws.com/eks/coredns:v1.8.7-eksbuild.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 5
