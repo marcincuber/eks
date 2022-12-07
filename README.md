@@ -59,6 +59,10 @@ I have built this repository to show how to develop a successful configuration f
 
 Check out my stories on medium if you interested in finding out more on specific topics.
 
+### Amazon EKS upgrade 1.23 to 1.24
+
+[Amazon EKS upgrade journey from 1.23 to 1.24](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-23-to-1-24-b7b0b1afa5b4)
+
 ### Amazon EKS upgrade 1.22 to 1.23
 
 [Amazon EKS upgrade journey from 1.22 to 1.23](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-22-to-1-23-3b9eaa8c57de)
