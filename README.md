@@ -40,6 +40,8 @@ You will find templates for the following Kubernetes components:
 * Dashboard
 * External-DNS
 * External Secrets
+* External Secrets Operator (helm chart using fluxv2)
+* Karpenter (helm chart using fluxv2)
 * Kube Proxy
 * Kube2iam
 * Metrics server
