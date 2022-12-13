@@ -173,6 +173,19 @@ variable "eks_addon_version_core_dns" {
   default     = "v1.8.7-eksbuild.3"
 }
 
+variable "eks_addon_version_ebs_csi_driver" {
+  type        = string
+  description = "AWS ebs csi driver managed EKS addon version."
+  default     = "v1.13.0-eksbuild.3"
+}
+
+variable "eks_addon_version_kubecost" {
+  type        = string
+  description = "KubeCost EKS addon version."
+  default     = "v1.98.0-eksbuild.1"
+}
+
+
 variable "container_runtime" {
   type        = string
   description = "Container runtime used by EKS worker nodes. Allowed values: `dockerd` and `containerd`."

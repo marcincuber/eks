@@ -20,11 +20,11 @@ resource "aws_security_group_rule" "vpc_endpoint_eks_cluster_sg" {
 # EKS Cluster
 #####
 module "kms-eks" {
-  source = "native-cube/kms/aws"
+  source  = "native-cube/kms/aws"
   version = "~> 1.0.0"
 
   alias_name = local.name_prefix
-  
+
   tags = var.tags
 }
 
@@ -62,7 +62,7 @@ resource "aws_eks_cluster" "cluster" {
 resource "aws_cloudwatch_log_group" "cluster" {
   name              = "/aws/eks/${local.name_prefix}/cluster"
   retention_in_days = 7
-  
+
   tags = var.tags
 }
 
@@ -101,7 +101,6 @@ resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSVPCResourceControlle
   policy_arn = var.aws_partition == "china" ? "arn:aws-cn:iam::aws:policy/AmazonEKSVPCResourceController" : "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
   role       = aws_iam_role.cluster.name
 }
-
 
 #####
 # Outputs

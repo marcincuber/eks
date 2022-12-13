@@ -16,7 +16,7 @@ resource "aws_default_security_group" "default" {
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "3.14.2"
+  version = "3.18.1"
 
   name = "${local.name_prefix}-vpc"
 
@@ -145,7 +145,7 @@ resource "aws_security_group_rule" "vpc_endpoint_self_ingress" {
 #####
 
 module "vpc-flow-logs" {
-  source = "native-cube/vpc-flow-logs/aws"
+  source  = "native-cube/vpc-flow-logs/aws"
   version = "~> 1.0.0"
 
   name_prefix = local.name_prefix

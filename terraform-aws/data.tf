@@ -36,3 +36,50 @@ data "aws_iam_policy_document" "worker_node_role_assume_role_policy" {
     }
   }
 }
+
+data "aws_iam_policy_document" "eks_node_karpenter_assume_role_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "karpenter_controller" {
+  count = var.create_cluster ? 1 : 0
+
+  statement {
+    actions = [
+      "ec2:CreateLaunchTemplate",
+      "ec2:CreateFleet",
+      "ec2:RunInstances",
+      "ec2:CreateTags",
+      "ec2:TerminateInstances",
+      "ec2:DeleteLaunchTemplate",
+      "ec2:DescribeLaunchTemplates",
+      "ec2:DescribeInstances",
+      "ec2:DescribeSecurityGroups",
+      "ec2:DescribeSubnets",
+      "ec2:DescribeImages",
+      "ec2:DescribeInstanceTypes",
+      "ec2:DescribeInstanceTypeOfferings",
+      "ec2:DescribeAvailabilityZones",
+      "ec2:DescribeSpotPriceHistory",
+      "ssm:GetParameter",
+      "pricing:GetProducts"
+    ]
+
+    resources = ["*"]
+  }
+
+  statement {
+    actions = [
+      "iam:PassRole",
+    ]
+
+    resources = [aws_iam_role.eks_node_karpenter[0].arn]
+  }
+}

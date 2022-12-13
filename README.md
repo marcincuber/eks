@@ -13,6 +13,7 @@ You will find latest setup of following components:
 1. VPC with public/private subnets, enabled flow logs and VPC endpoints for ECR and S3
 1. EKS controlplane
 1. EKS worker nodes in private subnets (spot and ondemnd instances based on variables)
+1. Karpenter configuration for nodes
 1. Option to used Managed Node Groups
 1. Dynamic basion host
 1. Automatically configure aws-auth configmap for worker nodes to join the cluster
