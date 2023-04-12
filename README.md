@@ -62,6 +62,10 @@ I have built this repository to show how to develop a successful configuration f
 
 Check out my stories on medium if you interested in finding out more on specific topics.
 
+### Amazon EKS upgrade 1.25 to 1.26
+
+[Amazon EKS upgrade journey from 1.25 to 1.26](https://medium.com/@marcincuber/amazon-eks-upgrade-journey-from-1-25-to-1-26-electrifying-79b287084eef)
+
 ### Amazon EKS upgrade 1.24 to 1.25
 
 [Amazon EKS upgrade journey from 1.24 to 1.25](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-24-to-1-25-e1bcccc2f384)
@@ -81,26 +85,6 @@ Check out my stories on medium if you interested in finding out more on specific
 ### Amazon EKS upgrade 1.20 to 1.21
 
 [Amazon EKS upgrade journey from 1.20 to 1.21](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-20-to-1-21-caf1475deaa4)
-
-### Amazon EKS upgrade 1.19 to 1.20
-
-[Amazon EKS upgrade journey from 1.19 to 1.20](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-19-to-1-20-78c9a7edddb5)
-
-### Amazon EKS upgrade 1.18 to 1.19
-
-[Amazon EKS upgrade journey from 1.18 to 1.19](https://itnext.io/amazon-eks-upgrade-journey-from-1-18-to-1-19-cca82de84333)
-
-### Amazon EKS upgrade 1.17 to 1.18
-
-[Amazon EKS upgrade journey from 1.17 to 1.18](https://medium.com/@marcincuber/amazon-eks-upgrade-journey-from-1-17-to-1-18-e35e134ca898)
-
-### Amazon EKS upgrade 1.16 to 1.17
-
-[Amazon EKS upgrade journey from 1.16 to 1.17](https://medium.com/@marcincuber/amazon-eks-upgrade-journey-from-1-16-to-1-17-cb9e88191165)
-
-### Amazon EKS upgrade 1.15 to 1.16
-
-[Amazon EKS upgrade journey from 1.15 to 1.16](https://itnext.io/amazon-eks-upgrade-journey-from-1-15-to-1-16-4f48c7b6e512)
 
 ### Amazon EKS Addons
 [Amazon EKS Addons](https://marcincuber.medium.com/amazon-eks-add-ons-implemented-with-terraform-66a49fad4174)
