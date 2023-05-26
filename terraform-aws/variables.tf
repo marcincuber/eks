@@ -164,19 +164,19 @@ variable "create_eks_addons" {
 variable "eks_addon_version_kube_proxy" {
   type        = string
   description = "Kube proxy managed EKS addon version."
-  default     = "v1.25.6-eksbuild.1"
+  default     = "v1.27.1-eksbuild.1"
 }
 
 variable "eks_addon_version_core_dns" {
   type        = string
   description = "Core DNS managed EKS addon version."
-  default     = "v1.9.3-eksbuild.2"
+  default     = "v1.10.1-eksbuild.1"
 }
 
 variable "eks_addon_version_ebs_csi_driver" {
   type        = string
   description = "AWS ebs csi driver managed EKS addon version."
-  default     = "v1.16.0-eksbuild.1"
+  default     = "v1.19.0-eksbuild.1"
 }
 
 variable "eks_addon_version_kubecost" {
