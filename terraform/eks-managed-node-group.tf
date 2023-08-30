@@ -41,7 +41,7 @@ resource "aws_launch_template" "cluster" {
     CLUSTER_NAME   = aws_eks_cluster.cluster.name,
     B64_CLUSTER_CA = aws_eks_cluster.cluster.certificate_authority[0].data,
     API_SERVER_URL = aws_eks_cluster.cluster.endpoint,
-    DNS_CLUSTER_IP = var.eks_dns_cluster_ip
+    DNS_CLUSTER_IP = local.eks_dns_cluster_ip
   }))
 }
 

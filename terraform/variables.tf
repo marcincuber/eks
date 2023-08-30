@@ -1,15 +1,8 @@
 #####
-# General
-#####
-variable "environment" {
-  type        = string
-  description = "Environment name"
-}
-
-#####
 # VPC
 #####
 variable "vpc_cidr" {
+  type        = string
   description = "Amazon Virtual Private Cloud Classless Inter-Domain Routing range."
 }
 
