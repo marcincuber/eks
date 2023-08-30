@@ -1,19 +1,35 @@
 # EKS
 
-Implementation of EKS setup using `Terraform`.
+Implementation of EKS setup using `Terraform` and `Cloudformation`. Fully functional templates to deploy your `VPC` and `Kubernetes clusters` together with all the essential tags and addons. Also, worker nodes are part of AutoScallingGroup which consists of spot and on-demand instances.
 
 Templates support deployment to different AWS partitions. I have tested it with `public` and `china` partitions. I am actively using this configuration to run EKS setup in Ireland(eu-west-1), North Virginia(us-east-1) and Beijing(cn-north-1).
 
-### Terraform
+### terraform-aws and terraform-k8s templates
 
+Latest configuration templates used by me can be found in [terraform-aws](./terraform-aws/) for aws provider and [terraform-k8s](./terraform-k8s/) for kubernetes provider. Once you configure your environment variables in `./terraform-aws/vars` `./terraform-k8s/vars`, you can use makefile commands to run your deployments. Resources that will be created after applying templates:
 
+You will find latest setup of following components:
 
-## Kubernetes addons and operators
+1. VPC with public/private subnets, enabled flow logs and VPC endpoints for ECR and S3
+1. EKS controlplane
+1. EKS worker nodes in private subnets (spot and ondemnd instances based on variables)
+1. Karpenter configuration for nodes
+1. Option to used Managed Node Groups
+1. Dynamic basion host
+1. Automatically configure aws-auth configmap for worker nodes to join the cluster
+1. OpenID Connect provider which can be used to assign IAM roles to service accounts in k8s
+1. NodeDrainer lambda which will drain worker nodes during rollingUpdate of the nodes (This is only applicable to spot worker nodes, managed node groups do not require this lambda). Node drainer lambda is maintained in https://github.com/marcincuber/tf-k8s-node-drainer
+1. IAM Roles for service accounts such as aws-node, cluster-autoscaler, alb-ingress-controller, external-secrets (Role arns are used when you deploy kubernetes addons with Service Accounts that make use of OIDC provider)
+1. For spot termination handling use aws-node-termination-handler from [k8s_templates/aws-node-termination-handler](./k8s_templates/aws-node-termination-handler).
+1. EKS cluster add-ons (CoreDNS + kube-proxy)
 
-I am utilising Flux2 to deploy all additional configurations. You can find them at https://github.com/marcincuber/kubernetes-fluxv2
-I have built this as a separate repository to show how to develop a successful configuration for your cluster using GitOps FluxV2 and Helm.
+## Kubernetes YAML templates
 
-You will find configurations for:
+All the templates for additional deployments/daemonsets can be found in [k8s_templates](./k8s_templates/).
+
+To apply templates simply run `kubectl apply -f .` from a desired folder. Ensure to put in correct Role arn in service accounts configuration. Also, check that environment variables are correct. 
+
+You will find templates for the following Kubernetes components:
 
 * ALB ingress controller
 * AWS Load Balancer controller
@@ -21,14 +37,26 @@ You will find configurations for:
 * Calico
 * Cert Manager
 * Cluster Autoscaler
+* CoreDns
 * Dashboard
 * External-DNS
-* External Secrets Operator
+* External Secrets
+* External Secrets Operator (helm chart using fluxv2)
+* Karpenter (helm chart using fluxv2)
+* Kube Proxy
+* Kube2iam
 * Metrics server
+* NewRelic
 * Reloader
+* Spot Interrupt Handler
+* Vertical Pod Autoscaler with cert-manager certificate
 * VPC CNI Plugin
-* EBS CSI Driver
-* and more :)
+* Secrets CSI Driver
+
+### Kubernetes components deployed using Helm
+
+You can find even more K8s components at https://github.com/marcincuber/kubernetes-fluxv2
+I have built this repository to show how to develop a successful configuration for your cluster using GitOps FluxV2 and Helm.
 
 ## Docs and other additional resources
 
