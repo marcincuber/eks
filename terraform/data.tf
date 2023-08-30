@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "cluster_role_assume_role_policy" {
 
     principals {
       type        = "Service"
-      identifiers = ["eks.amazonaws.com"]
+      identifiers = ["eks.${data.aws_partition.current.dns_suffix}"]
     }
   }
 }
@@ -29,7 +29,7 @@ data "aws_iam_policy_document" "eks_node_group_assume_role_policy" {
 
     principals {
       type        = "Service"
-      identifiers = ["ec2.amazonaws.com"]
+      identifiers = ["ec2.${data.aws_partition.current.dns_suffix}"]
     }
   }
 }
@@ -40,7 +40,7 @@ data "aws_iam_policy_document" "eks_node_karpenter_assume_role_policy" {
 
     principals {
       type        = "Service"
-      identifiers = ["ec2.amazonaws.com"]
+      identifiers = ["ec2.${data.aws_partition.current.dns_suffix}"]
     }
   }
 }
@@ -55,7 +55,7 @@ data "aws_iam_policy_document" "kms_policy_cluster" {
 
     principals {
       type        = "AWS"
-      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
+      identifiers = ["arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:root"]
     }
   }
 
@@ -72,7 +72,7 @@ data "aws_iam_policy_document" "kms_policy_cluster" {
 
     principals {
       type        = "Service"
-      identifiers = ["logs.${data.aws_region.current.name}.amazonaws.com"]
+      identifiers = ["logs.${data.aws_region.current.name}.${data.aws_partition.current.dns_suffix}"]
     }
   }
 
@@ -91,7 +91,7 @@ data "aws_iam_policy_document" "kms_policy_cluster" {
 
     principals {
       type        = "Service"
-      identifiers = ["events.amazonaws.com"]
+      identifiers = ["events.${data.aws_partition.current.dns_suffix}"]
     }
   }
 }

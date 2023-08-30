@@ -1,7 +1,7 @@
 resource "aws_cloudwatch_event_rule" "karpenter_spot_interruption" {
   for_each = { for k, v in local.events : k => v }
 
-  name_prefix   = "${var.name_prefix}-${each.value.name}-${var.environment}-"
+  name_prefix   = "${var.name_prefix}-"
   description   = each.value.description
   event_pattern = jsonencode(each.value.event_pattern)
 }

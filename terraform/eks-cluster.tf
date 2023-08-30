@@ -2,7 +2,7 @@
 # EKS Cluster
 #####
 resource "aws_eks_cluster" "cluster" {
-  name = local.eks_cluster_name
+  name = var.name_prefix
 
   version  = var.eks_version
   role_arn = aws_iam_role.cluster.arn
@@ -10,7 +10,7 @@ resource "aws_eks_cluster" "cluster" {
   enabled_cluster_log_types = var.eks_enabled_log_types
 
   vpc_config {
-    subnet_ids              = data.aws_subnets.private.ids
+    subnet_ids              = module.vpc_eks.private_subnets
     security_group_ids      = []
     endpoint_private_access = "true"
     endpoint_public_access  = "true"

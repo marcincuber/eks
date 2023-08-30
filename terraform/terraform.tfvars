@@ -1,11 +1,11 @@
 name_prefix = "eks-eu-dev"
 
-vpc_cidr              = "10.60.0.0/18"
-private_subnets_cidrs = ["10.60.0.0/20", "10.60.16.0/20", "10.60.32.0/20"]
-public_subnets_cidrs  = ["10.60.48.0/22", "10.60.52.0/22", "10.60.56.0/22"]
+vpc_cidr              = "10.100.0.0/18"
+private_subnets_cidrs = ["10.100.0.0/20", "10.100.16.0/20", "10.100.32.0/20"]
+public_subnets_cidrs  = ["10.100.48.0/22", "10.100.52.0/22", "10.100.56.0/22"]
 
 eks_enabled_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
-eks_service_ipv4_cidr = "10.160.0.0/16"
+eks_service_ipv4_cidr = "10.190.0.0/16"
 
 instance_types = ["m6i.2xlarge"]
 

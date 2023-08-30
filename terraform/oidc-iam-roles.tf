@@ -1,6 +1,6 @@
 # Used by Load Balancer Controller service account
 resource "aws_iam_role" "load_balancer_controller" {
-  name = "${local.name_prefix_env}-load-balancer-controller"
+  name = "${var.name_prefix}-load-balancer-controller"
 
   description = "Allow load-balancer-controller to manage ALBs and NLBs."
 
@@ -11,11 +11,12 @@ resource "aws_iam_role" "load_balancer_controller" {
     SA_NAME   = "aws-load-balancer-controller"
   })
 
+  force_detach_policies = true
+
   tags = {
     "ServiceAccountName"      = "aws-load-balancer-controller"
     "ServiceAccountNamespace" = "kube-system"
   }
-  force_detach_policies = true
 }
 
 resource "aws_iam_role_policy" "load_balancer_controller" {
@@ -27,7 +28,7 @@ resource "aws_iam_role_policy" "load_balancer_controller" {
 
 # Used by external-dns service account
 resource "aws_iam_role" "external_dns" {
-  name = "${local.name_prefix_env}-external-dns"
+  name = "${var.name_prefix}-external-dns"
 
   description = "Allow external-dns to upsert DNS records."
 
@@ -55,7 +56,7 @@ resource "aws_iam_role_policy" "external_dns" {
 
 # Used by cert-manager
 resource "aws_iam_role" "cert_manager" {
-  name        = "${local.name_prefix_env}-cert-manager"
+  name        = "${var.name_prefix}-cert-manager"
   description = "Allow cert-manager to manage DNS records for LetsEncrypt validation purposes."
 
   assume_role_policy = templatefile("policies/oidc_assume_role_policy.json", {
@@ -82,7 +83,7 @@ resource "aws_iam_role_policy" "cert_manager" {
 
 # Used by karpenter-controller
 resource "aws_iam_role" "karpenter_controller" {
-  name        = "${local.name_prefix_env}-karpenter-controller"
+  name        = "${var.name_prefix}-karpenter-controller"
   description = "Allow karpenter-controller EC2 read and write operations."
 
   assume_role_policy = templatefile("policies/oidc_assume_role_policy.json", {
@@ -109,7 +110,7 @@ resource "aws_iam_role_policy" "karpenter_controller" {
 
 # Used by adot-addon
 resource "aws_iam_role" "adot_collector" {
-  name        = "${local.name_prefix_env}-adot-collector"
+  name        = "${var.name_prefix}-adot-collector"
   description = "Allow ADOT to write to Prometheus, X-ray and Cloudwatch."
 
   assume_role_policy = templatefile("policies/oidc_assume_role_policy.json", {

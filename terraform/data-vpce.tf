@@ -2,7 +2,7 @@ data "aws_vpc_endpoint_service" "ecr_dkr" {
   service_type = "Interface"
   filter {
     name   = "service-name"
-    values = ["*ecr.dkr*"]
+    values = ["${data.aws_partition.current.reverse_dns_prefix}.${data.aws_region.current.name}.ecr.dkr"]
   }
 }
 
@@ -10,7 +10,7 @@ data "aws_vpc_endpoint_service" "sts" {
   service_type = "Interface"
   filter {
     name   = "service-name"
-    values = ["com.amazonaws.${data.aws_region.current.name}.sts"]
+    values = ["${data.aws_partition.current.reverse_dns_prefix}.${data.aws_region.current.name}.sts"]
   }
 }
 
@@ -18,7 +18,7 @@ data "aws_vpc_endpoint_service" "s3" {
   service_type = "Interface"
   filter {
     name   = "service-name"
-    values = ["com.amazonaws.${data.aws_region.current.name}.s3"]
+    values = ["${data.aws_partition.current.reverse_dns_prefix}.${data.aws_region.current.name}.s3"]
   }
 }
 
@@ -26,7 +26,7 @@ data "aws_vpc_endpoint_service" "guardduty" {
   service_type = "Interface"
   filter {
     name   = "service-name"
-    values = ["com.amazonaws.${data.aws_region.current.name}.guardduty-data"]
+    values = ["${data.aws_partition.current.reverse_dns_prefix}.${data.aws_region.current.name}.guardduty-data"]
   }
 }
 
@@ -34,7 +34,7 @@ data "aws_vpc_endpoint_service" "aps_workspaces" {
   service_type = "Interface"
   filter {
     name   = "service-name"
-    values = ["com.amazonaws.${data.aws_region.current.name}.aps-workspaces"]
+    values = ["${data.aws_partition.current.reverse_dns_prefix}.${data.aws_region.current.name}.aps-workspaces"]
   }
 }
 

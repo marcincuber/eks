@@ -24,6 +24,7 @@ resource "aws_iam_instance_profile" "eks_node_karpenter" {
 #####
 resource "aws_security_group" "node" {
   name_prefix = "${var.name_prefix}-node-sg-"
+
   description = "EKS Karpenter Node security group."
   vpc_id      = module.vpc_eks.vpc_id
 

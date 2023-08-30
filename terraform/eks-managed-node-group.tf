@@ -8,8 +8,9 @@ data "aws_launch_template" "cluster" {
 }
 
 resource "aws_launch_template" "cluster" {
+  name = "${var.name_prefix}-node-group-launch-template"
+
   image_id               = data.aws_ssm_parameter.eks_optimized_ami_id.value
-  name                   = "${var.name_prefix}-node-group-launch-template"
   update_default_version = true
 
   block_device_mappings {

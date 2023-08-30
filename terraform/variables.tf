@@ -20,7 +20,8 @@ variable "public_subnets_cidrs" {
 # EKS
 #####
 variable "eks_version" {
-  type = string
+  type        = string
+  description = "EKS controlplane version."
 }
 
 variable "eks_enabled_log_types" {
@@ -32,12 +33,12 @@ variable "eks_enabled_log_types" {
 variable "instance_types" {
   type        = list(string)
   description = "List of instance types associated with the EKS Node Group."
-  default     = ["m5.large"]
+  default     = ["m6i.large"]
 }
 
 variable "eks_service_ipv4_cidr" {
   type        = string
-  description = "The CIDR block to assign Kubernetes service IP addresses from. "
+  description = "The CIDR block to assign Kubernetes service IP addresses from."
   default     = null
 }
 
