@@ -97,12 +97,12 @@ resource "aws_vpc_endpoint" "eks_vpc_aps_workspaces" {
 }
 
 resource "aws_security_group" "eks_vpc_endpoint" {
-  name_prefix = "${local.name_prefix_platform_vpc}-vpc-endpoint-sg-"
+  name_prefix = "${var.name_prefix}-vpc-endpoint-sg-"
   description = "Security Group used by VPC Endpoints."
   vpc_id      = module.vpc_eks.vpc_id
 
   tags = {
-    "Name" = "${local.name_prefix_platform_vpc}-vpc-endpoint-sg-"
+    "Name" = "${var.name_prefix}-vpc-endpoint-sg"
   }
 
   lifecycle {
@@ -121,7 +121,7 @@ resource "aws_security_group_rule" "eks_vpc_endpoint_egress" {
 }
 
 resource "aws_security_group_rule" "eks_vpc_endpoint_self_ingress" {
-  description              = "Self-Ingress for all ports."
+  description              = "Self-ingress for all ports."
   security_group_id        = aws_security_group.eks_vpc_endpoint.id
   type                     = "ingress"
   protocol                 = "-1"
@@ -143,12 +143,12 @@ resource "aws_vpc_endpoint" "eks_vpc_guardduty" {
 }
 
 resource "aws_security_group" "eks_vpc_endpoint_guardduty" {
-  name_prefix = "${local.name_prefix_platform_vpc}-vpc-endpoint-guardduty-sg-"
+  name_prefix = "${var.name_prefix}-vpc-endpoint-guardduty-sg-"
   description = "Security Group used by VPC Endpoints."
   vpc_id      = module.vpc_eks.vpc_id
 
   tags = {
-    "Name"             = "${local.name_prefix_platform_vpc}-vpc-endpoint-guardduty-sg-"
+    "Name"             = "${var.name_prefix}-vpc-endpoint-guardduty-sg"
     "GuardDutyManaged" = "false"
   }
 
@@ -174,9 +174,9 @@ module "eks_vpc_flow_logs" {
   source  = "native-cube/vpc-flow-logs/aws"
   version = "~> 2.1.0"
 
-  name_prefix = "${local.name_prefix_platform_vpc}-vpc"
+  name_prefix = "${var.name_prefix}-vpc-"
 
-  cloudwatch_log_group_name = "/vpc-flow-logs/${local.name_prefix_platform_vpc}"
+  cloudwatch_log_group_name = "/vpc-flow-logs/${var.name_prefix}"
 
   vpc_id = module.vpc_eks.vpc_id
 
@@ -188,19 +188,18 @@ module "eks_vpc_flow_logs" {
 #####
 # Outputs
 #####
-
 output "vpc_id" {
-  value = module.vpc.vpc_id
+  value = module.vpc_eks.vpc_id
 }
 
 output "public_subnet_ids" {
-  value = module.vpc.public_subnets
+  value = module.vpc_eks.public_subnets
 }
 
 output "private_subnet_ids" {
-  value = module.vpc.private_subnets
+  value = module.vpc_eks.private_subnets
 }
 
 output "private_route_table_ids" {
-  value = module.vpc.private_route_table_ids
+  value = module.vpc_eks.private_route_table_ids
 }

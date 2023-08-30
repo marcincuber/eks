@@ -96,54 +96,6 @@ data "aws_iam_policy_document" "kms_policy_cluster" {
   }
 }
 
-data "aws_iam_policy_document" "kms_policy_cluster_ecr" {
-  statement {
-    actions = [
-      "kms:*"
-    ]
-
-    resources = ["*"]
-
-    principals {
-      type        = "AWS"
-      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"]
-    }
-  }
-
-  statement {
-    actions = [
-      "kms:Encrypt",
-      "kms:Decrypt",
-      "kms:ReEncrypt*",
-      "kms:GenerateDataKey*",
-      "kms:CreateGrant",
-      "kms:DescribeKey",
-      "kms:RetireGrant"
-    ]
-
-    resources = ["*"]
-
-    principals {
-      type        = "AWS"
-      identifiers = ["*"]
-    }
-
-    condition {
-      test     = "StringEquals"
-      variable = "kms:CallerAccount"
-
-      values = [data.aws_caller_identity.current.account_id]
-    }
-
-    condition {
-      test     = "StringEquals"
-      variable = "kms:ViaService"
-
-      values = ["ecr.${data.aws_region.current.name}.amazonaws.com"]
-    }
-  }
-}
-
 data "aws_iam_policy_document" "karpenter_spot_interruption" {
   statement {
     actions = [

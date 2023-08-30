@@ -4,7 +4,8 @@
 resource "aws_security_group" "core_dns" {
   name_prefix = "${var.name_prefix}-coredns-sg-"
   description = "EKS CoreDNS security group."
-  vpc_id      = var.vpc_id
+
+  vpc_id = module.vpc_eks.vpc_id
 
   tags = {
     "Name"                                     = "${var.name_prefix}-coredns-sg"

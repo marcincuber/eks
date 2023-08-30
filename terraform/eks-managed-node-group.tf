@@ -83,7 +83,7 @@ module "eks_node_group" {
   capacity_type = "ON_DEMAND"
 
   tags = {
-    "kubernetes.io/cluster/${local.eks_cluster_name}" = "owned"
+    "kubernetes.io/cluster/${var.name_prefix}" = "owned"
   }
 
   create_before_destroy = true

@@ -2,10 +2,11 @@
 # EKS Cluster
 #####
 resource "aws_eks_cluster" "cluster" {
+  name     = local.eks_cluster_name
+  role_arn = aws_iam_role.cluster.arn
+  version  = var.eks_version
+
   enabled_cluster_log_types = var.eks_enabled_log_types
-  name                      = local.eks_cluster_name
-  role_arn                  = aws_iam_role.cluster.arn
-  version                   = var.eks_version
 
   vpc_config {
     subnet_ids              = data.aws_subnets.private.ids
@@ -28,14 +29,14 @@ resource "aws_eks_cluster" "cluster" {
 }
 
 resource "aws_cloudwatch_log_group" "cluster" {
-  name              = "/aws/eks/${local.eks_cluster_name}/cluster"
+  name              = "/aws/eks/${var.name_prefix}/cluster"
   retention_in_days = 7
 
   kms_key_id = module.kms_eks_cluster.key_arn
 }
 
 resource "aws_iam_role" "cluster" {
-  name = "${local.name_prefix_env}-cluster-role"
+  name = "${var.name_prefix}-cluster-role"
 
   assume_role_policy = data.aws_iam_policy_document.cluster_role_assume_role_policy.json
 

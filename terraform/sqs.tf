@@ -1,5 +1,5 @@
 resource "aws_sqs_queue" "karpenter_spot_interruption" {
-  name = "${local.name_prefix}-karpenter-spot-interruption-${var.environment}"
+  name = "${local.name_prefix}-karpenter-spot-interruption"
 
   message_retention_seconds = 86400
   receive_wait_time_seconds = 5
