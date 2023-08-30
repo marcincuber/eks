@@ -12,14 +12,6 @@ terraform {
       version = ">= 4.0"
     }
   }
-
-  cloud {
-    organization = "dare-preprod"
-
-    workspaces {
-      name = "tf-eng-infra-dev-aws-eks-infra"
-    }
-  }
 }
 
 provider "aws" {
@@ -28,8 +20,8 @@ provider "aws" {
   default_tags {
     tags = {
       Environment = "dev"
-      Team        = "Cloud Native Platform CNP"
-      Repository  = "https://github.com/dare-global/tf-eng-infra-dev/aws/eks-infra"
+      Team        = "MC"
+      Repository  = "https://github.com/marcincuber/eks"
       Service     = "eks"
     }
   }

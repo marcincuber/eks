@@ -2,9 +2,10 @@
 # EKS Cluster
 #####
 resource "aws_eks_cluster" "cluster" {
-  name     = local.eks_cluster_name
-  role_arn = aws_iam_role.cluster.arn
+  name = local.eks_cluster_name
+
   version  = var.eks_version
+  role_arn = aws_iam_role.cluster.arn
 
   enabled_cluster_log_types = var.eks_enabled_log_types
 

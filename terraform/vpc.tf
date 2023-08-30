@@ -25,7 +25,7 @@ module "vpc_eks" {
   private_subnet_tags = {
     "kubernetes.io/role/internal-elb" = "1",
     "mapPublicIpOnLaunch"             = "FALSE"
-    "karpenter.sh/discovery"          = local.eks_cluster_name
+    "karpenter.sh/discovery"          = var.name_prefix
   }
 
   public_subnet_tags = {
@@ -34,7 +34,7 @@ module "vpc_eks" {
   }
 
   tags = {
-    "kubernetes.io/cluster/${local.eks_cluster_name}" = "shared"
+    "kubernetes.io/cluster/${var.name_prefix}" = "shared"
   }
 }
 
@@ -48,7 +48,7 @@ resource "aws_vpc_endpoint" "eks_vpc_ecr_dkr" {
   private_dns_enabled = false
 
   tags = {
-    Name = "${local.name_prefix_platform_vpc}-ecr-dkr-${local.environment}"
+    Name = "${var.name_prefix}-ecr-dkr-${local.environment}"
   }
 }
 
@@ -62,7 +62,7 @@ resource "aws_vpc_endpoint" "eks_vpc_sts" {
   private_dns_enabled = false
 
   tags = {
-    Name = "${local.name_prefix_platform_vpc}-sts-${local.environment}"
+    Name = "${var.name_prefix}-sts-${local.environment}"
   }
 }
 
@@ -76,7 +76,7 @@ resource "aws_vpc_endpoint" "eks_vpc_s3" {
   private_dns_enabled = false
 
   tags = {
-    Name = "${local.name_prefix_platform_vpc}-s3-${local.environment}"
+    Name = "${var.name_prefix}-s3-${local.environment}"
   }
 }
 
@@ -92,7 +92,7 @@ resource "aws_vpc_endpoint" "eks_vpc_aps_workspaces" {
   policy = data.aws_iam_policy_document.eks_vpc_aps_workspaces.json
 
   tags = {
-    Name = "${local.name_prefix_platform_vpc}-aps-workspaces-${local.environment}"
+    Name = "${var.name_prefix}-aps-workspaces-${local.environment}"
   }
 }
 
