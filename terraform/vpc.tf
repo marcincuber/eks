@@ -189,17 +189,16 @@ module "eks_vpc_flow_logs" {
 # Outputs
 #####
 output "vpc_id" {
-  value = module.vpc_eks.vpc_id
+  value       = module.vpc_eks.vpc_id
+  description = "VPC ID."
 }
 
 output "public_subnet_ids" {
-  value = module.vpc_eks.public_subnets
+  value       = module.vpc_eks.public_subnets
+  description = "Public subnet IDs."
 }
 
 output "private_subnet_ids" {
-  value = module.vpc_eks.private_subnets
-}
-
-output "private_route_table_ids" {
-  value = module.vpc_eks.private_route_table_ids
+  value       = module.vpc_eks.private_subnets
+  description = "Private subnet IDs."
 }
