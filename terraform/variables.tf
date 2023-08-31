@@ -1,3 +1,8 @@
+variable "name_prefix" {
+  type        = string
+  description = "Name prefix used across resources created by this module."
+}
+
 #####
 # VPC
 #####
@@ -14,6 +19,12 @@ variable "private_subnets_cidrs" {
 variable "public_subnets_cidrs" {
   type        = list(string)
   description = "Classless Inter-Domain Routing ranges for public subnets."
+}
+
+variable "azs" {
+  description = "A list of availability zones names or ids in the region"
+  type        = list(string)
+  default     = []
 }
 
 #####

@@ -137,7 +137,7 @@ resource "aws_vpc_security_group_egress_rule" "cluster_to_karpenter_nodes" {
 
 # Access to vpc endpoint sg
 resource "aws_vpc_security_group_ingress_rule" "cluster_to_vpc_endpoints" {
-  security_group_id = data.aws_security_group.vpc_endpoint.id
+  security_group_id = aws_security_group.eks_vpc_endpoint.id
   description       = "Allow EKS controlplane and nodes access to VPC endpoints."
 
   ip_protocol                  = "-1"

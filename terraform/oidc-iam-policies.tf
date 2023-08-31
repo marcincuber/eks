@@ -388,6 +388,6 @@ data "aws_iam_policy_document" "karpenter_controller" {
       "kms:Decrypt",
     ]
 
-    resources = [module.kms_eks_cluster.key_arn]
+    resources = [module.eks_cluster.key_arn]
   }
 }

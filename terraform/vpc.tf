@@ -4,7 +4,7 @@ module "vpc_eks" {
 
   name = var.name_prefix
 
-  azs = var.availability_zones
+  azs = var.azs
 
   cidr            = var.vpc_cidr
   private_subnets = var.private_subnets_cidrs
@@ -48,7 +48,7 @@ resource "aws_vpc_endpoint" "eks_vpc_ecr_dkr" {
   private_dns_enabled = false
 
   tags = {
-    Name = "${var.name_prefix}-ecr-dkr-${local.environment}"
+    Name = "${var.name_prefix}-ecr-dkr"
   }
 }
 
@@ -62,7 +62,7 @@ resource "aws_vpc_endpoint" "eks_vpc_sts" {
   private_dns_enabled = false
 
   tags = {
-    Name = "${var.name_prefix}-sts-${local.environment}"
+    Name = "${var.name_prefix}-sts"
   }
 }
 
@@ -76,7 +76,7 @@ resource "aws_vpc_endpoint" "eks_vpc_s3" {
   private_dns_enabled = false
 
   tags = {
-    Name = "${var.name_prefix}-s3-${local.environment}"
+    Name = "${var.name_prefix}-s3"
   }
 }
 
@@ -92,7 +92,7 @@ resource "aws_vpc_endpoint" "eks_vpc_aps_workspaces" {
   policy = data.aws_iam_policy_document.eks_vpc_aps_workspaces.json
 
   tags = {
-    Name = "${var.name_prefix}-aps-workspaces-${local.environment}"
+    Name = "${var.name_prefix}-aps-workspaces"
   }
 }
 
@@ -140,6 +140,10 @@ resource "aws_vpc_endpoint" "eks_vpc_guardduty" {
   security_group_ids  = [aws_security_group.eks_vpc_endpoint_guardduty.id]
   subnet_ids          = module.vpc_eks.private_subnets
   private_dns_enabled = true
+
+  tags = {
+    Name = "${var.name_prefix}-guardduty-data"
+  }
 }
 
 resource "aws_security_group" "eks_vpc_endpoint_guardduty" {

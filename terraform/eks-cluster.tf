@@ -20,7 +20,7 @@ resource "aws_eks_cluster" "cluster" {
   encryption_config {
     resources = ["secrets"]
     provider {
-      key_arn = module.kms_eks_cluster.key_arn
+      key_arn = module.eks_cluster.key_arn
     }
   }
 
@@ -33,7 +33,7 @@ resource "aws_cloudwatch_log_group" "cluster" {
   name              = "/aws/eks/${var.name_prefix}/cluster"
   retention_in_days = 7
 
-  kms_key_id = module.kms_eks_cluster.key_arn
+  kms_key_id = module.eks_cluster.key_arn
 }
 
 resource "aws_iam_role" "cluster" {
@@ -46,4 +46,22 @@ resource "aws_iam_role" "cluster" {
     "arn:aws:iam::aws:policy/AmazonEKSServicePolicy",
     "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
   ]
+}
+
+#####
+# Outputs
+#####
+output "eks_id" {
+  value       = aws_eks_cluster.cluster.id
+  description = "EKS cluster name."
+}
+
+output "eks_arn" {
+  value       = aws_eks_cluster.cluster.arn
+  description = "EKS cluster ARN."
+}
+
+output "eks_network_config" {
+  value       = aws_eks_cluster.cluster.kubernetes_network_config
+  description = "EKS cluster network configuration."
 }
