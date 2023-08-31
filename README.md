@@ -10,7 +10,7 @@ Module creates:
 * VPC Endpoints- S3, ECR, STS, APS, GuardDuty
 * EKS Cluster
 * EKS Node Group to run cluster critical services
-* EKS Addons- coredns, kube-proxy, guardduty, aws-ebs-csi-driver, adot, kubecost
+* EKS Addons- coredns, kube-proxy, guardduty, aws-ebs-csi-driver, adot (requires cert-manger to be installed), kubecost
 * IAM Roles for worker nodes and Karpenter nodes
 * Additional IAM Roles for operators- load-balancer-controller, external-dns, cert-manager, adot-collector
 * SQS queue configuraiton to be used with Karpeneter while utlising Spot Instances.

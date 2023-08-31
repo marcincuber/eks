@@ -8,7 +8,7 @@ azs                   = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
 eks_enabled_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 eks_service_ipv4_cidr = "10.190.0.0/16"
 
-instance_types = ["m6i.2xlarge"]
+instance_types = ["m6i.xlarge"]
 
 eks_public_access_cidrs = [
   "0.0.0.0/0"
@@ -21,4 +21,3 @@ eks_addon_version_core_dns       = "v1.10.1-eksbuild.2"
 eks_addon_version_ebs_csi_driver = "v1.21.0-eksbuild.1"
 eks_addon_version_kubecost       = "v1.103.3-eksbuild.0"
 eks_addon_version_guardduty      = "v1.2.0-eksbuild.2"
-# eks_addon_version_adot           = "v0.78.0-eksbuild.1"

@@ -96,6 +96,7 @@ $ terraform apply
 | [aws_iam_policy_document.cluster_role_assume_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.eks_node_group_assume_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.eks_node_karpenter_assume_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.eks_vpc_aps_workspaces](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.eks_vpc_guardduty](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.external_dns](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.karpenter_controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
@@ -117,6 +118,7 @@ $ terraform apply
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_azs"></a> [azs](#input\_azs) | A list of availability zones names or ids in the region | `list(string)` | `[]` | no |
 | <a name="input_eks_addon_version_adot"></a> [eks\_addon\_version\_adot](#input\_eks\_addon\_version\_adot) | ADOT EKS addon version. | `string` | `null` | no |
 | <a name="input_eks_addon_version_core_dns"></a> [eks\_addon\_version\_core\_dns](#input\_eks\_addon\_version\_core\_dns) | Core DNS managed EKS addon version. | `string` | `null` | no |
 | <a name="input_eks_addon_version_ebs_csi_driver"></a> [eks\_addon\_version\_ebs\_csi\_driver](#input\_eks\_addon\_version\_ebs\_csi\_driver) | AWS ebs csi driver managed EKS addon version. | `string` | `null` | no |
@@ -131,6 +133,7 @@ $ terraform apply
 | <a name="input_eks_service_ipv4_cidr"></a> [eks\_service\_ipv4\_cidr](#input\_eks\_service\_ipv4\_cidr) | The CIDR block to assign Kubernetes service IP addresses from. | `string` | `null` | no |
 | <a name="input_eks_version"></a> [eks\_version](#input\_eks\_version) | EKS controlplane version. | `string` | n/a | yes |
 | <a name="input_instance_types"></a> [instance\_types](#input\_instance\_types) | List of instance types associated with the EKS Node Group. | `list(string)` | <pre>[<br>  "m6i.large"<br>]</pre> | no |
+| <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Name prefix used across resources created by this module. | `string` | n/a | yes |
 | <a name="input_private_subnets_cidrs"></a> [private\_subnets\_cidrs](#input\_private\_subnets\_cidrs) | Classless Inter-Domain Routing ranges for private subnets. | `list(string)` | n/a | yes |
 | <a name="input_public_subnets_cidrs"></a> [public\_subnets\_cidrs](#input\_public\_subnets\_cidrs) | Classless Inter-Domain Routing ranges for public subnets. | `list(string)` | n/a | yes |
 | <a name="input_vpc_cidr"></a> [vpc\_cidr](#input\_vpc\_cidr) | Amazon Virtual Private Cloud Classless Inter-Domain Routing range. | `string` | n/a | yes |
@@ -139,6 +142,9 @@ $ terraform apply
 
 | Name | Description |
 |------|-------------|
+| <a name="output_eks_arn"></a> [eks\_arn](#output\_eks\_arn) | EKS cluster ARN. |
+| <a name="output_eks_id"></a> [eks\_id](#output\_eks\_id) | EKS cluster name. |
+| <a name="output_eks_network_config"></a> [eks\_network\_config](#output\_eks\_network\_config) | EKS cluster network configuration. |
 | <a name="output_private_subnet_ids"></a> [private\_subnet\_ids](#output\_private\_subnet\_ids) | Private subnet IDs. |
 | <a name="output_public_subnet_ids"></a> [public\_subnet\_ids](#output\_public\_subnet\_ids) | Public subnet IDs. |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | VPC ID. |
