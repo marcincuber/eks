@@ -1,3 +1,13 @@
+## Usage
+
+To run this module you need to execute:
+
+```bash
+$ terraform init
+$ terraform plan
+$ terraform apply
+```
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
