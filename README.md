@@ -1,12 +1,19 @@
 # EKS
 
-Implementation of EKS setup using `Terraform`.
+Implementation of EKS setup using Terraform. Terraform module located in [terraform](./terraform/) directory supports deployment to different AWS partitions. I have tested it with `commercial` and `china` partitions. I am actively using this configuration to run EKS setup in Ireland(eu-west-1), North Virginia(us-east-1) and Beijing(cn-north-1).
 
-Templates support deployment to different AWS partitions. I have tested it with `public` and `china` partitions. I am actively using this configuration to run EKS setup in Ireland(eu-west-1), North Virginia(us-east-1) and Beijing(cn-north-1).
+## Module details
 
-### Terraform
+Module creates:
 
-
+* VPC
+* VPC Endpoints- S3, ECR, STS, APS, GuardDuty
+* EKS Cluster
+* EKS Node Group to run cluster critical services
+* EKS Addons- coredns, kube-proxy, guardduty, aws-ebs-csi-driver, adot, kubecost
+* IAM Roles for worker nodes and Karpenter nodes
+* Additional IAM Roles for operators- load-balancer-controller, external-dns, cert-manager, adot-collector
+* SQS queue configuraiton to be used with Karpeneter while utlising Spot Instances.
 
 ## Kubernetes addons and operators
 

@@ -1,8 +1,8 @@
 name_prefix = "eks-eu-dev"
 
-vpc_cidr              = "10.100.0.0/18"
-private_subnets_cidrs = ["10.100.0.0/20", "10.100.16.0/20", "10.100.32.0/20"]
-public_subnets_cidrs  = ["10.100.48.0/22", "10.100.52.0/22", "10.100.56.0/22"]
+vpc_cidr              = "10.100.0.0/16"
+private_subnets_cidrs = ["10.100.0.0/18", "10.100.64.0/18", "10.100.128.0/18"]
+public_subnets_cidrs  = ["10.100.192.0/20", "10.100.208.0/20", "10.100.224.0/20"]
 
 eks_enabled_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 eks_service_ipv4_cidr = "10.190.0.0/16"

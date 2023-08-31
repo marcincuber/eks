@@ -48,6 +48,24 @@ variable "eks_public_access_cidrs" {
   default     = ["0.0.0.0/0"]
 }
 
+variable "eks_security_group_ids" {
+  type        = list(string)
+  description = "List of security group IDs for the cross-account elastic network interfaces that Amazon EKS creates to use to allow communication between your worker nodes and the Kubernetes control plane."
+  default     = []
+}
+
+variable "eks_endpoint_private_access" {
+  type        = bool
+  description = "Whether the Amazon EKS private API server endpoint is enabled."
+  default     = true
+}
+
+variable "eks_endpoint_public_access" {
+  type        = bool
+  description = "Whether the Amazon EKS public API server endpoint is enabled."
+  default     = true
+}
+
 #####
 # EKS Addons
 #####

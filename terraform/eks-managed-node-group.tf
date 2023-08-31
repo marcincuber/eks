@@ -8,7 +8,7 @@ data "aws_launch_template" "cluster" {
 }
 
 resource "aws_launch_template" "cluster" {
-  name = "${var.name_prefix}-node-group-launch-template"
+  name_prefix = "${var.name_prefix}-node-group-"
 
   image_id               = data.aws_ssm_parameter.eks_optimized_ami_id.value
   update_default_version = true
