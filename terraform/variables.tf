@@ -115,3 +115,30 @@ variable "eks_addon_version_adot" {
   description = "ADOT EKS addon version."
   default     = null
 }
+
+#####
+# EKS Default Managed Node Group 
+#####
+variable "ebs_delete_on_termination" {
+  type        = bool
+  description = "Whether the volume should be destroyed on instance termination."
+  default     = true
+}
+
+variable "ebs_volume_size" {
+  type        = number
+  description = "The size of the volume in gigabytes."
+  default     = 100
+}
+
+variable "ebs_volume_type" {
+  type        = string
+  description = "The volume type."
+  default     = "gp3"
+}
+
+variable "ebs_encrypted" {
+  type        = bool
+  description = "Enables EBS encryption on the volume."
+  default     = true
+}

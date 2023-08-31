@@ -17,9 +17,10 @@ resource "aws_launch_template" "cluster" {
     device_name = "/dev/xvda"
 
     ebs {
-      volume_size = 100
-      volume_type = "gp3"
-      encrypted   = true
+      delete_on_termination = var.ebs_delete_on_termination
+      encrypted             = var.ebs_encrypted
+      volume_size           = var.ebs_volume_size
+      volume_type           = var.ebs_volume_type
     }
   }
 

@@ -119,6 +119,10 @@ $ terraform apply
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_azs"></a> [azs](#input\_azs) | A list of availability zones names or ids in the region | `list(string)` | `[]` | no |
+| <a name="input_ebs_delete_on_termination"></a> [ebs\_delete\_on\_termination](#input\_ebs\_delete\_on\_termination) | Whether the volume should be destroyed on instance termination. | `bool` | `true` | no |
+| <a name="input_ebs_encrypted"></a> [ebs\_encrypted](#input\_ebs\_encrypted) | Enables EBS encryption on the volume. | `bool` | `true` | no |
+| <a name="input_ebs_volume_size"></a> [ebs\_volume\_size](#input\_ebs\_volume\_size) | The size of the volume in gigabytes. | `number` | `100` | no |
+| <a name="input_ebs_volume_type"></a> [ebs\_volume\_type](#input\_ebs\_volume\_type) | The volume type. | `string` | `"gp3"` | no |
 | <a name="input_eks_addon_version_adot"></a> [eks\_addon\_version\_adot](#input\_eks\_addon\_version\_adot) | ADOT EKS addon version. | `string` | `null` | no |
 | <a name="input_eks_addon_version_core_dns"></a> [eks\_addon\_version\_core\_dns](#input\_eks\_addon\_version\_core\_dns) | Core DNS managed EKS addon version. | `string` | `null` | no |
 | <a name="input_eks_addon_version_ebs_csi_driver"></a> [eks\_addon\_version\_ebs\_csi\_driver](#input\_eks\_addon\_version\_ebs\_csi\_driver) | AWS ebs csi driver managed EKS addon version. | `string` | `null` | no |
