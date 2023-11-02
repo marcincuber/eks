@@ -22,13 +22,9 @@ I have built this as a separate repository to show how to develop a successful c
 
 You will find configurations for:
 
-* ALB ingress controller
 * AWS Load Balancer controller
 * AWS node termination handler
-* Calico
 * Cert Manager
-* Cluster Autoscaler
-* Dashboard
 * External-DNS
 * External Secrets Operator
 * Metrics server
