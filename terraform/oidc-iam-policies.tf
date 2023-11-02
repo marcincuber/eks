@@ -366,7 +366,7 @@ data "aws_iam_policy_document" "karpenter_controller" {
 
     condition {
       test     = "StringEquals"
-      variable = "aws:RequestTag/kubernetes.io/cluster/${local.eks_cluster_name}"
+      variable = "aws:RequestTag/kubernetes.io/cluster/${var.name_prefix}"
 
       values = [
         "owned"
@@ -399,7 +399,7 @@ data "aws_iam_policy_document" "karpenter_controller" {
 
     condition {
       test     = "StringEquals"
-      variable = "aws:RequestTag/kubernetes.io/cluster/${local.eks_cluster_name}"
+      variable = "aws:RequestTag/kubernetes.io/cluster/${var.name_prefix}"
 
       values = [
         "owned"
@@ -439,7 +439,7 @@ data "aws_iam_policy_document" "karpenter_controller" {
 
     condition {
       test     = "StringEquals"
-      variable = "aws:RequestTag/kubernetes.io/cluster/${local.eks_cluster_name}"
+      variable = "aws:RequestTag/kubernetes.io/cluster/${var.name_prefix}"
 
       values = [
         "owned"
@@ -480,7 +480,7 @@ data "aws_iam_policy_document" "karpenter_controller" {
 
     condition {
       test     = "StringEquals"
-      variable = "aws:RequestTag/kubernetes.io/cluster/${local.eks_cluster_name}"
+      variable = "aws:RequestTag/kubernetes.io/cluster/${var.name_prefix}"
 
       values = [
         "owned"
@@ -589,7 +589,7 @@ data "aws_iam_policy_document" "karpenter_controller" {
 
     condition {
       test     = "StringEquals"
-      variable = "aws:RequestTag/kubernetes.io/cluster/${local.eks_cluster_name}"
+      variable = "aws:RequestTag/kubernetes.io/cluster/${var.name_prefix}"
 
       values = [
         "owned"
@@ -628,7 +628,7 @@ data "aws_iam_policy_document" "karpenter_controller" {
 
     condition {
       test     = "StringEquals"
-      variable = "aws:ResourceTag/kubernetes.io/cluster/${local.eks_cluster_name}"
+      variable = "aws:ResourceTag/kubernetes.io/cluster/${var.name_prefix}"
 
       values = [
         "owned"
@@ -646,7 +646,7 @@ data "aws_iam_policy_document" "karpenter_controller" {
 
     condition {
       test     = "StringEquals"
-      variable = "aws:RequestTag/kubernetes.io/cluster/${local.eks_cluster_name}"
+      variable = "aws:RequestTag/kubernetes.io/cluster/${var.name_prefix}"
 
       values = [
         "owned"
@@ -696,7 +696,7 @@ data "aws_iam_policy_document" "karpenter_controller" {
 
     condition {
       test     = "StringEquals"
-      variable = "aws:ResourceTag/kubernetes.io/cluster/${local.eks_cluster_name}"
+      variable = "aws:ResourceTag/kubernetes.io/cluster/${var.name_prefix}"
 
       values = [
         "owned"
@@ -740,7 +740,7 @@ data "aws_iam_policy_document" "karpenter_controller" {
     ]
 
     resources = [
-      "arn:${data.aws_partition.current.partition}:eks:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster/${local.eks_cluster_name}",
+      "arn:${data.aws_partition.current.partition}:eks:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster/${var.name_prefix}",
     ]
   }
 
