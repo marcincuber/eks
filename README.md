@@ -41,6 +41,10 @@ You will find configurations for:
 
 Check out my stories on medium if you interested in finding out more on specific topics.
 
+### Amazon EKS upgrade 1.27 to 1.28
+
+[Amazon EKS upgrade journey from 1.27 to 1.28](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-27-to-1-28-welcoming-planternetes-44985e11463a)
+
 ### Amazon EKS upgrade 1.26 to 1.27
 
 [Amazon EKS upgrade journey from 1.26 to 1.27](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-26-to-1-27-chill-vibes-46f3f979afac)
