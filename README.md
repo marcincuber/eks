@@ -1,6 +1,6 @@
 # EKS
 
-Implementation of EKS setup using Terraform. Terraform module located in [terraform](./terraform/) directory supports deployment to different AWS partitions. I have tested it with `commercial` and `china` partitions. I am actively using this configuration to run EKS setup in Ireland(eu-west-1), North Virginia(us-east-1) and Beijing(cn-north-1).
+Implementation of EKS setup using Terraform. Terraform module located in [terraform](./terraform/) directory supports deployment to different AWS partitions. I have tested it with `commercial` and `china` partitions. I am actively using this configuration to run EKS setup in Ireland(eu-west-1), London(eu-west-2), North Virginia(us-east-1) and Beijing(cn-north-1).
 
 ## Module details
 
@@ -13,12 +13,12 @@ Module creates:
 * EKS Addons- coredns, kube-proxy, guardduty, aws-ebs-csi-driver, adot (requires cert-manger to be installed), kubecost and cloudwatch
 * IAM Roles for worker nodes and Karpenter nodes
 * Additional IAM Roles for operators- load-balancer-controller, external-dns, cert-manager, adot-collector
-* SQS queue configuraiton to be used with Karpeneter while utlising Spot Instances.
+* SQS queue configuration to be used with Karpeneter while utlising Spot Instances.
 
 ## Kubernetes addons and operators
 
 I am utilising Flux2 to deploy all additional configurations. You can find them at https://github.com/marcincuber/kubernetes-fluxv2
-I have built this as a separate repository to show how to develop a successful configuration for your cluster using GitOps FluxV2 and Helm.
+I have built this as a separate repository to show how to develop a successful configuration for your own cluster using GitOps FluxV2 and Helm.
 
 You will find configurations for:
 
