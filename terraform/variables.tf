@@ -116,6 +116,12 @@ variable "eks_addon_version_adot" {
   default     = null
 }
 
+variable "eks_addon_version_cloudwatch" {
+  type        = string
+  description = "Cloudwatch EKS addon version."
+  default     = null
+}
+
 #####
 # EKS Default Managed Node Group 
 #####

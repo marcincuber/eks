@@ -10,7 +10,7 @@ Module creates:
 * VPC Endpoints- S3, ECR, STS, APS, GuardDuty
 * EKS Cluster
 * EKS Node Group to run cluster critical services
-* EKS Addons- coredns, kube-proxy, guardduty, aws-ebs-csi-driver, adot (requires cert-manger to be installed), kubecost
+* EKS Addons- coredns, kube-proxy, guardduty, aws-ebs-csi-driver, adot (requires cert-manger to be installed), kubecost and cloudwatch
 * IAM Roles for worker nodes and Karpenter nodes
 * Additional IAM Roles for operators- load-balancer-controller, external-dns, cert-manager, adot-collector
 * SQS queue configuraiton to be used with Karpeneter while utlising Spot Instances.
@@ -53,21 +53,9 @@ Check out my stories on medium if you interested in finding out more on specific
 
 [Amazon EKS upgrade journey from 1.24 to 1.25](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-24-to-1-25-e1bcccc2f384)
 
-### Amazon EKS upgrade 1.23 to 1.24
+### Karpenter Upgrade guide from alpha to beta API version
 
-[Amazon EKS upgrade journey from 1.23 to 1.24](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-23-to-1-24-b7b0b1afa5b4)
-
-### Amazon EKS upgrade 1.22 to 1.23
-
-[Amazon EKS upgrade journey from 1.22 to 1.23](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-22-to-1-23-3b9eaa8c57de)
-
-### Amazon EKS upgrade 1.21 to 1.22
-
-[Amazon EKS upgrade journey from 1.21 to 1.22](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-21-to-1-22-9546da932af6)
-
-### Amazon EKS upgrade 1.20 to 1.21
-
-[Amazon EKS upgrade journey from 1.20 to 1.21](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-20-to-1-21-caf1475deaa4)
+[Migrate Karpenter resources from alpha to beta API version](https://medium.com/@marcincuber/amazon-eks-migrating-karpenter-resources-from-alpha-to-beta-api-version-7bf320bbecb5)
 
 ### Amazon EKS Addons
 [Amazon EKS Addons](https://marcincuber.medium.com/amazon-eks-add-ons-implemented-with-terraform-66a49fad4174)
@@ -119,4 +107,3 @@ On user's machine who has been added to EKS, they can configure .kube/config fil
 $ aws eks list-clusters
 $ aws eks update-kubeconfig --name ${cluster_name}
 ```
-

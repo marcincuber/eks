@@ -122,3 +122,20 @@ resource "aws_eks_addon" "adot" {
     "eks_addon" = "adot"
   }
 }
+
+resource "aws_eks_addon" "cloudwatch" {
+  count = var.eks_addon_version_cloudwatch != null ? 1 : 0
+
+  cluster_name  = aws_eks_cluster.cluster.name
+  addon_name    = "amazon-cloudwatch-observability"
+  addon_version = var.eks_addon_version_cloudwatch
+
+  resolve_conflicts_on_create = "OVERWRITE"
+  resolve_conflicts_on_update = "OVERWRITE"
+
+  preserve = true
+
+  tags = {
+    "eks_addon" = "amazon-cloudwatch-observability"
+  }
+}
