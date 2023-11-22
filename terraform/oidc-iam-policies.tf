@@ -439,7 +439,7 @@ data "aws_iam_policy_document" "karpenter_controller" {
 
     condition {
       test     = "StringEquals"
-      variable = "aws:RequestTag/kubernetes.io/cluster/${var.name_prefix}"
+      variable = "aws:ResourceTag/kubernetes.io/cluster/${var.name_prefix}"
 
       values = [
         "owned"
@@ -448,7 +448,7 @@ data "aws_iam_policy_document" "karpenter_controller" {
 
     condition {
       test     = "StringLike"
-      variable = "aws:RequestTag/karpenter.sh/nodepool"
+      variable = "aws:ResourceTag/karpenter.sh/nodepool"
 
       values = [
         "*"
@@ -480,7 +480,7 @@ data "aws_iam_policy_document" "karpenter_controller" {
 
     condition {
       test     = "StringEquals"
-      variable = "aws:RequestTag/kubernetes.io/cluster/${var.name_prefix}"
+      variable = "aws:ResourceTag/kubernetes.io/cluster/${var.name_prefix}"
 
       values = [
         "owned"
@@ -489,7 +489,7 @@ data "aws_iam_policy_document" "karpenter_controller" {
 
     condition {
       test     = "StringLike"
-      variable = "aws:RequestTag/karpenter.sh/nodepool"
+      variable = "aws:ResourceTag/karpenter.sh/nodepool"
 
       values = [
         "*"
