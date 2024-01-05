@@ -122,6 +122,18 @@ variable "eks_addon_version_cloudwatch" {
   default     = null
 }
 
+variable "eks_addon_version_snapshot_controller" {
+  type        = string
+  description = "CSI Snapshot Controller EKS addon version."
+  default     = null
+}
+
+variable "eks_addon_version_identity_agent" {
+  type        = string
+  description = "Pod Identity Agent EKS addon version."
+  default     = null
+}
+
 #####
 # EKS Default Managed Node Group 
 #####

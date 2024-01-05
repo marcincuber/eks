@@ -139,3 +139,37 @@ resource "aws_eks_addon" "cloudwatch" {
     "eks_addon" = "amazon-cloudwatch-observability"
   }
 }
+
+resource "aws_eks_addon" "snapshot_controller" {
+  count = var.eks_addon_version_snapshot_controller != null ? 1 : 0
+
+  cluster_name  = aws_eks_cluster.cluster.name
+  addon_name    = "snapshot-controller"
+  addon_version = var.eks_addon_version_snapshot_controller
+
+  resolve_conflicts_on_create = "OVERWRITE"
+  resolve_conflicts_on_update = "OVERWRITE"
+
+  preserve = true
+
+  tags = {
+    "eks_addon" = "snapshot-controller"
+  }
+}
+
+resource "aws_eks_addon" "identity_agent" {
+  count = var.eks_addon_version_identity_agent != null ? 1 : 0
+
+  cluster_name  = aws_eks_cluster.cluster.name
+  addon_name    = "eks-pod-identity-agent"
+  addon_version = var.eks_addon_version_identity_agent
+
+  resolve_conflicts_on_create = "OVERWRITE"
+  resolve_conflicts_on_update = "OVERWRITE"
+
+  preserve = true
+
+  tags = {
+    "eks_addon" = "eks-pod-identity-agent"
+  }
+}
