@@ -24,6 +24,11 @@ resource "aws_eks_cluster" "cluster" {
     }
   }
 
+  access_config {
+    authentication_mode                         = "API_AND_CONFIG_MAP"
+    bootstrap_cluster_creator_admin_permissions = true
+  }
+
   kubernetes_network_config {
     service_ipv4_cidr = var.eks_service_ipv4_cidr
   }
