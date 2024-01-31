@@ -26,7 +26,7 @@ resource "aws_eks_cluster" "cluster" {
 
   access_config {
     authentication_mode                         = "API_AND_CONFIG_MAP"
-    bootstrap_cluster_creator_admin_permissions = true
+    bootstrap_cluster_creator_admin_permissions = false
   }
 
   kubernetes_network_config {
