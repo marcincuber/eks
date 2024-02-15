@@ -1,6 +1,6 @@
 module "vpc_eks" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "5.1.2"
+  version = "5.5.2"
 
   name = var.name_prefix
 
