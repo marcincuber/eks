@@ -110,6 +110,11 @@ resource "aws_iam_role" "eks_node_group" {
     "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
     "arn:aws:iam::aws:policy/CloudWatchApplicationInsightsFullAccess"
   ]
+
+  inline_policy {
+    name   = "custom-policy"
+    policy = data.aws_iam_policy_document.eks_node_custom_inline_policy.json
+  }
 }
 
 #####
