@@ -31,7 +31,7 @@ $ terraform apply
 | <a name="module_eks_cluster"></a> [eks\_cluster](#module\_eks\_cluster) | native-cube/kms/aws | ~> 1.0.0 |
 | <a name="module_eks_node_group_al2023"></a> [eks\_node\_group\_al2023](#module\_eks\_node\_group\_al2023) | native-cube/eks-node-group/aws | ~> 1.1.0 |
 | <a name="module_eks_vpc_flow_logs"></a> [eks\_vpc\_flow\_logs](#module\_eks\_vpc\_flow\_logs) | native-cube/vpc-flow-logs/aws | ~> 2.1.0 |
-| <a name="module_vpc_eks"></a> [vpc\_eks](#module\_vpc\_eks) | terraform-aws-modules/vpc/aws | 5.5.3 |
+| <a name="module_vpc_eks"></a> [vpc\_eks](#module\_vpc\_eks) | terraform-aws-modules/vpc/aws | 5.8.1 |
 
 ## Resources
 

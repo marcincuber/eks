@@ -57,7 +57,7 @@ module "eks_node_group_al2023" {
 
   instance_types = var.instance_types
 
-  subnet_ids = data.aws_subnets.private.ids
+  subnet_ids = module.vpc_eks.private_subnets
 
   desired_size = 3
   min_size     = 3
