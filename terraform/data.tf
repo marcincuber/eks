@@ -8,6 +8,11 @@ data "aws_ssm_parameter" "eks_optimized_ami_id" {
   with_decryption = true
 }
 
+data "aws_ssm_parameter" "eks_al2023" {
+  name            = "/aws/service/eks/optimized-ami/${var.eks_version}/amazon-linux-2023/x86_64/standard/recommended/image_id"
+  with_decryption = true
+}
+
 data "tls_certificate" "cluster" {
   url = aws_eks_cluster.cluster.identity[0].oidc[0].issuer
 }

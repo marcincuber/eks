@@ -1,16 +1,10 @@
 #####
-# Launch Template with AMI
+# Launch Template with AL2023 AMI
 #####
-data "aws_launch_template" "cluster" {
-  name = aws_launch_template.cluster.name
+resource "aws_launch_template" "cluster_al2023" {
+  name = "${var.name_prefix}-node-group-launch-template-al2023"
 
-  depends_on = [aws_launch_template.cluster]
-}
-
-resource "aws_launch_template" "cluster" {
-  name_prefix = "${var.name_prefix}-node-group-"
-
-  image_id               = data.aws_ssm_parameter.eks_optimized_ami_id.value
+  image_id               = data.aws_ssm_parameter.eks_al2023.value
   update_default_version = true
 
   block_device_mappings {
@@ -39,22 +33,22 @@ resource "aws_launch_template" "cluster" {
     http_put_response_hop_limit = 2 # required by aws-load-balancer controller
   }
 
-  user_data = base64encode(templatefile("userdata.tpl", {
-    CLUSTER_NAME   = aws_eks_cluster.cluster.name,
-    B64_CLUSTER_CA = aws_eks_cluster.cluster.certificate_authority[0].data,
-    API_SERVER_URL = aws_eks_cluster.cluster.endpoint,
-    DNS_CLUSTER_IP = local.eks_dns_cluster_ip
+  user_data = base64encode(templatefile("userdata_al2023.tpl", {
+    CLUSTER_NAME         = aws_eks_cluster.cluster.name,
+    B64_CLUSTER_CA       = aws_eks_cluster.cluster.certificate_authority[0].data,
+    API_SERVER_URL       = aws_eks_cluster.cluster.endpoint,
+    CLUSTER_SERVICE_CIDR = local.cluster_service_cidr
   }))
 }
 
 #####
-# EKS Node Groups
+# EKS AL2023 Node Group
 #####
-module "eks_node_group" {
+module "eks_node_group_al2023" {
   source  = "native-cube/eks-node-group/aws"
   version = "~> 1.1.0"
 
-  node_group_name_prefix = "${var.name_prefix}-node-group-"
+  node_group_name_prefix = "${var.name_prefix}-node-group-al2023-"
 
   cluster_name = aws_eks_cluster.cluster.id
 
@@ -70,7 +64,8 @@ module "eks_node_group" {
   max_size     = 4
 
   labels = {
-    "workload" = "system-critical"
+    "workload"   = "system-critical"
+    "ami-family" = "AL2023"
   }
 
   update_config = {
@@ -78,8 +73,8 @@ module "eks_node_group" {
   }
 
   launch_template = {
-    name    = data.aws_launch_template.cluster.name
-    version = data.aws_launch_template.cluster.latest_version
+    name    = aws_launch_template.cluster_al2023.name
+    version = aws_launch_template.cluster_al2023.latest_version
   }
 
   capacity_type = "ON_DEMAND"
@@ -89,8 +84,6 @@ module "eks_node_group" {
   }
 
   create_before_destroy = true
-
-  depends_on = [data.aws_launch_template.cluster]
 }
 
 #####

@@ -13,15 +13,15 @@ $ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.14 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.7 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.31 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | >= 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.14 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.31 |
 | <a name="provider_tls"></a> [tls](#provider\_tls) | >= 4.0 |
 
 ## Modules
@@ -29,9 +29,9 @@ $ terraform apply
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_eks_cluster"></a> [eks\_cluster](#module\_eks\_cluster) | native-cube/kms/aws | ~> 1.0.0 |
-| <a name="module_eks_node_group"></a> [eks\_node\_group](#module\_eks\_node\_group) | native-cube/eks-node-group/aws | ~> 1.1.0 |
+| <a name="module_eks_node_group_al2023"></a> [eks\_node\_group\_al2023](#module\_eks\_node\_group\_al2023) | native-cube/eks-node-group/aws | ~> 1.1.0 |
 | <a name="module_eks_vpc_flow_logs"></a> [eks\_vpc\_flow\_logs](#module\_eks\_vpc\_flow\_logs) | native-cube/vpc-flow-logs/aws | ~> 2.1.0 |
-| <a name="module_vpc_eks"></a> [vpc\_eks](#module\_vpc\_eks) | terraform-aws-modules/vpc/aws | 5.1.1 |
+| <a name="module_vpc_eks"></a> [vpc\_eks](#module\_vpc\_eks) | terraform-aws-modules/vpc/aws | 5.8.1 |
 
 ## Resources
 
@@ -42,10 +42,13 @@ $ terraform apply
 | [aws_cloudwatch_log_group.cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_eks_addon.adot](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_addon.aws_ebs_csi_driver](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
+| [aws_eks_addon.cloudwatch](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_addon.core_dns](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_addon.guardduty](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
+| [aws_eks_addon.identity_agent](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_addon.kube_proxy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_addon.kubecost](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
+| [aws_eks_addon.snapshot_controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_cluster.cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster) | resource |
 | [aws_iam_instance_profile.eks_node_karpenter](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_instance_profile) | resource |
 | [aws_iam_openid_connect_provider.cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_openid_connect_provider) | resource |
@@ -62,7 +65,7 @@ $ terraform apply
 | [aws_iam_role_policy.external_dns](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.karpenter_controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.load_balancer_controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
-| [aws_launch_template.cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template) | resource |
+| [aws_launch_template.cluster_al2023](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template) | resource |
 | [aws_security_group.core_dns](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group.eks_vpc_endpoint](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group.eks_vpc_endpoint_guardduty](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
@@ -94,6 +97,7 @@ $ terraform apply
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_iam_policy_document.cert_manager](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.cluster_role_assume_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.eks_node_custom_inline_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.eks_node_group_assume_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.eks_node_karpenter_assume_role_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.eks_vpc_aps_workspaces](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
@@ -103,9 +107,9 @@ $ terraform apply
 | [aws_iam_policy_document.karpenter_spot_interruption](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.kms_policy_cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.load_balancer_controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_launch_template.cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/launch_template) | data source |
 | [aws_partition.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/partition) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
+| [aws_ssm_parameter.eks_al2023](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
 | [aws_ssm_parameter.eks_optimized_ami_id](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
 | [aws_vpc_endpoint_service.aps_workspaces](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc_endpoint_service) | data source |
 | [aws_vpc_endpoint_service.ecr_dkr](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc_endpoint_service) | data source |
@@ -124,11 +128,14 @@ $ terraform apply
 | <a name="input_ebs_volume_size"></a> [ebs\_volume\_size](#input\_ebs\_volume\_size) | The size of the volume in gigabytes. | `number` | `100` | no |
 | <a name="input_ebs_volume_type"></a> [ebs\_volume\_type](#input\_ebs\_volume\_type) | The volume type. | `string` | `"gp3"` | no |
 | <a name="input_eks_addon_version_adot"></a> [eks\_addon\_version\_adot](#input\_eks\_addon\_version\_adot) | ADOT EKS addon version. | `string` | `null` | no |
+| <a name="input_eks_addon_version_cloudwatch"></a> [eks\_addon\_version\_cloudwatch](#input\_eks\_addon\_version\_cloudwatch) | Cloudwatch EKS addon version. | `string` | `null` | no |
 | <a name="input_eks_addon_version_core_dns"></a> [eks\_addon\_version\_core\_dns](#input\_eks\_addon\_version\_core\_dns) | Core DNS managed EKS addon version. | `string` | `null` | no |
 | <a name="input_eks_addon_version_ebs_csi_driver"></a> [eks\_addon\_version\_ebs\_csi\_driver](#input\_eks\_addon\_version\_ebs\_csi\_driver) | AWS ebs csi driver managed EKS addon version. | `string` | `null` | no |
 | <a name="input_eks_addon_version_guardduty"></a> [eks\_addon\_version\_guardduty](#input\_eks\_addon\_version\_guardduty) | Guardduty agent EKS addon version. | `string` | `null` | no |
+| <a name="input_eks_addon_version_identity_agent"></a> [eks\_addon\_version\_identity\_agent](#input\_eks\_addon\_version\_identity\_agent) | Pod Identity Agent EKS addon version. | `string` | `null` | no |
 | <a name="input_eks_addon_version_kube_proxy"></a> [eks\_addon\_version\_kube\_proxy](#input\_eks\_addon\_version\_kube\_proxy) | Kube proxy managed EKS addon version. | `string` | `null` | no |
 | <a name="input_eks_addon_version_kubecost"></a> [eks\_addon\_version\_kubecost](#input\_eks\_addon\_version\_kubecost) | KubeCost EKS addon version. | `string` | `null` | no |
+| <a name="input_eks_addon_version_snapshot_controller"></a> [eks\_addon\_version\_snapshot\_controller](#input\_eks\_addon\_version\_snapshot\_controller) | CSI Snapshot Controller EKS addon version. | `string` | `null` | no |
 | <a name="input_eks_enabled_log_types"></a> [eks\_enabled\_log\_types](#input\_eks\_enabled\_log\_types) | List of the desired control plane logging to enable. | `list(string)` | `[]` | no |
 | <a name="input_eks_endpoint_private_access"></a> [eks\_endpoint\_private\_access](#input\_eks\_endpoint\_private\_access) | Whether the Amazon EKS private API server endpoint is enabled. | `bool` | `true` | no |
 | <a name="input_eks_endpoint_public_access"></a> [eks\_endpoint\_public\_access](#input\_eks\_endpoint\_public\_access) | Whether the Amazon EKS public API server endpoint is enabled. | `bool` | `true` | no |

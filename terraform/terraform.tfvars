@@ -16,11 +16,11 @@ eks_public_access_cidrs = [
 
 eks_version = "1.29"
 
-eks_addon_version_kube_proxy          = "v1.29.1-eksbuild.2"
+eks_addon_version_kube_proxy          = "v1.29.3-eksbuild.2"
 eks_addon_version_core_dns            = "v1.11.1-eksbuild.6"
-eks_addon_version_ebs_csi_driver      = "v1.28.0-eksbuild.1"
-eks_addon_version_kubecost            = "v1.103.3-eksbuild.0"
-eks_addon_version_guardduty           = "v1.4.1-eksbuild.2"
-eks_addon_version_adot                = "v0.92.1-eksbuild.1"
-eks_addon_version_snapshot_controller = "v6.3.2-eksbuild.1"
+eks_addon_version_ebs_csi_driver      = "v1.29.1-eksbuild.1"
+eks_addon_version_kubecost            = "v2.1.0-eksbuild.1"
+eks_addon_version_guardduty           = "v1.5.0-eksbuild.1"
+eks_addon_version_adot                = "v0.94.1-eksbuild.1"
+eks_addon_version_snapshot_controller = "v7.0.1-eksbuild.1"
 eks_addon_version_identity_agent      = "v1.2.0-eksbuild.1"
