@@ -2,7 +2,7 @@
 # Launch Template with AL2023 AMI
 #####
 resource "aws_launch_template" "cluster_al2023" {
-  name = "${local.name_prefix_env}-node-group-launch-template-al2023"
+  name = "${var.name_prefix}-node-group-launch-template-al2023"
 
   image_id               = data.aws_ssm_parameter.eks_al2023.value
   update_default_version = true
@@ -22,7 +22,7 @@ resource "aws_launch_template" "cluster_al2023" {
     resource_type = "instance"
 
     tags = {
-      Name = "${local.name_prefix_env}-worker-node"
+      Name = "${var.name_prefix}-worker-node"
     }
   }
 
@@ -48,7 +48,7 @@ module "eks_node_group_al2023" {
   source  = "native-cube/eks-node-group/aws"
   version = "~> 1.1.0"
 
-  node_group_name_prefix = "${local.name_prefix_env}-node-group-al2023-"
+  node_group_name_prefix = "${var.name_prefix}-node-group-al2023-"
 
   cluster_name = aws_eks_cluster.cluster.id
 
