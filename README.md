@@ -68,6 +68,10 @@ Check out my stories on medium if you interested in finding out more on specific
 
 [Kube-bench implementation with EKS](https://itnext.io/aws-eks-and-kube-bench-a7ae840f0f1)
 
+### EKS and ECR Pull through cache implementation using Terraform
+
+[ECR pull through cache for DockerHub, Github, Quay, ECR public and kubernetes](https://medium.com/@marcincuber/implementing-aws-ecr-pull-through-cache-for-eks-cluster-most-in-depth-implementation-details-e51395568034)
+
 ### Amazon EKS design, use of spot instances and cluster scaling
 
 More about my configuration can be found in the blog post I have written recently -> [EKS design](https://medium.com/@marcincuber/amazon-eks-design-use-of-spot-instances-and-cluster-scaling-da7f3a72d061)
