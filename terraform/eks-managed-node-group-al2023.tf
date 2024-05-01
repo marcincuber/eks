@@ -37,7 +37,7 @@ resource "aws_launch_template" "cluster_al2023" {
     CLUSTER_NAME         = aws_eks_cluster.cluster.name,
     B64_CLUSTER_CA       = aws_eks_cluster.cluster.certificate_authority[0].data,
     API_SERVER_URL       = aws_eks_cluster.cluster.endpoint,
-    CLUSTER_SERVICE_CIDR = local.cluster_service_cidr
+    CLUSTER_SERVICE_CIDR = var.eks_service_ipv4_cidr
   }))
 }
 
