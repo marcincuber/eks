@@ -37,6 +37,10 @@ You will find configurations for:
 
 Check out my stories on medium if you interested in finding out more on specific topics.
 
+### Amazon EKS upgrade 1.29 to 1.30
+
+[Amazon EKS upgrade journey from 1.29 to 1.30](https://medium.com/@marcincuber/amazon-eks-upgrade-journey-from-1-29-to-1-30-say-hello-to-cute-uwubernetes-eba082199cc4)
+
 ### Amazon EKS upgrade 1.28 to 1.29
 
 [Amazon EKS upgrade journey from 1.28 to 1.29](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-28-to-1-29-say-hello-to-mandala-858ae0579f4f)
