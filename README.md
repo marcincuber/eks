@@ -14,6 +14,7 @@ Module creates:
 * IAM Roles for worker nodes and Karpenter nodes
 * Additional IAM Roles for operators- load-balancer-controller, external-dns, cert-manager, adot-collector
 * SQS queue configuration to be used with Karpeneter while utlising Spot Instances.
+* CloudWatch log groups used by container insights.
 
 ## Kubernetes addons and operators
 
@@ -87,10 +88,6 @@ More about my configuration can be found in the blog post I have written recentl
 ### IAM Roles for service accounts using OpenID Connect
 
 [Using OIDC provider to allow service accounts to assume IAM role](https://medium.com/@marcincuber/amazon-eks-with-oidc-provider-iam-roles-for-kubernetes-services-accounts-59015d15cb0c)
-
-### Kube2iam
-
-More about kube2iam configuration can be found in the blog post I have written recently -> [EKS and kube2iam](https://medium.com/@marcincuber/amazon-eks-iam-roles-and-kube2iam-4ae5906318be)
 
 ### External DNS
 
