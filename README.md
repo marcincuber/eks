@@ -58,9 +58,9 @@ Check out my stories on medium if you interested in finding out more on specific
 
 [Amazon EKS upgrade journey from 1.25 to 1.26](https://medium.com/@marcincuber/amazon-eks-upgrade-journey-from-1-25-to-1-26-electrifying-79b287084eef)
 
-### Amazon EKS upgrade 1.24 to 1.25
+### Karpenter Upgrade guide from Beta to v1 API version
 
-[Amazon EKS upgrade journey from 1.24 to 1.25](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-24-to-1-25-e1bcccc2f384)
+[Karpenter Upgrade guide from Beta to v1 API version](https://medium.com/@marcincuber/amazon-eks-migrating-karpenter-resources-from-beta-to-v1-api-version-1a84e175a999)
 
 ### Karpenter Upgrade guide from alpha to beta API version
 
