@@ -15,11 +15,12 @@ resource "aws_iam_role" "eks_node_karpenter" {
     "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
     "arn:aws:iam::aws:policy/CloudWatchApplicationInsightsFullAccess"
   ]
+}
 
-  inline_policy {
-    name   = "custom-policy"
-    policy = data.aws_iam_policy_document.eks_node_custom_inline_policy.json
-  }
+resource "aws_iam_role_policy" "eks_node_karpenter" {
+  name   = "custom-policy"
+  role   = aws_iam_role.eks_node_karpenter.id
+  policy = data.aws_iam_policy_document.eks_node_custom_inline_policy.json
 }
 
 resource "aws_iam_instance_profile" "eks_node_karpenter" {
