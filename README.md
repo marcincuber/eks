@@ -58,6 +58,10 @@ Check out my stories on medium if you interested in finding out more on specific
 
 [Amazon EKS upgrade journey from 1.25 to 1.26](https://medium.com/@marcincuber/amazon-eks-upgrade-journey-from-1-25-to-1-26-electrifying-79b287084eef)
 
+### Recover image from EKS node and push back to ECR
+
+[Recovering Images from EKS node back to ECR](https://medium.com/@marcincuber/amazon-eks-recover-deleted-images-from-eks-node-to-ecr-repository-15e37b661733)
+
 ### Karpenter Upgrade guide from Beta to v1 API version
 
 [Karpenter Upgrade guide from Beta to v1 API version](https://medium.com/@marcincuber/amazon-eks-migrating-karpenter-resources-from-beta-to-v1-api-version-1a84e175a999)
