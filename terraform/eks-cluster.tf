@@ -32,6 +32,10 @@ resource "aws_eks_cluster" "cluster" {
   kubernetes_network_config {
     service_ipv4_cidr = var.eks_service_ipv4_cidr
   }
+
+  zonal_shift_config {
+    enabled = true
+  }
 }
 
 resource "aws_cloudwatch_log_group" "cluster" {
