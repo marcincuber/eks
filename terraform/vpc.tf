@@ -1,6 +1,6 @@
 module "vpc_eks" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "5.8.1"
+  version = "5.15.0"
 
   name = var.name_prefix
 
@@ -45,7 +45,7 @@ resource "aws_vpc_endpoint" "eks_vpc_ecr_dkr" {
 
   security_group_ids  = [aws_security_group.eks_vpc_endpoint.id]
   subnet_ids          = module.vpc_eks.private_subnets
-  private_dns_enabled = false
+  private_dns_enabled = true
 
   tags = {
     Name = "${var.name_prefix}-ecr-dkr"
@@ -59,7 +59,7 @@ resource "aws_vpc_endpoint" "eks_vpc_sts" {
 
   security_group_ids  = [aws_security_group.eks_vpc_endpoint.id]
   subnet_ids          = module.vpc_eks.private_subnets
-  private_dns_enabled = false
+  private_dns_enabled = true
 
   tags = {
     Name = "${var.name_prefix}-sts"
@@ -73,10 +73,21 @@ resource "aws_vpc_endpoint" "eks_vpc_s3" {
 
   security_group_ids  = [aws_security_group.eks_vpc_endpoint.id]
   subnet_ids          = module.vpc_eks.private_subnets
-  private_dns_enabled = false
+  private_dns_enabled = true
 
   tags = {
-    Name = "${var.name_prefix}-s3"
+    Name = "${var.name_prefix}-s3-int"
+  }
+}
+
+resource "aws_vpc_endpoint" "eks_vpc_s3_gateway" {
+  vpc_id            = module.vpc_eks.vpc_id
+  service_name      = data.aws_vpc_endpoint_service.s3.service_name
+  route_table_ids   = module.vpc_eks.private_route_table_ids
+  vpc_endpoint_type = "Gateway"
+
+  tags = {
+    Name = "${local.name_prefix_platform_vpc}-s3-gateway"
   }
 }
 
@@ -87,7 +98,7 @@ resource "aws_vpc_endpoint" "eks_vpc_aps_workspaces" {
 
   security_group_ids  = [aws_security_group.eks_vpc_endpoint.id]
   subnet_ids          = module.vpc_eks.private_subnets
-  private_dns_enabled = false
+  private_dns_enabled = true
 
   policy = data.aws_iam_policy_document.eks_vpc_aps_workspaces.json
 
