@@ -93,8 +93,11 @@ resource "aws_iam_role" "eks_node_group" {
   name = "${var.name_prefix}-node-group"
 
   assume_role_policy = data.aws_iam_policy_document.eks_node_group_assume_role_policy.json
+}
 
-  managed_policy_arns = [
+resource "aws_iam_role_policy_attachments_exclusive" "eks_node_group" {
+  role_name = aws_iam_role.eks_node_group.name
+  policy_arns = [
     "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
     "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
     "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
