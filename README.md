@@ -36,7 +36,11 @@ You will find configurations for:
 
 ## Docs and other additional resources
 
-Check out my stories on medium if you interested in finding out more on specific topics.
+Check out my stories on Medium if you want to learn more about specific topics.
+
+### Amazon EKS upgrade 1.30 to 1.31
+
+[Amazon EKS upgrade journey from 1.30 to 1.31](https://medium.com/@marcincuber/amazon-eks-upgrade-journey-from-1-30-to-1-31-say-hello-to-another-cutee-elli-d488fd6521eb)
 
 ### Amazon EKS upgrade 1.29 to 1.30
 
@@ -58,7 +62,7 @@ Check out my stories on medium if you interested in finding out more on specific
 
 [Amazon EKS upgrade journey from 1.25 to 1.26](https://medium.com/@marcincuber/amazon-eks-upgrade-journey-from-1-25-to-1-26-electrifying-79b287084eef)
 
-### Recover image from EKS node and push back to ECR
+### Recover image from EKS node and push it back to ECR
 
 [Recovering Images from EKS node back to ECR](https://medium.com/@marcincuber/amazon-eks-recover-deleted-images-from-eks-node-to-ecr-repository-15e37b661733)
 
@@ -77,11 +81,11 @@ Check out my stories on medium if you interested in finding out more on specific
 
 [Kube-bench implementation with EKS](https://itnext.io/aws-eks-and-kube-bench-a7ae840f0f1)
 
-### EKS and ECR Pull through cache implementation using Terraform
+### EKS and ECR Pull-through cache implementation using Terraform
 
 [ECR pull through cache for DockerHub, Github, Quay, ECR public and kubernetes](https://medium.com/@marcincuber/implementing-aws-ecr-pull-through-cache-for-eks-cluster-most-in-depth-implementation-details-e51395568034)
 
-### Amazon EKS design, use of spot instances and cluster scaling
+### Amazon EKS design, use of spot instances, and cluster scaling
 
 More about my configuration can be found in the blog post I have written recently -> [EKS design](https://medium.com/@marcincuber/amazon-eks-design-use-of-spot-instances-and-cluster-scaling-da7f3a72d061)
 
