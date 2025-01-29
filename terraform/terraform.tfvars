@@ -14,14 +14,12 @@ eks_public_access_cidrs = [
   "0.0.0.0/0"
 ]
 
-eks_version = "1.31"
+eks_version = "1.32"
 
-eks_addon_version_kube_proxy                      = "v1.31.0-eksbuild.5"
-eks_addon_version_core_dns                        = "v1.11.3-eksbuild.1"
-eks_addon_version_ebs_csi_driver                  = "v1.34.0-eksbuild.1"
-eks_addon_version_guardduty                       = "v1.7.1-eksbuild.1"
-eks_addon_version_adot                            = "v0.102.0-eksbuild.1"
-eks_addon_version_snapshot_controller             = "v8.0.0-eksbuild.1"
-eks_addon_version_identity_agent                  = "v1.3.2-eksbuild.2"
-eks_addon_version_amazon_cloudwatch_observability = "v2.1.0-eksbuild.1"
-eks_addon_version_kubecost                        = "v2.1.0-eksbuild.1"
+eks_addon_version_kube_proxy                      = "v1.32.0-eksbuild.2"
+eks_addon_version_core_dns                        = "v1.11.4-eksbuild.2"
+eks_addon_version_ebs_csi_driver                  = "v1.38.1-eksbuild.2"
+eks_addon_version_guardduty                       = "v1.8.1-eksbuild.2"
+eks_addon_version_snapshot_controller             = "v8.1.0-eksbuild.2"
+eks_addon_version_identity_agent                  = "v1.3.4-eksbuild.1"
+eks_addon_version_amazon_cloudwatch_observability = "v3.0.0-eksbuild.1"
