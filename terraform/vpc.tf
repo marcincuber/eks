@@ -1,6 +1,6 @@
 module "vpc_eks" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "5.15.0"
+  version = "5.18.1"
 
   name = var.name_prefix
 
@@ -82,7 +82,7 @@ resource "aws_vpc_endpoint" "eks_vpc_s3" {
 
 resource "aws_vpc_endpoint" "eks_vpc_s3_gateway" {
   vpc_id            = module.vpc_eks.vpc_id
-  service_name      = data.aws_vpc_endpoint_service.s3.service_name
+  service_name      = data.aws_vpc_endpoint_service.s3_gateway.service_name
   route_table_ids   = module.vpc_eks.private_route_table_ids
   vpc_endpoint_type = "Gateway"
 

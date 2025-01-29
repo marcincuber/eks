@@ -22,6 +22,14 @@ data "aws_vpc_endpoint_service" "s3" {
   }
 }
 
+data "aws_vpc_endpoint_service" "s3_gateway" {
+  service_type = "Gateway"
+  filter {
+    name   = "service-name"
+    values = ["${data.aws_partition.current.reverse_dns_prefix}.${data.aws_region.current.name}.s3"]
+  }
+}
+
 data "aws_vpc_endpoint_service" "guardduty" {
   service_type = "Interface"
   filter {
