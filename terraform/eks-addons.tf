@@ -69,8 +69,11 @@ resource "aws_iam_role" "ebs_csi_controller_sa" {
     NAMESPACE = "kube-system",
     SA_NAME   = "ebs-csi-controller-sa"
   })
+}
 
-  managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]
+resource "aws_iam_role_policy_attachments_exclusive" "ebs_csi_controller_sa" {
+  role_name   = aws_iam_role.ebs_csi_controller_sa.name
+  policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]
 }
 
 resource "aws_eks_addon" "kubecost" {
