@@ -1,0 +1,16 @@
+{
+  "replicas": 3,
+  "resources": {
+    "limits": {
+      "cpu": "256m",
+      "memory": "512Mi"
+    },
+    "requests": {
+      "cpu": "256m",
+      "memory": "512Mi"
+    }
+  },
+  "nodeSelector": {
+    "kubernetes.io/os": "linux"
+  }
+}

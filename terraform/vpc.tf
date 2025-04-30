@@ -87,7 +87,7 @@ resource "aws_vpc_endpoint" "eks_vpc_s3_gateway" {
   vpc_endpoint_type = "Gateway"
 
   tags = {
-    Name = "${local.name_prefix_platform_vpc}-s3-gateway"
+    Name = "${var.name_prefix}-gateway"
   }
 }
 

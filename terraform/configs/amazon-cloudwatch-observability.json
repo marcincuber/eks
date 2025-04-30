@@ -1,0 +1,16 @@
+{
+  "agent": {
+    "config": {
+      "logs": {
+        "metrics_collected": {
+          "kubernetes": {
+            "enhanced_container_insights": true
+          }
+        }
+      }
+    }
+  },
+  "containerLogs": {
+    "enabled": false 
+  }
+}

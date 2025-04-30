@@ -134,6 +134,24 @@ variable "eks_addon_version_identity_agent" {
   default     = null
 }
 
+variable "eks_addon_version_amazon_cloudwatch_observability" {
+  type        = string
+  description = "Amazon cloudwatch observability addon version."
+  default     = null
+}
+
+variable "eks_addon_version_metrics_server" {
+  type        = string
+  description = "Metrics server addon version."
+  default     = null
+}
+
+variable "eks_addon_version_kube_state_metrics" {
+  type        = string
+  description = "Kube State Metrics addon version."
+  default     = null
+}
+
 #####
 # EKS Default Managed Node Group 
 #####

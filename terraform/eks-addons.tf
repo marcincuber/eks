@@ -1,5 +1,8 @@
 locals {
-  core_dns_config = file("${path.module}/configs/core-dns.json")
+  core_dns_config                        = trimspace(file("${path.module}/configs/core-dns.json"))
+  amazon_cloudwatch_observability_config = trimspace(file("${path.module}/configs/amazon-cloudwatch-observability.json"))
+  metrics_server_config                  = trimspace(file("${path.module}/configs/metrics-server.json"))
+  kube_state_metrics_config              = trimspace(file("${path.module}/configs/kube-state-metrics.json"))
 }
 
 resource "aws_eks_addon" "kube_proxy" {
@@ -171,5 +174,66 @@ resource "aws_eks_addon" "identity_agent" {
 
   tags = {
     "eks_addon" = "eks-pod-identity-agent"
+  }
+}
+
+resource "aws_eks_addon" "amazon_cloudwatch_observability" {
+  count = var.eks_addon_version_amazon_cloudwatch_observability != null ? 1 : 0
+
+  cluster_name  = aws_eks_cluster.cluster.name
+  addon_name    = "amazon-cloudwatch-observability"
+  addon_version = var.eks_addon_version_amazon_cloudwatch_observability
+
+  resolve_conflicts_on_create = "OVERWRITE"
+  resolve_conflicts_on_update = "OVERWRITE"
+
+  configuration_values = local.amazon_cloudwatch_observability_config
+
+  preserve = true
+
+  tags = {
+    "eks_addon" = "amazon-cloudwatch-observability"
+  }
+
+  depends_on = [
+    aws_cloudwatch_log_group.cluster_performance
+  ]
+}
+
+resource "aws_eks_addon" "metrics_server" {
+  count = var.eks_addon_version_metrics_server != null ? 1 : 0
+
+  cluster_name  = aws_eks_cluster.cluster.name
+  addon_name    = "metrics-server"
+  addon_version = var.eks_addon_version_metrics_server
+
+  configuration_values = local.metrics_server_config
+
+  resolve_conflicts_on_create = "OVERWRITE"
+  resolve_conflicts_on_update = "OVERWRITE"
+
+  preserve = true
+
+  tags = {
+    "eks_addon" = "metrics-server"
+  }
+}
+
+resource "aws_eks_addon" "kube_state_metrics" {
+  count = var.eks_addon_version_kube_state_metrics != null ? 1 : 0
+
+  cluster_name  = aws_eks_cluster.cluster.name
+  addon_name    = "kube-state-metrics"
+  addon_version = var.eks_addon_version_kube_state_metrics
+
+  configuration_values = local.kube_state_metrics_config
+
+  resolve_conflicts_on_create = "OVERWRITE"
+  resolve_conflicts_on_update = "OVERWRITE"
+
+  preserve = true
+
+  tags = {
+    "eks_addon" = "kube-state-metrics"
   }
 }

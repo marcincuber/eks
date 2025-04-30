@@ -1,4 +1,6 @@
 locals {
+  eks_cluster_name = var.name_prefix
+
   events = {
     health_event = {
       name        = "HealthEvent"
