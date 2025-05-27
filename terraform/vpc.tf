@@ -78,6 +78,8 @@ resource "aws_vpc_endpoint" "eks_vpc_s3" {
   tags = {
     Name = "${var.name_prefix}-s3-int"
   }
+
+  depends_on = [aws_vpc_endpoint.eks_vpc_s3_gateway]
 }
 
 resource "aws_vpc_endpoint" "eks_vpc_s3_gateway" {
@@ -87,7 +89,7 @@ resource "aws_vpc_endpoint" "eks_vpc_s3_gateway" {
   vpc_endpoint_type = "Gateway"
 
   tags = {
-    Name = "${var.name_prefix}-gateway"
+    Name = "${var.name_prefix}-s3-gateway"
   }
 }
 
