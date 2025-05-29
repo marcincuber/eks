@@ -77,6 +77,26 @@ variable "eks_endpoint_public_access" {
   default     = true
 }
 
+variable "eks_access_entry_roles" {
+  description = "List of maps with kubernetes_groups, principal_arn, and user_name."
+
+  type = list(any)
+
+  # Example:
+  #
+  # [
+  #   {
+  #     principal_arn = "some-role-arn",
+  #     user_name = "system:node:{{EC2PrivateDNSName}}",
+  #     kubernetes_groups = [
+  #       "system:nodes"
+  #     ],
+  #   }
+  # ]
+
+  default = []
+}
+
 #####
 # EKS Addons
 #####
