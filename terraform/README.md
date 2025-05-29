@@ -14,15 +14,15 @@ $ terraform apply
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.31 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.74 |
 | <a name="requirement_tls"></a> [tls](#requirement\_tls) | >= 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.31 |
-| <a name="provider_tls"></a> [tls](#provider\_tls) | >= 4.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.98.0 |
+| <a name="provider_tls"></a> [tls](#provider\_tls) | 4.1.0 |
 
 ## Modules
 
@@ -30,8 +30,8 @@ $ terraform apply
 |------|--------|---------|
 | <a name="module_eks_cluster"></a> [eks\_cluster](#module\_eks\_cluster) | native-cube/kms/aws | ~> 1.0.0 |
 | <a name="module_eks_node_group_al2023"></a> [eks\_node\_group\_al2023](#module\_eks\_node\_group\_al2023) | native-cube/eks-node-group/aws | ~> 1.1.0 |
-| <a name="module_eks_vpc_flow_logs"></a> [eks\_vpc\_flow\_logs](#module\_eks\_vpc\_flow\_logs) | native-cube/vpc-flow-logs/aws | ~> 2.1.0 |
-| <a name="module_vpc_eks"></a> [vpc\_eks](#module\_vpc\_eks) | terraform-aws-modules/vpc/aws | 5.8.1 |
+| <a name="module_eks_vpc_flow_logs"></a> [eks\_vpc\_flow\_logs](#module\_eks\_vpc\_flow\_logs) | native-cube/vpc-flow-logs/aws | ~> 2.2.0 |
+| <a name="module_vpc_eks"></a> [vpc\_eks](#module\_vpc\_eks) | terraform-aws-modules/vpc/aws | 5.18.1 |
 
 ## Resources
 
@@ -44,14 +44,20 @@ $ terraform apply
 | [aws_cloudwatch_log_group.cluster_dataplane](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_cloudwatch_log_group.cluster_host](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_cloudwatch_log_group.cluster_performance](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
+| [aws_eks_access_entry.cluster_admin_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_access_entry) | resource |
+| [aws_eks_access_entry.roles](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_access_entry) | resource |
+| [aws_eks_access_policy_association.cluster_admin_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_access_policy_association) | resource |
 | [aws_eks_addon.adot](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
+| [aws_eks_addon.amazon_cloudwatch_observability](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_addon.aws_ebs_csi_driver](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_addon.cloudwatch](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_addon.core_dns](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_addon.guardduty](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_addon.identity_agent](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_addon.kube_proxy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
+| [aws_eks_addon.kube_state_metrics](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_addon.kubecost](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
+| [aws_eks_addon.metrics_server](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_addon.snapshot_controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_addon) | resource |
 | [aws_eks_cluster.cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster) | resource |
 | [aws_iam_instance_profile.eks_node_karpenter](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_instance_profile) | resource |
@@ -66,9 +72,16 @@ $ terraform apply
 | [aws_iam_role.karpenter_controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.load_balancer_controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy.cert_manager](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_iam_role_policy.eks_node_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_iam_role_policy.eks_node_karpenter](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.external_dns](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.karpenter_controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.load_balancer_controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_iam_role_policy_attachments_exclusive.adot_collector](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachments_exclusive) | resource |
+| [aws_iam_role_policy_attachments_exclusive.cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachments_exclusive) | resource |
+| [aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachments_exclusive) | resource |
+| [aws_iam_role_policy_attachments_exclusive.eks_node_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachments_exclusive) | resource |
+| [aws_iam_role_policy_attachments_exclusive.eks_node_karpenter](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachments_exclusive) | resource |
 | [aws_launch_template.cluster_al2023](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template) | resource |
 | [aws_security_group.core_dns](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group.eks_vpc_endpoint](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
@@ -82,6 +95,7 @@ $ terraform apply
 | [aws_vpc_endpoint.eks_vpc_ecr_dkr](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
 | [aws_vpc_endpoint.eks_vpc_guardduty](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
 | [aws_vpc_endpoint.eks_vpc_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
+| [aws_vpc_endpoint.eks_vpc_s3_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
 | [aws_vpc_endpoint.eks_vpc_sts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
 | [aws_vpc_security_group_egress_rule.cluster_to_karpenter_nodes](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_egress_rule) | resource |
 | [aws_vpc_security_group_egress_rule.core_dns_tcp](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_egress_rule) | resource |
@@ -111,14 +125,15 @@ $ terraform apply
 | [aws_iam_policy_document.karpenter_spot_interruption](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.kms_policy_cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.load_balancer_controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_session_context.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_session_context) | data source |
 | [aws_partition.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/partition) | data source |
 | [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 | [aws_ssm_parameter.eks_al2023](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
-| [aws_ssm_parameter.eks_optimized_ami_id](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
 | [aws_vpc_endpoint_service.aps_workspaces](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc_endpoint_service) | data source |
 | [aws_vpc_endpoint_service.ecr_dkr](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc_endpoint_service) | data source |
 | [aws_vpc_endpoint_service.guardduty](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc_endpoint_service) | data source |
 | [aws_vpc_endpoint_service.s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc_endpoint_service) | data source |
+| [aws_vpc_endpoint_service.s3_gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc_endpoint_service) | data source |
 | [aws_vpc_endpoint_service.sts](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/vpc_endpoint_service) | data source |
 | [tls_certificate.cluster](https://registry.terraform.io/providers/hashicorp/tls/latest/docs/data-sources/certificate) | data source |
 
@@ -131,23 +146,27 @@ $ terraform apply
 | <a name="input_ebs_encrypted"></a> [ebs\_encrypted](#input\_ebs\_encrypted) | Enables EBS encryption on the volume. | `bool` | `true` | no |
 | <a name="input_ebs_volume_size"></a> [ebs\_volume\_size](#input\_ebs\_volume\_size) | The size of the volume in gigabytes. | `number` | `100` | no |
 | <a name="input_ebs_volume_type"></a> [ebs\_volume\_type](#input\_ebs\_volume\_type) | The volume type. | `string` | `"gp3"` | no |
+| <a name="input_eks_access_entry_roles"></a> [eks\_access\_entry\_roles](#input\_eks\_access\_entry\_roles) | List of maps with kubernetes\_groups, principal\_arn, and user\_name. | `list(any)` | `[]` | no |
 | <a name="input_eks_addon_version_adot"></a> [eks\_addon\_version\_adot](#input\_eks\_addon\_version\_adot) | ADOT EKS addon version. | `string` | `null` | no |
+| <a name="input_eks_addon_version_amazon_cloudwatch_observability"></a> [eks\_addon\_version\_amazon\_cloudwatch\_observability](#input\_eks\_addon\_version\_amazon\_cloudwatch\_observability) | Amazon cloudwatch observability addon version. | `string` | `null` | no |
 | <a name="input_eks_addon_version_cloudwatch"></a> [eks\_addon\_version\_cloudwatch](#input\_eks\_addon\_version\_cloudwatch) | Cloudwatch EKS addon version. | `string` | `null` | no |
 | <a name="input_eks_addon_version_core_dns"></a> [eks\_addon\_version\_core\_dns](#input\_eks\_addon\_version\_core\_dns) | Core DNS managed EKS addon version. | `string` | `null` | no |
 | <a name="input_eks_addon_version_ebs_csi_driver"></a> [eks\_addon\_version\_ebs\_csi\_driver](#input\_eks\_addon\_version\_ebs\_csi\_driver) | AWS ebs csi driver managed EKS addon version. | `string` | `null` | no |
 | <a name="input_eks_addon_version_guardduty"></a> [eks\_addon\_version\_guardduty](#input\_eks\_addon\_version\_guardduty) | Guardduty agent EKS addon version. | `string` | `null` | no |
 | <a name="input_eks_addon_version_identity_agent"></a> [eks\_addon\_version\_identity\_agent](#input\_eks\_addon\_version\_identity\_agent) | Pod Identity Agent EKS addon version. | `string` | `null` | no |
 | <a name="input_eks_addon_version_kube_proxy"></a> [eks\_addon\_version\_kube\_proxy](#input\_eks\_addon\_version\_kube\_proxy) | Kube proxy managed EKS addon version. | `string` | `null` | no |
+| <a name="input_eks_addon_version_kube_state_metrics"></a> [eks\_addon\_version\_kube\_state\_metrics](#input\_eks\_addon\_version\_kube\_state\_metrics) | Kube State Metrics addon version. | `string` | `null` | no |
 | <a name="input_eks_addon_version_kubecost"></a> [eks\_addon\_version\_kubecost](#input\_eks\_addon\_version\_kubecost) | KubeCost EKS addon version. | `string` | `null` | no |
+| <a name="input_eks_addon_version_metrics_server"></a> [eks\_addon\_version\_metrics\_server](#input\_eks\_addon\_version\_metrics\_server) | Metrics server addon version. | `string` | `null` | no |
 | <a name="input_eks_addon_version_snapshot_controller"></a> [eks\_addon\_version\_snapshot\_controller](#input\_eks\_addon\_version\_snapshot\_controller) | CSI Snapshot Controller EKS addon version. | `string` | `null` | no |
 | <a name="input_eks_enabled_log_types"></a> [eks\_enabled\_log\_types](#input\_eks\_enabled\_log\_types) | List of the desired control plane logging to enable. | `list(string)` | `[]` | no |
 | <a name="input_eks_endpoint_private_access"></a> [eks\_endpoint\_private\_access](#input\_eks\_endpoint\_private\_access) | Whether the Amazon EKS private API server endpoint is enabled. | `bool` | `true` | no |
 | <a name="input_eks_endpoint_public_access"></a> [eks\_endpoint\_public\_access](#input\_eks\_endpoint\_public\_access) | Whether the Amazon EKS public API server endpoint is enabled. | `bool` | `true` | no |
-| <a name="input_eks_public_access_cidrs"></a> [eks\_public\_access\_cidrs](#input\_eks\_public\_access\_cidrs) | List of CIDR blocks. Indicates which CIDR blocks can access the Amazon EKS public API server endpoint when enabled. | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
+| <a name="input_eks_public_access_cidrs"></a> [eks\_public\_access\_cidrs](#input\_eks\_public\_access\_cidrs) | List of CIDR blocks. Indicates which CIDR blocks can access the Amazon EKS public API server endpoint when enabled. | `list(string)` | <pre>[<br/>  "0.0.0.0/0"<br/>]</pre> | no |
 | <a name="input_eks_security_group_ids"></a> [eks\_security\_group\_ids](#input\_eks\_security\_group\_ids) | List of security group IDs for the cross-account elastic network interfaces that Amazon EKS creates to use to allow communication between your worker nodes and the Kubernetes control plane. | `list(string)` | `[]` | no |
 | <a name="input_eks_service_ipv4_cidr"></a> [eks\_service\_ipv4\_cidr](#input\_eks\_service\_ipv4\_cidr) | The CIDR block to assign Kubernetes service IP addresses from. | `string` | `null` | no |
 | <a name="input_eks_version"></a> [eks\_version](#input\_eks\_version) | EKS controlplane version. | `string` | n/a | yes |
-| <a name="input_instance_types"></a> [instance\_types](#input\_instance\_types) | List of instance types associated with the EKS Node Group. | `list(string)` | <pre>[<br>  "m6i.large"<br>]</pre> | no |
+| <a name="input_instance_types"></a> [instance\_types](#input\_instance\_types) | List of instance types associated with the EKS Node Group. | `list(string)` | <pre>[<br/>  "m6i.large"<br/>]</pre> | no |
 | <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Name prefix used across resources created by this module. | `string` | n/a | yes |
 | <a name="input_private_subnets_cidrs"></a> [private\_subnets\_cidrs](#input\_private\_subnets\_cidrs) | Classless Inter-Domain Routing ranges for private subnets. | `list(string)` | n/a | yes |
 | <a name="input_public_subnets_cidrs"></a> [public\_subnets\_cidrs](#input\_public\_subnets\_cidrs) | Classless Inter-Domain Routing ranges for public subnets. | `list(string)` | n/a | yes |
