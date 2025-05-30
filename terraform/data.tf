@@ -2,10 +2,8 @@ data "aws_caller_identity" "current" {}
 data "aws_partition" "current" {}
 data "aws_region" "current" {}
 
-# Fetch latest ami_id for specified ${var.eks_version}
-data "aws_ssm_parameter" "eks_optimized_ami_id" {
-  name            = "/aws/service/eks/optimized-ami/${var.eks_version}/amazon-linux-2/recommended/image_id"
-  with_decryption = true
+data "aws_iam_session_context" "current" {
+  arn = data.aws_caller_identity.current.arn
 }
 
 data "aws_ssm_parameter" "eks_al2023" {

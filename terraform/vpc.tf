@@ -189,7 +189,7 @@ resource "aws_vpc_security_group_ingress_rule" "eks_vpc_guardduty" {
 #####
 module "eks_vpc_flow_logs" {
   source  = "native-cube/vpc-flow-logs/aws"
-  version = "~> 2.1.0"
+  version = "~> 2.2.0"
 
   name_prefix = "${var.name_prefix}-vpc-"
 

@@ -8,20 +8,20 @@ azs                   = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
 eks_enabled_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 eks_service_ipv4_cidr = "10.190.0.0/16"
 
-instance_types = ["m7i.4xlarge"]
+instance_types = ["m7i.2xlarge"]
 
 eks_public_access_cidrs = [
   "0.0.0.0/0"
 ]
 
-eks_version = "1.32"
+eks_version = "1.33"
 
-eks_addon_version_kube_proxy                      = "v1.32.3-eksbuild.7"
-eks_addon_version_core_dns                        = "v1.11.4-eksbuild.14"
+eks_addon_version_kube_proxy                      = "v1.33.0-eksbuild.2"
+eks_addon_version_core_dns                        = "v1.12.1-eksbuild.2"
 eks_addon_version_ebs_csi_driver                  = "v1.44.0-eksbuild.1"
 eks_addon_version_guardduty                       = "v1.10.0-eksbuild.2"
 eks_addon_version_snapshot_controller             = "v8.2.0-eksbuild.1"
 eks_addon_version_amazon_cloudwatch_observability = "v4.0.1-eksbuild.1"
 eks_addon_version_metrics_server                  = "v0.7.2-eksbuild.3"
 eks_addon_version_kube_state_metrics              = "v2.15.0-eksbuild.4"
-eks_addon_version_identity_agent                  = "v1.3.4-eksbuild.1"
+eks_addon_version_identity_agent                  = "v1.3.7-eksbuild.2"
