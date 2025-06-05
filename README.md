@@ -38,6 +38,10 @@ You will find configurations for:
 
 Check out my stories on Medium if you want to learn more about specific topics.
 
+### Amazon EKS upgrade 1.32 to 1.33
+
+[Amazon EKS upgrade journey from 1.33 to 1.33](https://medium.com/@marcincuber/amazon-eks-upgrade-journey-from-1-32-to-1-33-octarine-4915669861c7)
+
 ### Amazon EKS upgrade 1.31 to 1.32
 
 [Amazon EKS upgrade journey from 1.31 to 1.32](https://medium.com/@marcincuber/amazon-eks-upgrade-journey-from-1-31-to-1-32-hi-to-penelope-dfd7f6820e80)
