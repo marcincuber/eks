@@ -51,29 +51,13 @@ resource "aws_eks_addon" "aws_ebs_csi_driver" {
   resolve_conflicts_on_create = "OVERWRITE"
   resolve_conflicts_on_update = "OVERWRITE"
 
-  service_account_role_arn = aws_iam_role.ebs_csi_controller_sa.arn
+  service_account_role_arn = aws_iam_role.ebs_csi_controller.arn
 
   preserve = true
 
   tags = {
     "eks_addon" = "aws-ebs-csi-driver"
   }
-}
-
-resource "aws_iam_role" "ebs_csi_controller_sa" {
-  name = "ebs-csi-controller-sa"
-
-  assume_role_policy = templatefile("policies/oidc_assume_role_policy.json", {
-    OIDC_ARN  = aws_iam_openid_connect_provider.cluster.arn,
-    OIDC_URL  = replace(aws_iam_openid_connect_provider.cluster.url, "https://", ""),
-    NAMESPACE = "kube-system",
-    SA_NAME   = "ebs-csi-controller-sa"
-  })
-}
-
-resource "aws_iam_role_policy_attachments_exclusive" "ebs_csi_controller_sa" {
-  role_name   = aws_iam_role.ebs_csi_controller_sa.name
-  policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]
 }
 
 resource "aws_eks_addon" "kubecost" {

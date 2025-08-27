@@ -136,3 +136,20 @@ resource "aws_iam_role_policy_attachments_exclusive" "adot_collector" {
     "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
   ]
 }
+
+# Used by EBS CSI addon
+resource "aws_iam_role" "ebs_csi_controller" {
+  name = "${var.name_prefix}-ebs-csi-controller"
+
+  assume_role_policy = templatefile("policies/oidc_assume_role_policy.json", {
+    OIDC_ARN  = aws_iam_openid_connect_provider.cluster.arn,
+    OIDC_URL  = replace(aws_iam_openid_connect_provider.cluster.url, "https://", ""),
+    NAMESPACE = "kube-system",
+    SA_NAME   = "ebs-csi-controller-sa"
+  })
+}
+
+resource "aws_iam_role_policy_attachments_exclusive" "ebs_csi_controller" {
+  role_name   = aws_iam_role.ebs_csi_controller.name
+  policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]
+}

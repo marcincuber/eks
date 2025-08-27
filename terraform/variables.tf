@@ -47,6 +47,12 @@ variable "instance_types" {
   default     = ["m6i.large"]
 }
 
+variable "capacity_type" {
+  type        = string
+  description = "Type of capacity associated with the EKS Node Group. Defaults to ON_DEMAND. Valid values: ON_DEMAND, SPOT."
+  default     = "ON_DEMAND"
+}
+
 variable "eks_service_ipv4_cidr" {
   type        = string
   description = "The CIDR block to assign Kubernetes service IP addresses from."

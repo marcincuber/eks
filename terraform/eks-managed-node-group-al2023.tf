@@ -77,7 +77,7 @@ module "eks_node_group_al2023" {
     version = aws_launch_template.cluster_al2023.latest_version
   }
 
-  capacity_type = "ON_DEMAND"
+  capacity_type = var.capacity_type
 
   tags = {
     "kubernetes.io/cluster/${var.name_prefix}" = "owned"

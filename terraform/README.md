@@ -21,8 +21,8 @@ $ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.98.0 |
-| <a name="provider_tls"></a> [tls](#provider\_tls) | 4.1.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.74 |
+| <a name="provider_tls"></a> [tls](#provider\_tls) | >= 4.0 |
 
 ## Modules
 
@@ -31,7 +31,7 @@ $ terraform apply
 | <a name="module_eks_cluster"></a> [eks\_cluster](#module\_eks\_cluster) | native-cube/kms/aws | ~> 1.0.0 |
 | <a name="module_eks_node_group_al2023"></a> [eks\_node\_group\_al2023](#module\_eks\_node\_group\_al2023) | native-cube/eks-node-group/aws | ~> 1.1.0 |
 | <a name="module_eks_vpc_flow_logs"></a> [eks\_vpc\_flow\_logs](#module\_eks\_vpc\_flow\_logs) | native-cube/vpc-flow-logs/aws | ~> 2.2.0 |
-| <a name="module_vpc_eks"></a> [vpc\_eks](#module\_vpc\_eks) | terraform-aws-modules/vpc/aws | 5.18.1 |
+| <a name="module_vpc_eks"></a> [vpc\_eks](#module\_vpc\_eks) | terraform-aws-modules/vpc/aws | 6.0.1 |
 
 ## Resources
 
@@ -65,7 +65,7 @@ $ terraform apply
 | [aws_iam_role.adot_collector](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.cert_manager](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role.ebs_csi_controller_sa](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role.ebs_csi_controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.eks_node_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.eks_node_karpenter](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.external_dns](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
@@ -79,7 +79,7 @@ $ terraform apply
 | [aws_iam_role_policy.load_balancer_controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy_attachments_exclusive.adot_collector](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachments_exclusive) | resource |
 | [aws_iam_role_policy_attachments_exclusive.cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachments_exclusive) | resource |
-| [aws_iam_role_policy_attachments_exclusive.ebs_csi_controller_sa](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachments_exclusive) | resource |
+| [aws_iam_role_policy_attachments_exclusive.ebs_csi_controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachments_exclusive) | resource |
 | [aws_iam_role_policy_attachments_exclusive.eks_node_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachments_exclusive) | resource |
 | [aws_iam_role_policy_attachments_exclusive.eks_node_karpenter](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachments_exclusive) | resource |
 | [aws_launch_template.cluster_al2023](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template) | resource |
@@ -142,6 +142,7 @@ $ terraform apply
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_azs"></a> [azs](#input\_azs) | A list of availability zones names or ids in the region | `list(string)` | `[]` | no |
+| <a name="input_capacity_type"></a> [capacity\_type](#input\_capacity\_type) | Type of capacity associated with the EKS Node Group. Defaults to ON\_DEMAND. Valid values: ON\_DEMAND, SPOT. | `string` | `"ON_DEMAND"` | no |
 | <a name="input_ebs_delete_on_termination"></a> [ebs\_delete\_on\_termination](#input\_ebs\_delete\_on\_termination) | Whether the volume should be destroyed on instance termination. | `bool` | `true` | no |
 | <a name="input_ebs_encrypted"></a> [ebs\_encrypted](#input\_ebs\_encrypted) | Enables EBS encryption on the volume. | `bool` | `true` | no |
 | <a name="input_ebs_volume_size"></a> [ebs\_volume\_size](#input\_ebs\_volume\_size) | The size of the volume in gigabytes. | `number` | `100` | no |
