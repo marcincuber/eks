@@ -18,7 +18,7 @@ eks_version = "1.34"
 
 eks_addon_version_kube_proxy                      = "v1.34.0-eksbuild.4"
 eks_addon_version_core_dns                        = "v1.12.4-eksbuild.1"
-eks_addon_version_ebs_csi_driver                  = "v1.48.0-eksbuild.2"
+eks_addon_version_ebs_csi_driver                  = "v1.51.0-eksbuild.1"
 eks_addon_version_guardduty                       = "v1.11.0-eksbuild.4"
 eks_addon_version_snapshot_controller             = "v8.3.0-eksbuild.1"
 eks_addon_version_amazon_cloudwatch_observability = "v4.5.0-eksbuild.1"
