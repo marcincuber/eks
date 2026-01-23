@@ -1,4 +1,4 @@
-# EKS
+# EKS - AlialhadiAk
 
 Implementation of EKS setup using Terraform. Terraform module located in [terraform](./terraform/) directory supports deployment to different AWS partitions. I have tested it with `commercial` and `china` partitions. I am actively using this configuration to run EKS setup in Ireland(eu-west-1), London(eu-west-2), North Virginia(us-east-1) and Beijing(cn-north-1).
 
