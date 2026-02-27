@@ -16,8 +16,8 @@ eks_public_access_cidrs = [
 
 eks_version = "1.35"
 
-eks_addon_version_kube_proxy                      = "v1.34.0-eksbuild.4"
-eks_addon_version_core_dns                        = "v1.12.4-eksbuild.1"
+eks_addon_version_kube_proxy                      = "v1.35.0-eksbuild.2"
+eks_addon_version_core_dns                        = "v1.13.2-eksbuild.1"
 eks_addon_version_ebs_csi_driver                  = "v1.51.0-eksbuild.1"
 eks_addon_version_guardduty                       = "v1.11.0-eksbuild.4"
 eks_addon_version_snapshot_controller             = "v8.3.0-eksbuild.1"
