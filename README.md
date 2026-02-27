@@ -10,16 +10,16 @@ Module creates:
 * VPC Endpoints- S3, ECR, STS, APS, GuardDuty
 * EKS Cluster
 * EKS Node Group to run cluster critical services
-* EKS Addons- coredns, kube-proxy, guardduty, aws-ebs-csi-driver, adot (requires cert-manger to be installed), kubecost, cloudwatch observability, snapshot-controller, identity agent, metrics server and kube-state-metrics
+* EKS Addons- coredns, kube-proxy, guardduty, aws-ebs-csi-driver, adot (requires cert-manger to be installed), kubecost, cloudwatch observability, snapshot-controller, identity agent, metrics server, and kube-state-metrics
 * IAM Roles for worker nodes and Karpenter nodes
 * Additional IAM Roles for operators- load-balancer-controller, external-dns, cert-manager, adot-collector
-* SQS queue configuration to be used with Karpeneter while utlising Spot Instances.
+* SQS queue configuration to be used with Karpeneter while utilising Spot Instances.
 * CloudWatch log groups used by container insights.
 
 ## Kubernetes addons and operators
 
 I am utilising Flux2 to deploy all additional configurations. You can find them at https://github.com/marcincuber/kubernetes-fluxv2
-I have built this as a separate repository to show how to develop a successful configuration for your own cluster using GitOps FluxV2 and Helm.
+I have built this as a separate repository to show how to develop a successful configuration for your own cluster using GitOps FluxCD and Helm.
 
 You will find configurations for:
 
@@ -36,7 +36,13 @@ You will find configurations for:
 
 ## Docs and other additional resources
 
-Check out my stories on Medium if you want to learn more about specific topics.
+Check out my stories on Medium to learn more about specific topics.
+
+### Amazon EKS upgrade 1.34 to 1.35
+[Amazon EKS upgrade journey from 1.34 to 1.35](https://medium.com/@marcincuber/amazon-eks-upgrade-journey-from-1-34-to-1-35-timbernetes-the-world-tree-release-61a9475aec86)
+
+### Amazon EKS upgrade 1.33 to 1.34
+[Amazon EKS upgrade journey from 1.33 to 1.34](https://medium.com/@marcincuber/amazon-eks-upgrade-journey-from-1-33-to-1-34-of-wind-will-o-waw-899ccca8f07e)
 
 ### Amazon EKS upgrade 1.32 to 1.33
 
@@ -58,17 +64,6 @@ Check out my stories on Medium if you want to learn more about specific topics.
 
 [Amazon EKS upgrade journey from 1.28 to 1.29](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-28-to-1-29-say-hello-to-mandala-858ae0579f4f)
 
-### Amazon EKS upgrade 1.27 to 1.28
-
-[Amazon EKS upgrade journey from 1.27 to 1.28](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-27-to-1-28-welcoming-planternetes-44985e11463a)
-
-### Amazon EKS upgrade 1.26 to 1.27
-
-[Amazon EKS upgrade journey from 1.26 to 1.27](https://marcincuber.medium.com/amazon-eks-upgrade-journey-from-1-26-to-1-27-chill-vibes-46f3f979afac)
-
-### Amazon EKS upgrade 1.25 to 1.26
-
-[Amazon EKS upgrade journey from 1.25 to 1.26](https://medium.com/@marcincuber/amazon-eks-upgrade-journey-from-1-25-to-1-26-electrifying-79b287084eef)
 
 ### Recover image from EKS node and push it back to ECR
 
